@@ -6,6 +6,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.redewonder.lobby.commands.GroupCommand;
 import net.redewonder.lobby.commands.SetSpawnCommand;
+import net.redewonder.lobby.commands.TagCommand;
 import net.redewonder.lobby.group.Groups;
 import net.redewonder.lobby.listeners.PlayerListeners;
 import net.redewonder.lobby.listeners.WorldListeners;
@@ -50,6 +51,7 @@ public final class Lobby extends JavaPlugin implements PluginMessageListener {
 
         new SetSpawnCommand();
         new GroupCommand(this);
+        new TagCommand();
 
 
         file = new File(Lobby.getInstance().getDataFolder(), "locations.yml");

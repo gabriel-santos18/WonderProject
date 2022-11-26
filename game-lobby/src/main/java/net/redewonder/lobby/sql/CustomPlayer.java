@@ -59,6 +59,25 @@ public class CustomPlayer {
         }
     }
 
+    public static boolean playerExists(String nick) {
+        try {
+            PreparedStatement statement =
+                    lobby.getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`players` WHERE " +
+                            "NICK" +
+                            " = '" + nick + "';");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
     public static void setLastLogin(String lastLogin, Player player) {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " +
@@ -69,7 +88,7 @@ public class CustomPlayer {
         }
     }
 
-    public static void setGroup(String group) {
+    public static void setGroup(String group, UUID uuid) {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " +
                     "SET GRUPO = '" + group + "' WHERE UUID = '" + uuid + "';");

@@ -194,7 +194,7 @@ public class PlayerListeners implements Listener {
             } else if (e.getItem().getType().equals(Material.NETHER_STAR)) {
                 Inventory inventory = new InventoryBuilder(3, "§8Lobbies").toInventory();
                 inventory.setItem(10,
-                        new ItemBuilder(Material.INK_SACK).setDisplayName("§eLobby #1").setLore("§7Jogadores: §b" + ServerOnlineCount.LOBBY_ONLINE_COUNT).setDurability(Material.INK_SACK, 10).toItemStack());
+                        new ItemBuilder(Material.INK_SACK).setDurability(Material.INK_SACK, 10).setDisplayName("§eLobby #1").setLore("§7Jogadores: §b" + ServerOnlineCount.LOBBY_ONLINE_COUNT).toItemStack());
                 player.openInventory(inventory);
             }
         }
