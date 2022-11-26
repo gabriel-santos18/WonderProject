@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/WonderProject.iml" filepath="$PROJECT_DIR$/.idea/WonderProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/game-lobby/game-lobby.iml" filepath="$PROJECT_DIR$/game-lobby/game-lobby.iml" />
+    </modules>
+  </component>
+</project>

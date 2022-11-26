@@ -1,0 +1,6 @@
+name: Lobby
+version: '${project.version}'
+main: net.redewonder.lobby.Lobby
+authors: [ imFighting ]
+description: Plugin lobby for Rede Wonder
+website: redewonder.net
