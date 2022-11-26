@@ -6,6 +6,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.redewonder.lobby.commands.GroupCommand;
 import net.redewonder.lobby.commands.SetSpawnCommand;
+import net.redewonder.lobby.group.Groups;
 import net.redewonder.lobby.listeners.PlayerListeners;
 import net.redewonder.lobby.listeners.WorldListeners;
 import net.redewonder.lobby.managers.PlayerManager;
@@ -50,6 +51,7 @@ public final class Lobby extends JavaPlugin implements PluginMessageListener {
         new SetSpawnCommand();
         new GroupCommand(this);
 
+
         file = new File(Lobby.getInstance().getDataFolder(), "locations.yml");
         if (!file.exists()) {
             try {
@@ -61,8 +63,9 @@ public final class Lobby extends JavaPlugin implements PluginMessageListener {
         }
 
 
-        List<String> servers = Lists.newArrayListWithExpectedSize(2);
+        List<String> servers = Lists.newArrayListWithExpectedSize(3);
         servers.add("ALL");
+        servers.add("lobby");
         servers.add("Rankup");
 
         Bukkit.getScheduler().runTaskTimer(this, () -> {
@@ -116,6 +119,9 @@ public final class Lobby extends JavaPlugin implements PluginMessageListener {
                 case "ALL":
                     ServerOnlineCount.NETWORK_ONLINE_COUNT = response;
                     ScoreboardManager.getScore().getTeam("onlines").setSuffix("§b" + ServerOnlineCount.NETWORK_ONLINE_COUNT);
+                    break;
+                case "lobby":
+                    ServerOnlineCount.LOBBY_ONLINE_COUNT = response;
                     break;
                 case "Rankup":
                     ServerOnlineCount.RANKUP_ONLINE_COUNT = response;

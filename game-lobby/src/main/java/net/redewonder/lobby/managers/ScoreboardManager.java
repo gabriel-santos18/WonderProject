@@ -1,10 +1,7 @@
 package net.redewonder.lobby.managers;
 
-import net.redewonder.lobby.Lobby;
 import net.redewonder.lobby.group.Groups;
-import net.redewonder.lobby.group.NametagManager;
 import net.redewonder.lobby.server.ServerOnlineCount;
-import net.redewonder.lobby.sql.CustomPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -48,22 +45,6 @@ public class ScoreboardManager {
         Score website = obj.getScore(" §eloja.redewonder.net");
         website.setScore(1);
 
-        for (Groups groups : Groups.values()) {
-            Team team = score.registerNewTeam(groups.getOrderSymbol() + groups.name());
-            team.setPrefix(ChatColor.translateAlternateColorCodes('&', groups.getDisplay()));
-        }
-
-        for (Player online2 : Bukkit.getOnlinePlayers()) {
-            if (player.hasPermission("grupo.master")) {
-                score.getTeam(Groups.MASTER.getOrderSymbol() + Groups.MASTER.name()).addEntry(online2.getName());
-            } else if (player.hasPermission("grupo.gerente")) {
-                score.getTeam(Groups.GERENTE.getOrderSymbol() + Groups.GERENTE.name()).addEntry(online2.getName());
-            }
-    }
-
-
-
-
         /* if (CustomPlayer.getGroup() == "§6MASTER") {
             score.getTeam("amaster").addEntry(player.getName());
         } else if (CustomPlayer.getGroup() == "§3GERENTE") {
@@ -87,7 +68,7 @@ public class ScoreboardManager {
 
         player.setScoreboard(score);
 
-}
+    }
 
     public static Scoreboard getScore() {
         return score;

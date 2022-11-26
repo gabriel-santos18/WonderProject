@@ -5,10 +5,8 @@ import com.google.common.cache.CacheBuilder;
 import net.redewonder.lobby.Lobby;
 import net.redewonder.lobby.api.InventoryBuilder;
 import net.redewonder.lobby.api.ItemBuilder;
-import net.redewonder.lobby.managers.LocationsManager;
-import net.redewonder.lobby.managers.PlayerManager;
-import net.redewonder.lobby.managers.ScoreboardManager;
-import net.redewonder.lobby.managers.TablistManager;
+import net.redewonder.lobby.group.Groups;
+import net.redewonder.lobby.managers.*;
 import net.redewonder.lobby.server.ServerOnlineCount;
 import net.redewonder.lobby.sql.CustomPlayer;
 import org.bukkit.Bukkit;
@@ -22,10 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -50,12 +45,60 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
 
-
         Player player = e.getPlayer();
         e.setJoinMessage(null);
         PlayerManager.updatePlayer(player);
         ScoreboardManager.updateScore(player);
         TablistManager.updateTablist(player);
+
+        for (Groups groups : Groups.values()) {
+            Team team = ScoreboardManager.score.registerNewTeam(groups.getOrderSymbol() + groups.name());
+            team.setPrefix(ChatColor.translateAlternateColorCodes('&', groups.getDisplay()));
+        }
+
+        Bukkit.getScheduler().runTaskTimer(Lobby.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                for (Player online : Bukkit.getOnlinePlayers()) {
+                    if (CustomPlayer.getGroup(online).equalsIgnoreCase("§6MASTER")) {
+                        player.getScoreboard().getTeam(Groups.MASTER.getOrderSymbol() + Groups.MASTER.name()).addEntry(online.getName());
+                    } else if (CustomPlayer.getGroup(online).equalsIgnoreCase("§3GERENTE")){
+                        player.getScoreboard().getTeam(Groups.GERENTE.getOrderSymbol() + Groups.GERENTE.name()).addEntry(online.getName());
+                    } else if (CustomPlayer.getGroup(online).equalsIgnoreCase("§cADMIN")){
+                        player.getScoreboard().getTeam(Groups.ADMIN.getOrderSymbol() + Groups.ADMIN.name()).addEntry(online.getName());
+                    } else if (CustomPlayer.getGroup(online).equalsIgnoreCase("§2MODERADOR")){
+                        player.getScoreboard().getTeam(Groups.MODERADOR.getOrderSymbol() + Groups.MODERADOR.name()).addEntry(online.getName());
+                    } else if (CustomPlayer.getGroup(online).equalsIgnoreCase("§eAJUDANTE")){
+                        player.getScoreboard().getTeam(Groups.AJUDANTE.getOrderSymbol() + Groups.AJUDANTE.name()).addEntry(online.getName());
+                    } else if (CustomPlayer.getGroup(online).equalsIgnoreCase("§5WATER")){
+                        player.getScoreboard().getTeam(Groups.WATER.getOrderSymbol() + Groups.WATER.name()).addEntry(online.getName());
+                    } else if (CustomPlayer.getGroup(online).equalsIgnoreCase("§2RAIN")){
+                        player.getScoreboard().getTeam(Groups.RAIN.getOrderSymbol() + Groups.RAIN.name()).addEntry(online.getName());
+                    } else if (CustomPlayer.getGroup(online).equalsIgnoreCase("§bCLOUD")){
+                        player.getScoreboard().getTeam(Groups.CLOUD.getOrderSymbol() + Groups.CLOUD.name()).addEntry(online.getName());
+                    } else {
+                        player.getScoreboard().getTeam(Groups.MEMBRO.getOrderSymbol() + Groups.MEMBRO.name()).addEntry(online.getName());
+                    }
+                }
+            }
+        }, 0L, 20L);
+
+
+
+        /*Bukkit.getScheduler().runTaskTimer(Lobby.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                Team team = ScoreboardManager.score.registerNewTeam("master");
+                team.setPrefix("TESTE ");
+                for (Player online : Bukkit.getOnlinePlayers()) {
+                    online.getScoreboard().getTeam("master").addEntry(player.getName());
+                    player.getScoreboard().getTeam("master").addEntry(online.getName());
+                }
+            }
+        }, 0L, 20L);*/
+
+
+
         player.teleport(LocationsManager.getSpawn(player));
         try {
             CustomPlayer playerData = new CustomPlayer(lobby, player.getUniqueId(), player);
@@ -68,7 +111,7 @@ public class PlayerListeners implements Listener {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         Date date = new Date();
-        CustomPlayer.setLastLogin(formatter.format(date));
+        CustomPlayer.setLastLogin(formatter.format(date), player);
 
     }
 
@@ -78,7 +121,7 @@ public class PlayerListeners implements Listener {
         lobby.getPlayerManager().removeCustomPlayer(e.getPlayer().getUniqueId());
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         Date date = new Date();
-        CustomPlayer.setLastLogin(formatter.format(date));
+        CustomPlayer.setLastLogin(formatter.format(date), e.getPlayer());
     }
 
     @EventHandler
@@ -113,7 +156,12 @@ public class PlayerListeners implements Listener {
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             if (e.getItem().getType().equals(Material.SKULL_ITEM)) {
                 Inventory inventory = new InventoryBuilder(3, "§8Meu perfil").toInventory();
-                inventory.setItem(11, new ItemBuilder(Material.SKULL_ITEM).setPlayerSkull(player.getName()).setDisplayName("§aInformações pessoais").setLore("§fRank: " + CustomPlayer.getGroup(), "§fCash: §b" + CustomPlayer.getCash(), "", "§fCadastrado: §7" + CustomPlayer.getFirstLogin(), "§fÚltimo acesso: §7" + CustomPlayer.getLastLogin()).toItemStack());
+                inventory.setItem(11,
+                        new ItemBuilder(Material.SKULL_ITEM).setPlayerSkull(player.getName()).setDisplayName(
+                                "§aInformações pessoais").setLore("§fRank: " + CustomPlayer.getGroup(player), "§fCash: " +
+                                "§b" + CustomPlayer.getCash(player.getUniqueId()), "",
+                                "§fCadastrado: §7" + CustomPlayer.getFirstLogin(player.getUniqueId()),
+                                "§fÚltimo acesso: §7" + CustomPlayer.getLastLogin(player.getUniqueId())).toItemStack());
 
                 inventory.setItem(15, new ItemBuilder(Material.REDSTONE_COMPARATOR).setDisplayName("§aPreferências").setLore("§7Em nosso servidor você pode personalizar", "§7sua experiência de jogo por completo.", "§7Personalize várias opções únicas como", "§7você desejar!", "", "§8As opções incluem ativar ou desativar as", "§8mensagens privadas, os jogadores e outros.", "", "§eClique para personalizar as opções!").toItemStack());
 
@@ -143,7 +191,47 @@ public class PlayerListeners implements Listener {
                 if (!cooldown.asMap().containsKey(player.getUniqueId())) {
                     cooldown.put(player.getUniqueId(), System.currentTimeMillis() + 5000);
                 }
+            } else if (e.getItem().getType().equals(Material.NETHER_STAR)) {
+                Inventory inventory = new InventoryBuilder(3, "§8Lobbies").toInventory();
+                inventory.setItem(10,
+                        new ItemBuilder(Material.INK_SACK).setDisplayName("§eLobby #1").setLore("§7Jogadores: §b" + ServerOnlineCount.LOBBY_ONLINE_COUNT).setDurability(Material.INK_SACK, 10).toItemStack());
+                player.openInventory(inventory);
             }
         }
     }
+
+    @EventHandler
+    public void onPlayerChatEvent(AsyncPlayerChatEvent e) {
+        Player player = e.getPlayer();
+        if (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MASTER.getDisplay()) + player.getName() +
+                    ": §f" + e.getMessage());
+        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.GERENTE.getDisplay()) + player.getName() +
+                    ": §f" + e.getMessage());
+        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.ADMIN.getDisplay()) + player.getName() + ":" +
+                    " §f" + e.getMessage());
+        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MODERADOR.getDisplay()) + player.getName() + ": " +
+                    "§f" + e.getMessage());
+        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.AJUDANTE.getDisplay() + player.getName() +
+                    ": §f" + e.getMessage()));
+        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.WATER.getDisplay() + player.getName() + ":" +
+                    " §f" + e.getMessage()));
+        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.RAIN.getDisplay() + player.getName() + ": " +
+                    "§f" + e.getMessage()));
+        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§bCLOUD")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.CLOUD.getDisplay() + player.getName() + ":" +
+                    " §f" + e.getMessage()));
+        } else {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MEMBRO.getDisplay() + player.getName() +
+                    ": " +
+                    "§7" + e.getMessage()));
+        }
+    }
+
 }

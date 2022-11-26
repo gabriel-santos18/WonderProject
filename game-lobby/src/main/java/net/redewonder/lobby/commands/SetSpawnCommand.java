@@ -20,7 +20,7 @@ public class SetSpawnCommand extends CommandManager {
     public void execute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (CustomPlayer.getGroup().equalsIgnoreCase("§6MASTER")) {
+            if (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER")) {
                 LocationsManager.setSpawn(player);
                 player.sendMessage("§aVocê setou o spawn com sucesso.");
             } else {

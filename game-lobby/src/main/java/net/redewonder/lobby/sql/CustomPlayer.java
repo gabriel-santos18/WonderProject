@@ -59,10 +59,10 @@ public class CustomPlayer {
         }
     }
 
-    public static void setLastLogin(String lastLogin) {
+    public static void setLastLogin(String lastLogin, Player player) {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " +
-                    "SET LAST_LOGIN = '" + lastLogin + "' WHERE UUID = '" + uuid + "';");
+                    "SET LAST_LOGIN = '" + lastLogin + "' WHERE NICK = '" + player.getName() + "';");
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,17 +79,56 @@ public class CustomPlayer {
         }
     }
 
-    public static int getCash() {
+    public static int getCash(UUID uuid) {
+        try {
+            PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`players` WHERE UUID = '" + uuid + "';");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                cash = resultSet.getInt("CASH");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return cash;
     }
-    public static String getFirstLogin() {
+    public static String getFirstLogin(UUID uuid) {
+        try {
+            PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT * FROM " +
+                    "`players` WHERE UUID = '" + uuid + "';");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                firstLogin = resultSet.getString("FIRST_LOGIN");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return firstLogin;
     }
-    public static String getLastLogin() {
+    public static String getLastLogin(UUID uuid) {
+        try {
+            PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT * FROM " +
+                    "`players` WHERE UUID = '" + uuid + "';");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                lastLogin = resultSet.getString("LAST_LOGIN");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return lastLogin;
     }
 
-    public static String getGroup() {
+    public static String getGroup(Player player) {
+        try {
+            PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT * FROM " +
+                    "`players` WHERE NICK = '" + player.getName() + "';");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                group = resultSet.getString("GRUPO");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return group;
     }
 }

@@ -1,21 +1,13 @@
 package net.redewonder.lobby.commands;
 
 import net.redewonder.lobby.Lobby;
-import net.redewonder.lobby.group.Groups;
-import net.redewonder.lobby.group.NametagManager;
 import net.redewonder.lobby.managers.CommandManager;
-import net.redewonder.lobby.managers.ScoreboardManager;
 import net.redewonder.lobby.sql.CustomPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
