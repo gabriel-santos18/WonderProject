@@ -1,7 +1,9 @@
 package net.redewonder.lobby.managers;
 
+import net.redewonder.lobby.Lobby;
 import net.redewonder.lobby.api.ItemBuilder;
 import net.redewonder.lobby.sql.CustomPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,6 +32,22 @@ public class PlayerManager {
         player.setHealth(20);
         player.setFoodLevel(20);
         player.setGameMode(GameMode.SURVIVAL);
+
+        Bukkit.getScheduler().runTaskLater(Lobby.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                if (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER") ||
+                        CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE") ||
+                        CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN") ||
+                        CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR") ||
+                        CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE") ||
+                        CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER") ||
+                        CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN") ||
+                        CustomPlayer.getGroup(player).equalsIgnoreCase("§bCLOUD")) {
+                    player.setAllowFlight(true);
+                }
+            }
+        }, 20L);
 
         player.getInventory().setItem(1,
                 new ItemBuilder(Material.SKULL_ITEM).setPlayerSkull(player.getName()).setDisplayName("§ePerfil §7" +

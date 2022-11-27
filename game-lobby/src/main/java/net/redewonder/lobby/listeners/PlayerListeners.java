@@ -7,6 +7,7 @@ import net.redewonder.lobby.api.InventoryBuilder;
 import net.redewonder.lobby.api.ItemBuilder;
 import net.redewonder.lobby.group.Groups;
 import net.redewonder.lobby.managers.*;
+import net.redewonder.lobby.server.ServerConnectServer;
 import net.redewonder.lobby.server.ServerOnlineCount;
 import net.redewonder.lobby.sql.CustomPlayer;
 import org.bukkit.Bukkit;
@@ -51,7 +52,6 @@ public class PlayerListeners implements Listener {
         ScoreboardManager.updateScore(player);
         TablistManager.updateTablist(player);
 
-
         for (Groups groups : Groups.values()) {
             Team team = ScoreboardManager.score.registerNewTeam(groups.getOrderSymbol() + groups.name());
             team.setPrefix(ChatColor.translateAlternateColorCodes('&', groups.getDisplay()));
@@ -83,21 +83,6 @@ public class PlayerListeners implements Listener {
                 }
             }
         }, 0, 20L);
-
-
-
-
-        /*Bukkit.getScheduler().runTaskTimer(Lobby.getInstance(), new Runnable() {
-            @Override
-            public void run() {
-                Team team = ScoreboardManager.score.registerNewTeam("master");
-                team.setPrefix("TESTE ");
-                for (Player online : Bukkit.getOnlinePlayers()) {
-                    online.getScoreboard().getTeam("master").addEntry(player.getName());
-                    player.getScoreboard().getTeam("master").addEntry(online.getName());
-                }
-            }
-        }, 0L, 20L);*/
 
 
         player.teleport(LocationsManager.getSpawn(player));
@@ -148,6 +133,18 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onPlayerInventoryClick(InventoryClickEvent e) {
         e.setCancelled(true);
+        Player player = (Player) e.getWhoClicked();
+
+        if (e.getInventory().getTitle().equalsIgnoreCase("§8Servidores")) {
+            if (e.getCurrentItem().getType().equals(Material.DARK_OAK_DOOR_ITEM)) {
+                player.closeInventory();
+                ServerConnectServer.connect(player, "lobby");
+            } else if (e.getCurrentItem().getType().equals(Material.DIAMOND_PICKAXE)) {
+                player.closeInventory();
+                ServerConnectServer.connect(player, "rankup");
+            }
+        }
+
     }
 
     @EventHandler
@@ -198,21 +195,21 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onPlayerChatEvent(AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();
-        if (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER")) {
+        if (CustomPlayer.getNametag(player).equalsIgnoreCase("§6MASTER")) {
             e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MASTER.getDisplay()) + player.getName() + ": §f" + e.getMessage());
-        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE")) {
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§3GERENTE")) {
             e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.GERENTE.getDisplay()) + player.getName() + ": §f" + e.getMessage());
-        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN")) {
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§cADMIN")) {
             e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.ADMIN.getDisplay()) + player.getName() + ":" + " §f" + e.getMessage());
-        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR")) {
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§2MODERADOR")) {
             e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MODERADOR.getDisplay()) + player.getName() + ": " + "§f" + e.getMessage());
-        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE")) {
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§eAJUDANTE")) {
             e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.AJUDANTE.getDisplay() + player.getName() + ": §f" + e.getMessage()));
-        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER")) {
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§5WATER")) {
             e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.WATER.getDisplay() + player.getName() + ":" + " §f" + e.getMessage()));
-        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN")) {
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§2RAIN")) {
             e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.RAIN.getDisplay() + player.getName() + ": " + "§f" + e.getMessage()));
-        } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§bCLOUD")) {
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§bCLOUD")) {
             e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.CLOUD.getDisplay() + player.getName() + ":" + " §f" + e.getMessage()));
         } else {
             e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MEMBRO.getDisplay() + player.getName() + ": " + "§7" + e.getMessage()));
