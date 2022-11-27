@@ -18,6 +18,9 @@ public class CustomPlayer {
     private static String firstLogin;
     private static String lastLogin;
     private static String group;
+
+    private static String nametag;
+
     private static String rank;
 
     public CustomPlayer(Lobby lobby, UUID uuid, Player player) throws SQLException {
@@ -25,7 +28,7 @@ public class CustomPlayer {
         this.lobby = lobby;
 
         PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT NICK, CASH, " +
-                "FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK" + " " + "FROM players" + " " + "WHERE UUID = ?;");
+                "FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK, NAMETAG" + " " + "FROM players" + " " + "WHERE UUID = ?;");
         statement.setString(1, uuid.toString());
         ResultSet resultSet = statement.executeQuery();
 
@@ -38,6 +41,7 @@ public class CustomPlayer {
             lastLogin = resultSet.getString("LAST_LOGIN");
             group = resultSet.getString("GRUPO");
             rank = resultSet.getString("RANK");
+            nametag = resultSet.getString("NAMETAG");
             player.getScoreboard().getTeam("group").setSuffix(group);
         } else {
             cash = 0;
@@ -45,16 +49,18 @@ public class CustomPlayer {
             lastLogin = formatter.format(date);
             group = "§7MEMBRO";
             rank = "Anfitrite III";
+            nametag = "§7MEMBRO";
             player.getScoreboard().getTeam("group").setSuffix(group);
             PreparedStatement statement1 = lobby.getSqlConnection().getConnection().prepareStatement("INSERT INTO" +
-                    " players (UUID, NICK, CASH, FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK) VALUES (" +
+                    " players (UUID, NICK, CASH, FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK, NAMETAG) VALUES (" +
                     "'"+ uuid.toString() + "'," +
                     "'" + player.getName() + "'," +
                     cash + "," +
                     "'" + firstLogin + "'," +
                     "'" + lastLogin + "'," +
                     "'" + group + "'," +
-                    "'" + rank + "');");
+                    "'" + rank + "'," +
+                    "'" + nametag + "');");
             statement1.executeUpdate();
         }
     }
@@ -92,6 +98,16 @@ public class CustomPlayer {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " +
                     "SET GRUPO = '" + group + "' WHERE UUID = '" + uuid + "';");
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setNametag(String group, UUID uuid) {
+        try {
+            PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " +
+                    "SET NAMETAG = '" + group + "' WHERE UUID = '" + uuid + "';");
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -149,5 +165,19 @@ public class CustomPlayer {
             e.printStackTrace();
         }
         return group;
+    }
+
+    public static String getNametag(Player player) {
+        try {
+            PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT * FROM " +
+                    "`players` WHERE NICK = '" + player.getName() + "';");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                nametag = resultSet.getString("NAMETAG");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nametag;
     }
 }

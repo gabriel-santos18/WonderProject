@@ -34,6 +34,7 @@ public class GroupCommand extends CommandManager {
                             if (args[1].equalsIgnoreCase("master")) {
                                 if (!CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE") && !CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN")) {
                                     CustomPlayer.setGroup("§6MASTER", Bukkit.getPlayer(args[0]).getUniqueId());
+                                    CustomPlayer.setNametag("§6MASTER", Bukkit.getPlayer(args[0]).getUniqueId());
                                     Bukkit.getPlayer(args[0]).getScoreboard().getTeam("group").setSuffix("§6MASTER");
                                     player.sendMessage("§aVocê setou o grupo de " + args[0] + " §apara §6§lMASTER§a.");
                                     Bukkit.getPlayer(args[0]).sendMessage("§aSeu grupo foi alterado para §6§lMASTER§a.");
@@ -43,6 +44,7 @@ public class GroupCommand extends CommandManager {
                             } else if (args[1].equalsIgnoreCase("gerente")) {
                                 if (!CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE") && !CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN")) {
                                     CustomPlayer.setGroup("§3GERENTE", Bukkit.getPlayer(args[0]).getUniqueId());
+                                    CustomPlayer.setNametag("§3GERENTE", Bukkit.getPlayer(args[0]).getUniqueId());
                                     Bukkit.getPlayer(args[0]).getScoreboard().getTeam("group").setSuffix("§3GERENTE");
                                     player.sendMessage("§aVocê setou o grupo de " + args[0] + " §apara §3§lGERENTE§a.");
                                     Bukkit.getPlayer(args[0]).sendMessage("§aSeu grupo foi alterado para §3§lGERENTE§a.");
@@ -52,6 +54,7 @@ public class GroupCommand extends CommandManager {
                             } else if (args[1].equalsIgnoreCase("admin")) {
                                 if (!CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN")) {
                                     CustomPlayer.setGroup("§cADMIN", Bukkit.getPlayer(args[0]).getUniqueId());
+                                    CustomPlayer.setNametag("§cADMIN", Bukkit.getPlayer(args[0]).getUniqueId());
                                     Bukkit.getPlayer(args[0]).getScoreboard().getTeam("group").setSuffix("§cADMIN");
                                     player.sendMessage("§aVocê setou o grupo de " + args[0] + " §apara §c§lADMIN§a.");
                                     Bukkit.getPlayer(args[0]).sendMessage("§aSeu grupo foi alterado para §c§lADMIN§a.");
@@ -60,31 +63,37 @@ public class GroupCommand extends CommandManager {
                                 }
                             } else if (args[1].equalsIgnoreCase("moderador")) {
                                 CustomPlayer.setGroup("§2MODERADOR", Bukkit.getPlayer(args[0]).getUniqueId());
+                                CustomPlayer.setNametag("§2MODERADOR", Bukkit.getPlayer(args[0]).getUniqueId());
                                 Bukkit.getPlayer(args[0]).getScoreboard().getTeam("group").setSuffix("§2MODERADOR");
                                 player.sendMessage("§aVocê setou o grupo de " + args[0] + " §apara §2§lMODERADOR§a.");
                                 Bukkit.getPlayer(args[0]).sendMessage("§aSeu grupo foi alterado para §2§lMODERADOR§a.");
                             } else if (args[1].equalsIgnoreCase("ajudante")) {
                                 CustomPlayer.setGroup("§eAJUDANTE", Bukkit.getPlayer(args[0]).getUniqueId());
+                                CustomPlayer.setNametag("§eAJUDANTE", Bukkit.getPlayer(args[0]).getUniqueId());
                                 Bukkit.getPlayer(args[0]).getScoreboard().getTeam("group").setSuffix("§eAJUDANTE");
                                 player.sendMessage("§aVocê setou o grupo de " + args[0] + " §apara §e§lAJUDANTE§a.");
                                 Bukkit.getPlayer(args[0]).sendMessage("§aSeu grupo foi alterado para §e§lAJUDANTE§a.");
                             } else if (args[1].equalsIgnoreCase("water")) {
                                 CustomPlayer.setGroup("§5WATER", Bukkit.getPlayer(args[0]).getUniqueId());
+                                CustomPlayer.setNametag("§5WATER", Bukkit.getPlayer(args[0]).getUniqueId());
                                 Bukkit.getPlayer(args[0]).getScoreboard().getTeam("group").setSuffix("§5WATER");
                                 player.sendMessage("§aVocê setou o grupo de " + args[0] + " §apara §5§lWATER§a.");
                                 Bukkit.getPlayer(args[0]).sendMessage("§aSeu grupo foi alterado para §5§lWATER§a.");
                             } else if (args[1].equalsIgnoreCase("rain")) {
                                 CustomPlayer.setGroup("§2RAIN", Bukkit.getPlayer(args[0]).getUniqueId());
+                                CustomPlayer.setNametag("§2RAIN", Bukkit.getPlayer(args[0]).getUniqueId());
                                 Bukkit.getPlayer(args[0]).getScoreboard().getTeam("group").setSuffix("§2RAIN");
                                 player.sendMessage("§aVocê setou o grupo de " + args[0] + " §apara §2§lRAIN§a.");
                                 Bukkit.getPlayer(args[0]).sendMessage("§aSeu grupo foi alterado para §2§lRAIN§a.");
                             } else if (args[1].equalsIgnoreCase("cloud")) {
                                 CustomPlayer.setGroup("§bCLOUD", Bukkit.getPlayer(args[0]).getUniqueId());
+                                CustomPlayer.setNametag("§bCLOUD", Bukkit.getPlayer(args[0]).getUniqueId());
                                 Bukkit.getPlayer(args[0]).getScoreboard().getTeam("group").setSuffix("§bCLOUD");
                                 player.sendMessage("§aVocê setou o grupo de " + args[0] + " §apara §b§lCLOUD§a.");
                                 Bukkit.getPlayer(args[0]).sendMessage("§aSeu grupo foi alterado para §b§lCLOUD§a.");
                             } else if (args[1].equalsIgnoreCase("membro")) {
                                 CustomPlayer.setGroup("§7MEMBRO", Bukkit.getPlayer(args[0]).getUniqueId());
+                                CustomPlayer.setNametag("§7MEMBRO", Bukkit.getPlayer(args[0]).getUniqueId());
                                 Bukkit.getPlayer(args[0]).getScoreboard().getTeam("group").setSuffix("§7MEMBRO");
                                 player.sendMessage("§aVocê setou o grupo de " + args[0] + " §apara §7§lMEMBRO§a.");
                                 Bukkit.getPlayer(args[0]).sendMessage("§aSeu grupo foi alterado para §7§lMEMBRO§a.");
