@@ -2,12 +2,13 @@ package net.redewonder.lobby.listeners;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import me.imfighting.bukkit.api.TablistAPI;
+import me.imfighting.bukkit.inventory.InventoryBuilder;
+import me.imfighting.bukkit.inventory.ItemBuilder;
 import net.redewonder.lobby.Lobby;
-import net.redewonder.lobby.api.InventoryBuilder;
-import net.redewonder.lobby.api.ItemBuilder;
 import net.redewonder.lobby.group.Groups;
 import net.redewonder.lobby.managers.*;
-import net.redewonder.lobby.server.ServerConnectServer;
+import me.imfighting.bukkit.server.ServerConnectServer;
 import net.redewonder.lobby.server.ServerOnlineCount;
 import net.redewonder.lobby.sql.CustomPlayer;
 import org.bukkit.Bukkit;
@@ -23,11 +24,9 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.sql.SQLException;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -50,7 +49,7 @@ public class PlayerListeners implements Listener {
         e.setJoinMessage(null);
         PlayerManager.updatePlayer(player);
         ScoreboardManager.updateScore(player);
-        TablistManager.updateTablist(player);
+        TablistAPI.sendTablist(player, "\n§e§lREDE WONDER\n§aloja.redewonder.net\n§fVocê está conectado em: §eLobby #1\n", "\n§eDiscord: §fdiscord.gg/8ZCPPguw5S\n§fAdquira §e§lVIP §fou §e§lCASH §facessando: §eloja.redewonder.net\n");
 
         for (Groups groups : Groups.values()) {
             Team team = ScoreboardManager.score.registerNewTeam(groups.getOrderSymbol() + groups.name());

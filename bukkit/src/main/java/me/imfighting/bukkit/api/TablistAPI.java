@@ -1,4 +1,4 @@
-package net.redewonder.lobby.managers;
+package me.imfighting.bukkit.api;
 
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
@@ -8,15 +8,13 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 
-public class TablistManager {
+public class TablistAPI {
 
-    public static void updateTablist(Player player) {
+    public static void sendTablist(Player player, String headerText, String footerText) {
         CraftPlayer craftPlayer = (CraftPlayer) player;
         PlayerConnection connection = craftPlayer.getHandle().playerConnection;
-        IChatBaseComponent header = IChatBaseComponent.ChatSerializer.a("{\"text\":\"\n§e§lREDE WONDER\n§aloja" +
-                ".redewonder.net\n§fVocê está conectado em: §eLobby #1\n\"}");
-        IChatBaseComponent footer = IChatBaseComponent.ChatSerializer.a("{\"text\":\"\n§eDiscord: §fdiscord" +
-                ".gg/8ZCPPguw5S\n§fAdquira §e§lVIP §fou §e§lCASH §facessando: §eloja.redewonder.net\n\"}");
+        IChatBaseComponent header = IChatBaseComponent.ChatSerializer.a("{\"text\":\""+headerText+"\"}");
+        IChatBaseComponent footer = IChatBaseComponent.ChatSerializer.a("{\"text\":\""+footerText+"\"}");
         PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
         try {
             Field headerField = packet.getClass().getDeclaredField("a");
@@ -35,5 +33,4 @@ public class TablistManager {
         }
         connection.sendPacket(packet);
     }
-
 }

@@ -1,7 +1,7 @@
 package net.redewonder.lobby.managers;
 
+import me.imfighting.bukkit.inventory.ItemBuilder;
 import net.redewonder.lobby.Lobby;
-import net.redewonder.lobby.api.ItemBuilder;
 import net.redewonder.lobby.sql.CustomPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

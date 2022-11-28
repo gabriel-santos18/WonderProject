@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/WonderProject.iml" filepath="$PROJECT_DIR$/.idea/WonderProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bukkit/bukkit.iml" filepath="$PROJECT_DIR$/bukkit/bukkit.iml" />
       <module fileurl="file://$PROJECT_DIR$/game-lobby/game-lobby.iml" filepath="$PROJECT_DIR$/game-lobby/game-lobby.iml" />
     </modules>
   </component>

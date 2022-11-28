@@ -1,4 +1,4 @@
-package net.redewonder.lobby.api;
+package me.imfighting.bukkit.inventory;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;

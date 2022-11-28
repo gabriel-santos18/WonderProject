@@ -7,9 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="game-lobby" />
+        <module name="bukkit" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="bukkit" target="1.8" />
       <module name="game-lobby" target="1.8" />
     </bytecodeTargetLevel>
   </component>
