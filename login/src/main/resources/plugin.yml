@@ -1,0 +1,6 @@
+name: Login
+version: '${project.version}'
+main: net.wonder.login.Login
+authors: [ imFighting ]
+description: System login for Wonder'
+website: redewonder.net

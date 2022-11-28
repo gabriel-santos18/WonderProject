@@ -10,6 +10,7 @@
       <list>
         <option value="$PROJECT_DIR$/game-lobby/pom.xml" />
         <option value="$PROJECT_DIR$/bukkit/pom.xml" />
+        <option value="$PROJECT_DIR$/login/pom.xml" />
       </list>
     </option>
   </component>

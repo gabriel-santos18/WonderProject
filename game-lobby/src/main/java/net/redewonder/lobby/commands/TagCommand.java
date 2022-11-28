@@ -3,16 +3,16 @@ package net.redewonder.lobby.commands;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.redewonder.lobby.Lobby;
 import net.redewonder.lobby.group.Groups;
-import net.redewonder.lobby.managers.CommandManager;
+import me.imfighting.bukkit.managers.CommandManager;
 import net.redewonder.lobby.sql.CustomPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
-import javax.xml.soap.Text;
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TagCommand extends CommandManager {
@@ -312,6 +312,9 @@ public class TagCommand extends CommandManager {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] args) {
-        return null;
+        if (args.length == 1) {
+            return StringUtil.copyPartialMatches(args[1], Arrays.asList("master", "gerente", "admin", "moderador", "ajudante", "water", "rain", "cloud", "membro"), new ArrayList<>());
+        }
+        return new ArrayList<>();
     }
 }

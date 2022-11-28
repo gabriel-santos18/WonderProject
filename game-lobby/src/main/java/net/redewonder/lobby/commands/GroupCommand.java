@@ -1,13 +1,11 @@
 package net.redewonder.lobby.commands;
 
 import net.redewonder.lobby.Lobby;
-import net.redewonder.lobby.group.Groups;
-import net.redewonder.lobby.managers.CommandManager;
+import me.imfighting.bukkit.managers.CommandManager;
 import net.redewonder.lobby.sql.CustomPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.util.StringUtil;
 
 import java.util.*;

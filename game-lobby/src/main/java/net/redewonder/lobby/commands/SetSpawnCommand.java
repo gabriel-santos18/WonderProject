@@ -1,6 +1,6 @@
 package net.redewonder.lobby.commands;
 
-import net.redewonder.lobby.managers.CommandManager;
+import me.imfighting.bukkit.managers.CommandManager;
 import net.redewonder.lobby.managers.LocationsManager;
 import net.redewonder.lobby.sql.CustomPlayer;
 import org.bukkit.command.CommandSender;

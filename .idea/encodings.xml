@@ -5,5 +5,7 @@
     <file url="file://$PROJECT_DIR$/bukkit/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/game-lobby/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/game-lobby/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/login/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/login/src/main/resources" charset="UTF-8" />
   </component>
 </project>

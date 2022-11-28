@@ -1,4 +1,4 @@
-package net.redewonder.lobby.managers;
+package me.imfighting.bukkit.managers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;

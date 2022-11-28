@@ -34,5 +34,4 @@ public class LocationsManager {
                 (float) modifyFile.getDouble("Spawn.YAW"),
                 (float) modifyFile.getDouble("Spawn.PITCH"));
     }
-
 }

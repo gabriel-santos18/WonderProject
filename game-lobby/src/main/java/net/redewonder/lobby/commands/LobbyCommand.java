@@ -1,7 +1,7 @@
 package net.redewonder.lobby.commands;
 
-import net.redewonder.lobby.managers.CommandManager;
-import me.imfighting.bukkit.server.ServerConnectServer;
+import me.imfighting.bukkit.managers.CommandManager;
+import net.redewonder.lobby.server.ServerConnectServer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
