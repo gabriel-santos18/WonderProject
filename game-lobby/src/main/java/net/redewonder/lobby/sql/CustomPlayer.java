@@ -28,7 +28,8 @@ public class CustomPlayer {
         this.lobby = lobby;
 
         PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT NICK, CASH, " +
-                "FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK, NAMETAG" + " " + "FROM players" + " " + "WHERE UUID = ?;");
+                "FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK, NAMETAG" + " " + "FROM players" + " " + "WHERE UUID = " +
+                "?;");
         statement.setString(1, uuid.toString());
         ResultSet resultSet = statement.executeQuery();
 

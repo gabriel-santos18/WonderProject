@@ -6,19 +6,20 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class LoginCommand extends CommandManager {
+public class RegistrarCommand extends CommandManager {
 
-    public LoginCommand() {
-        super("login", new String[]{});
+    public RegistrarCommand() {
+        super("registrar", new String[]{});
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (args.length < 1) {
+            if (args.length < 2) {
 
             }
+
         } else {
             sender.sendMessage("§cApenas jogadores.");
         }

@@ -1,6 +1,6 @@
-package net.redewonder.lobby.sql;
+package net.wonder.login.sql;
 
-import net.redewonder.lobby.Lobby;
+import net.wonder.login.Login;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,11 +9,11 @@ import java.sql.Statement;
 
 public class SQLConnection {
 
-    private final String HOST = Lobby.getInstance().getConfig().getString("host");
-    private final int PORT = Lobby.getInstance().getConfig().getInt("port");
-    private final String DATABASE = Lobby.getInstance().getConfig().getString("database");
-    private final String USERNAME = Lobby.getInstance().getConfig().getString("username");
-    private final String PASSWORD = Lobby.getInstance().getConfig().getString("password");
+    private final String HOST = Login.getInstance().getConfig().getString("host");
+    private final int PORT = Login.getInstance().getConfig().getInt("port");
+    private final String DATABASE = Login.getInstance().getConfig().getString("database");
+    private final String USERNAME = Login.getInstance().getConfig().getString("username");
+    private final String PASSWORD = Login.getInstance().getConfig().getString("password");
 
     private Connection connection;
 

@@ -86,6 +86,7 @@ public class PlayerListeners implements Listener {
 
 
         player.teleport(LocationsManager.getSpawn(player));
+
         try {
             CustomPlayer playerData = new CustomPlayer(lobby, player.getUniqueId(), player);
             lobby.getPlayerManager().addCustomPlayer(player.getUniqueId(), playerData);
