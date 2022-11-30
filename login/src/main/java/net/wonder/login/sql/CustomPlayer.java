@@ -22,14 +22,15 @@ public class CustomPlayer {
     private static String nametag;
 
     private static String rank;
-    private static String senha;
+    private static boolean registrado;
 
     public CustomPlayer(Login lobby, UUID uuid, Player player) throws SQLException {
         this.uuid = uuid;
         this.lobby = lobby;
 
         PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT NICK, CASH, " +
-                "FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK, NAMETAG, SENHA" + " " + "FROM players" + " " + "WHERE UUID = " +
+                "FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK, NAMETAG, REGISTRADO" + " " + "FROM players" + " " + "WHERE " +
+                "UUID = " +
                 "?;");
         statement.setString(1, uuid.toString());
         ResultSet resultSet = statement.executeQuery();
@@ -44,7 +45,7 @@ public class CustomPlayer {
             group = resultSet.getString("GRUPO");
             rank = resultSet.getString("RANK");
             nametag = resultSet.getString("NAMETAG");
-            senha = resultSet.getString("SENHA");
+            registrado = resultSet.getBoolean("REGISTRADO");
         } else {
             cash = 0;
             firstLogin = formatter.format(date);
@@ -52,9 +53,9 @@ public class CustomPlayer {
             group = "§7MEMBRO";
             rank = "Anfitrite III";
             nametag = "§7MEMBRO";
-            senha = "";
+            registrado = false;
             PreparedStatement statement1 = lobby.getSqlConnection().getConnection().prepareStatement("INSERT INTO" +
-                    " players (UUID, NICK, CASH, FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK, NAMETAG, SENHA) VALUES (" +
+                    " players (UUID, NICK, CASH, FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK, NAMETAG, REGISTRADO) VALUES (" +
                     "'"+ uuid.toString() + "'," +
                     "'" + player.getName() + "'," +
                     cash + "," +
@@ -63,19 +64,20 @@ public class CustomPlayer {
                     "'" + group + "'," +
                     "'" + rank + "'," +
                     "'" + nametag + "'," +
-                    "'" + senha + "');");
+                    registrado + ");");
             statement1.executeUpdate();
         }
     }
 
-    public static boolean playerExists(String nick) {
+    public static boolean isRegistrado(String nick) {
         try {
             PreparedStatement statement =
-                    lobby.getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`players` WHERE " +
+                    lobby.getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`players` WHERE" +
+                            " " +
                             "NICK" +
                             " = '" + nick + "';");
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            if (registrado == true) {
                 return true;
             } else {
                 return false;
@@ -86,11 +88,31 @@ public class CustomPlayer {
         return false;
     }
 
+    public static void createFieldPass() {
+        try {
+            PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("ALTER TABLE " +
+                    "players ADD SENHA varchar(255);");
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setRegister(Player player) {
+        try {
+            PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " +
+                    "SET REGISTRADO = true WHERE NICK = '" + player.getName() + "';");
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void setPassword(String senha, Player player) {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " +
-                    "SET SENHA = '" + senha + "' WHERE NICK = '" + player.getName() + "';");
+                    "SET SENHA = password('" + senha + "') WHERE NICK = '" + player.getName() + "';");
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -109,5 +131,22 @@ public class CustomPlayer {
             e.printStackTrace();
         }
         return group;
+    }
+
+    public static boolean getPass(Player player, String senha) {
+        try {
+            PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT SENHA " +
+                    "FROM " +
+                    "`players` WHERE SENHA = password('" + senha + "') AND NICK = '"+player.getName()+"';");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

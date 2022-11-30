@@ -1,5 +1,7 @@
 package net.wonder.login;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteStreams;
 import net.redewonder.lobby.commands.SetSpawnCommand;
 import net.wonder.login.commands.LoginCommand;
 import net.wonder.login.commands.RegistrarCommand;
@@ -8,13 +10,15 @@ import net.wonder.login.listeners.WorldListeners;
 import net.wonder.login.managers.PlayerManager;
 import net.wonder.login.sql.SQLConnection;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public final class Login extends JavaPlugin {
+public final class Login extends JavaPlugin implements PluginMessageListener {
 
     private static Login instance;
     private SQLConnection sqlConnection;
@@ -32,6 +36,9 @@ public final class Login extends JavaPlugin {
         new LoginCommand();
         new RegistrarCommand();
         new SetSpawnCommand();
+
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
 
         playerManager = new PlayerManager();
 
@@ -81,4 +88,14 @@ public final class Login extends JavaPlugin {
         return playerManager;
     }
 
+    @Override
+    public void onPluginMessageReceived(String s, Player player, byte[] bytes) {
+        if (!s.equals("BungeeCord")) {
+            return;
+        }
+
+        ByteArrayDataInput input = ByteStreams.newDataInput(bytes);
+
+        String subChannel = input.readUTF();
+    }
 }
