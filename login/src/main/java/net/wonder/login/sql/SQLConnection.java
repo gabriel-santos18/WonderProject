@@ -24,7 +24,7 @@ public class SQLConnection {
         Statement statement = connection.createStatement();
         String sql = "CREATE TABLE IF NOT EXISTS players(UUID varchar(255), NICK varchar(30), CASH int, FIRST_LOGIN " +
                 "varchar(255), LAST_LOGIN varchar(255), GRUPO varchar(255), RANK varchar(255), NAMETAG varchar(255), " +
-                "REGISTRADO boolean, BANNED boolean" +
+                "REGISTRADO boolean" +
                 ");";
         statement.execute(sql);
     }

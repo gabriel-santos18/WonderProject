@@ -22,11 +22,10 @@ public class SQLConnection {
                 "=false", USERNAME, PASSWORD);
 
         Statement statement = connection.createStatement();
-        String sql = "CREATE TABLE IF NOT EXISTS players(UUID varchar(255), NICK varchar(30), CASH int, FIRST_LOGIN " +
-                "varchar(255), LAST_LOGIN varchar(255), GRUPO varchar(255), RANK varchar(255), NAMETAG varchar(255), " +
-                "REGISTRADO boolean, BANNED boolean" +
+        String sqlBan = "CREATE TABLE IF NOT EXISTS bans(UUID varchar(255), NICK varchar(30), BANNED boolean, " +
+                "AUTOR varchar(255), MOTIVO varchar(255)" +
                 ");";
-        statement.execute(sql);
+        statement.execute(sqlBan);
     }
 
     public boolean isConnected() {
