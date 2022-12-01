@@ -1,6 +1,9 @@
 package net.wonder.login.managers;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import me.imfighting.bukkit.api.TablistAPI;
+import net.wonder.login.Login;
 import net.wonder.login.sql.CustomPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -8,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class PlayerManager {
 
@@ -35,6 +39,14 @@ public class PlayerManager {
                 ".redewonder.net\n");
         ScoreboardManager.updateScore(player);
         player.teleport(LocationManager.getSpawn(player));
+
+        Bukkit.getScheduler().runTaskLater(Login.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                player.kickPlayer("§c§lREDE WONDER\n\n§cTempo de login excedido.");
+            }
+        }, 20*30);
+
 
         for (Player online : Bukkit.getOnlinePlayers()) {
             player.hidePlayer(online);

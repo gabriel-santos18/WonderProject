@@ -1,6 +1,6 @@
-package net.wonder.login.sql;
+package net.redewonder.proxy.sql;
 
-import net.wonder.login.Login;
+import net.redewonder.proxy.Proxy;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,11 +9,11 @@ import java.sql.Statement;
 
 public class SQLConnection {
 
-    private final String HOST = Login.getInstance().getConfig().getString("host");
-    private final int PORT = Login.getInstance().getConfig().getInt("port");
-    private final String DATABASE = Login.getInstance().getConfig().getString("database");
-    private final String USERNAME = Login.getInstance().getConfig().getString("username");
-    private final String PASSWORD = Login.getInstance().getConfig().getString("password");
+    private final String HOST = Proxy.getInstance().configuration.getString("host");
+    private final int PORT = Proxy.getInstance().configuration.getInt("port");
+    private final String DATABASE = Proxy.getInstance().configuration.getString("database");
+    private final String USERNAME = Proxy.getInstance().configuration.getString("username");
+    private final String PASSWORD = Proxy.getInstance().configuration.getString("password");
 
     private Connection connection;
 
