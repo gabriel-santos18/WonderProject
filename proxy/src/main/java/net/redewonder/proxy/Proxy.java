@@ -7,10 +7,7 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 import net.md_5.bungee.event.EventHandler;
-import net.redewonder.proxy.commands.BanCommand;
-import net.redewonder.proxy.commands.MuteCommand;
-import net.redewonder.proxy.commands.TempbanCommand;
-import net.redewonder.proxy.commands.TempmuteCommand;
+import net.redewonder.proxy.commands.*;
 import net.redewonder.proxy.listeners.Listeners;
 import net.redewonder.proxy.managers.PlayerManager;
 import net.redewonder.proxy.sql.CustomPlayer;
@@ -41,6 +38,8 @@ public final class Proxy extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new TempbanCommand());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new MuteCommand());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new TempmuteCommand());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new UnmuteCommand());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new UnbanCommand());
 
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Listeners());
 
