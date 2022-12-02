@@ -73,8 +73,10 @@ public class Listeners implements Listener {
             }
         }
 
-        if (e.getMessage().contains("/server")) {
-            e.setCancelled(true);
+        if (player.getServer().getInfo().getName().equalsIgnoreCase("login")) {
+            if (!e.getMessage().contains("/login") && !e.getMessage().contains("/registrar")) {
+                e.setCancelled(true);
+            }
         }
     }
 }

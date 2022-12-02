@@ -48,9 +48,14 @@ public class PlayerManager {
         }, 20*30);
 
 
-        for (Player online : Bukkit.getOnlinePlayers()) {
-            player.hidePlayer(online);
-        }
+        Bukkit.getScheduler().runTaskTimer(Login.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                for (Player online : Bukkit.getOnlinePlayers()) {
+                    player.hidePlayer(online);
+                }
+            }
+        }, 0, 1L);
 
         for (int i=0; i <= 50; i++) {
             player.sendMessage("");

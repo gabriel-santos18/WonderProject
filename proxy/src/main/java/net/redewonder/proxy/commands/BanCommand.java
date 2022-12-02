@@ -26,7 +26,7 @@ public class BanCommand extends Command implements TabExecutor {
                     player.sendMessage("§cSintaxe incorreta! Digite /ban (nick) (motivo)");
                 } else if (args.length >= 2) {
                     if (CustomPlayer.playerExists(args[0])) {
-                        //if (!args[0].equalsIgnoreCase(player.getName())) {
+                        if (!args[0].equalsIgnoreCase(player.getName())) {
                             if (!CustomPlayer.isBanned(args[0])) {
 
                                 StringBuilder builder = new StringBuilder();
@@ -44,9 +44,9 @@ public class BanCommand extends Command implements TabExecutor {
                             } else {
                                 player.sendMessage("§cEste jogador já está banido.");
                             }
-                        //} else {
+                        } else {
                             //player.sendMessage("§cVocê não pode banir você mesmo.");
-                        //}
+                        }
                     } else {
                         player.sendMessage("§cEste jogador não existe.");
                     }

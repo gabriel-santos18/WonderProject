@@ -41,6 +41,10 @@ public final class Proxy extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new UnmuteCommand());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new UnbanCommand());
 
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new ReportCommand());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GoCommand());
+
+
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Listeners());
 
         ProxyServer.getInstance().getScheduler().schedule(this, () -> {
