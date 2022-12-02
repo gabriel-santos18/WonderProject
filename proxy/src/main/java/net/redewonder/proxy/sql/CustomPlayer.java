@@ -12,55 +12,14 @@ import java.util.Date;
 import java.util.UUID;
 
 public class CustomPlayer {
+
     private static String group;
-    private static boolean banned;
-
     private static String reason;
-
-    private static String autor;
-
-    private static Proxy proxy;
-    private static UUID uuid;
-
-    public CustomPlayer(Proxy proxy, UUID uuid, ProxiedPlayer player) throws SQLException {
-        this.uuid = uuid;
-        this.proxy = proxy;
-
-        PreparedStatement statement = proxy.getSqlConnection().getConnection().prepareStatement("SELECT NICK, BANNED," +
-                " " +
-                "AUTOR, MOTIVO" + " " + "FROM bans" + " " +
-                "WHERE " +
-                "UUID = " +
-                "?;");
-        statement.setString(1, uuid.toString());
-        ResultSet resultSet = statement.executeQuery();
-
-        if (resultSet.next()) {
-            banned = resultSet.getBoolean("BANNED");
-            autor = resultSet.getString("AUTOR");
-            reason = resultSet.getString("MOTIVO");
-        } else {
-            banned = false;
-            reason = "...";
-            autor = "...";
-            PreparedStatement statement1 = proxy.getSqlConnection().getConnection().prepareStatement("INSERT INTO" +
-                    " bans (UUID, NICK, BANNED, AUTOR, MOTIVO) VALUES (" +
-                    "'"+ uuid.toString() + "'," +
-                    "'" + player.getName() + "'," +
-                    banned + "," +
-                    "'" + autor + "'," +
-                    "'" + reason + "');");
-            statement1.executeUpdate();
-        }
-    }
+    private static boolean banned;
 
     public static boolean playerExists(String nick) {
         try {
-            PreparedStatement statement =
-                    Proxy.getInstance().getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`players` WHERE" +
-                            " " +
-                            "NICK" +
-                            " = '" + nick + "';");
+            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`players` WHERE" + " " + "NICK" + " = '" + nick + "';");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return true;
@@ -73,20 +32,9 @@ public class CustomPlayer {
         return false;
     }
 
-    public static void setGroup(String group, UUID uuid) {
-        try {
-            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement("UPDATE players " +
-                    "SET GRUPO = '" + group + "' WHERE UUID = '" + uuid + "';");
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static String getGroup(ProxiedPlayer player) {
         try {
-            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement("SELECT * FROM " +
-                    "`players` WHERE NICK = '" + player.getName() + "';");
+            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`players` WHERE NICK = '" + player.getName() + "';");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 group = resultSet.getString("GRUPO");
@@ -99,8 +47,7 @@ public class CustomPlayer {
 
     public static String getReason(ProxiedPlayer player) {
         try {
-            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement("SELECT * FROM " +
-                    "`bans` WHERE NICK = '" + player.getName() + "';");
+            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`bans` WHERE NICK = '" + player.getName() + "';");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 reason = resultSet.getString("MOTIVO");
@@ -111,50 +58,134 @@ public class CustomPlayer {
         return reason;
     }
 
-    public static void setBanned(String nick) {
+    public static boolean getPermMute(ProxiedPlayer player) {
         try {
             PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement(
-                    "UPDATE bans " +
-                    "SET BANNED = true WHERE NICK = '" + nick + "';");
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void setAuthor(String nick, String autor) {
-        try {
-            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement(
-                    "UPDATE bans " +
-                            "SET AUTOR = '"+ autor + "' WHERE NICK = '" + nick + "';");
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void setReason(String nick, String reason) {
-        try {
-            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement(
-                    "UPDATE bans " +
-                            "SET MOTIVO = '"+ reason + "' WHERE NICK = '" + nick + "';");
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static boolean isBanned(ProxiedPlayer player) {
-        try {
-            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement("SELECT * FROM " +
-                    "`bans` WHERE UUID = '" + player.getUniqueId() + "';");
+                    "SELECT * FROM " + "`mutes` WHERE NICK = '" + player.getName() + "' AND TEMPO = 0;");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                banned = resultSet.getBoolean("BANNED");
+                return true;
+            } else {
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return banned;
+        return false;
+    }
+
+    public static boolean getPermBan(ProxiedPlayer player) {
+        try {
+            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement(
+                    "SELECT * FROM " + "`bans` WHERE NICK = '" + player.getName() + "' AND TEMPO = 0;");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void setBan(String nick, String autor, String motivo, int tempo, String unidade) {
+        try {
+            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement("INSERT INTO" +
+                    " bans (NICK, BANNED, AUTOR, MOTIVO, TEMPO, UNIDADE) VALUES (?,?,?,?,?,?)");
+            statement.setString(1, nick);
+            statement.setBoolean(2, true);
+            statement.setString(3, autor);
+            statement.setString(4, motivo);
+            statement.setInt(5, tempo);
+            statement.setString(6, unidade);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setMute(String nick, String autor, String motivo, int tempo, String unidade) {
+        try {
+
+            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement("INSERT INTO" +
+                    " mutes (NICK, MUTED, AUTOR, MOTIVO, TEMPO, UNIDADE) VALUES (?,?,?,?,?,?)");
+            statement.setString(1, nick);
+            statement.setBoolean(2, true);
+            statement.setString(3, autor);
+            statement.setString(4, motivo);
+            statement.setInt(5, tempo);
+            statement.setString(6, unidade);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteBan(String nick) {
+        try {
+
+            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement(
+                    "DELETE FROM bans " + "WHERE NICK = '" + nick + "';");
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteMute(String nick) {
+        try {
+
+            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement(
+                    "DELETE FROM mutes " + "WHERE NICK = '" + nick + "';");
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isBanned(String nick) {
+        try {
+            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement(
+                    "SELECT * FROM " + "`bans` WHERE NICK = '" + nick + "';");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean isMuted(String nick) {
+        try {
+            PreparedStatement statement = Proxy.getInstance().getSqlConnection().getConnection().prepareStatement(
+                    "SELECT * FROM " + "`mutes` WHERE NICK = '" + nick + "';");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int i = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }

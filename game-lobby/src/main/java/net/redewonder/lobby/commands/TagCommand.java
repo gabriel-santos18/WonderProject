@@ -313,7 +313,8 @@ public class TagCommand extends CommandManager {
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] args) {
         if (args.length == 1) {
-            return StringUtil.copyPartialMatches(args[1], Arrays.asList("master", "gerente", "admin", "moderador", "ajudante", "water", "rain", "cloud", "membro"), new ArrayList<>());
+            return StringUtil.copyPartialMatches(args[0], Arrays.asList("master", "gerente", "admin", "moderador",
+                    "ajudante", "water", "rain", "cloud", "membro"), new ArrayList<>());
         }
         return new ArrayList<>();
     }

@@ -23,9 +23,15 @@ public class SQLConnection {
 
         Statement statement = connection.createStatement();
         String sqlBan = "CREATE TABLE IF NOT EXISTS bans(UUID varchar(255), NICK varchar(30), BANNED boolean, " +
-                "AUTOR varchar(255), MOTIVO varchar(255)" +
+                "AUTOR varchar(255), MOTIVO varchar(255), TEMPO int, UNIDADE varchar(30)" +
                 ");";
         statement.execute(sqlBan);
+
+        Statement statement2 = connection.createStatement();
+        String sqlMute = "CREATE TABLE IF NOT EXISTS mutes(UUID varchar(255), NICK varchar(30), MUTED boolean, " +
+                "AUTOR varchar(255), MOTIVO varchar(255), TEMPO int, UNIDADE varchar(30)" +
+                ");";
+        statement2.execute(sqlMute);
     }
 
     public boolean isConnected() {
