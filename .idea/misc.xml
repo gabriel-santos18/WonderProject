@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/bukkit/pom.xml" />
         <option value="$PROJECT_DIR$/login/pom.xml" />
         <option value="$PROJECT_DIR$/proxy/pom.xml" />
+        <option value="$PROJECT_DIR$/game-rankup/pom.xml" />
       </list>
     </option>
   </component>

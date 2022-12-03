@@ -217,4 +217,12 @@ public class PlayerListeners implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPlayerCommando(PlayerCommandPreprocessEvent e) {
+        if (e.getMessage().contains("/pl")) {
+            e.setCancelled(true);
+            e.getPlayer().sendMessage("§fComando desconhecido.");
+        }
+    }
+
 }

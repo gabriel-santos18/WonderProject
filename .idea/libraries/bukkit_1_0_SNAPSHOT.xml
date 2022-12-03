@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="bukkit-1.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../API/bukkit/target/bukkit-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

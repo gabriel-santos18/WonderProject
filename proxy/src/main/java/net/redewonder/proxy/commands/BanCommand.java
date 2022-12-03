@@ -45,7 +45,7 @@ public class BanCommand extends Command implements TabExecutor {
                                 player.sendMessage("§cEste jogador já está banido.");
                             }
                         } else {
-                            //player.sendMessage("§cVocê não pode banir você mesmo.");
+                            player.sendMessage("§cVocê não pode banir você mesmo.");
                         }
                     } else {
                         player.sendMessage("§cEste jogador não existe.");

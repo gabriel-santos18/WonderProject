@@ -1,3 +1,0 @@
-name: Bukkit
-version: '${project.version}'
-main: me.imfighting.bukkit.BukkitMain

@@ -1,0 +1,3 @@
+name: Rankup
+version: '${project.version}'
+main: net.redewonder.rankup.Rankup

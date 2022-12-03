@@ -10,11 +10,13 @@
         <module name="bukkit" />
         <module name="game-lobby" />
         <module name="login" />
+        <module name="game-rankup" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="bukkit" target="1.8" />
       <module name="game-lobby" target="1.8" />
+      <module name="game-rankup" target="1.8" />
       <module name="login" target="1.8" />
       <module name="proxy" target="1.8" />
     </bytecodeTargetLevel>

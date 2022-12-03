@@ -43,6 +43,7 @@ public final class Proxy extends Plugin {
 
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new ReportCommand());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GoCommand());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new StaffChatCommand());
 
 
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Listeners());
