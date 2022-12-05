@@ -42,4 +42,14 @@ public class LocationsManager {
                 (float) modifyFile.getDouble(nameLocation + ".PITCH"));
 
     }
+
+    public static boolean isLocation(Player player, String nameLocation) {
+        YamlConfiguration modifyFile = YamlConfiguration.loadConfiguration(Rankup.getInstance().file);
+
+        if (modifyFile.contains(nameLocation + ".World")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
