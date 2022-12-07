@@ -5,6 +5,7 @@ import net.redewonder.rankup.Rankup;
 import net.redewonder.rankup.group.Groups;
 import net.redewonder.rankup.managers.LocationsManager;
 import net.redewonder.rankup.managers.PlayerManager;
+import net.redewonder.rankup.managers.ScoreboardManager;
 import net.redewonder.rankup.sql.CustomPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -72,6 +74,30 @@ public class PlayerListeners implements Listener {
             }
         }, 0, 20L);
 
+    }
+
+    @EventHandler
+    public void onPlayerChatEvent(AsyncPlayerChatEvent e) {
+        Player player = e.getPlayer();
+        if (CustomPlayer.getNametag(player).equalsIgnoreCase("§6MASTER")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MASTER.getDisplay()) + player.getName() + ": §f" + e.getMessage());
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§3GERENTE")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.GERENTE.getDisplay()) + player.getName() + ": §f" + e.getMessage());
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§cADMIN")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.ADMIN.getDisplay()) + player.getName() + ":" + " §f" + e.getMessage());
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§2MODERADOR")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MODERADOR.getDisplay()) + player.getName() + ": " + "§f" + e.getMessage());
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§eAJUDANTE")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.AJUDANTE.getDisplay() + player.getName() + ": §f" + e.getMessage()));
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§5WATER")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.WATER.getDisplay() + player.getName() + ":" + " §f" + e.getMessage()));
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§2RAIN")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.RAIN.getDisplay() + player.getName() + ": " + "§f" + e.getMessage()));
+        } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§bCLOUD")) {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.CLOUD.getDisplay() + player.getName() + ":" + " §f" + e.getMessage()));
+        } else {
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MEMBRO.getDisplay() + player.getName() + ": " + "§7" + e.getMessage()));
+        }
     }
 
     @EventHandler

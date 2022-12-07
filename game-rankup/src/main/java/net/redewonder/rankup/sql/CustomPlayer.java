@@ -24,10 +24,10 @@ public class CustomPlayer {
         this.uuid = uuid;
         this.lobby = lobby;
 
-        PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT NICK, CASH, " +
-                "GRUPO, RANK, NAMETAG" + " " + "FROM players" + " " + "WHERE UUID = " +
+        PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT CASH, " +
+                "GRUPO, RANK, NAMETAG" + " " + "FROM players" + " " + "WHERE NICK = " +
                 "?;");
-        statement.setString(1, uuid.toString());
+        statement.setString(1, player.getName());
         ResultSet resultSet = statement.executeQuery();
 
         if (resultSet.next()) {
@@ -70,30 +70,30 @@ public class CustomPlayer {
         return false;
     }
 
-    public static void setGroup(String group, UUID uuid) {
+    public static void setGroup(String group, String nick) {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " +
-                    "SET GRUPO = '" + group + "' WHERE UUID = '" + uuid + "';");
+                    "SET GRUPO = '" + group + "' WHERE NICK = '" + nick + "';");
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void setNametag(String group, UUID uuid) {
+    public static void setNametag(String group, String nick) {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " +
-                    "SET NAMETAG = '" + group + "' WHERE UUID = '" + uuid + "';");
+                    "SET NAMETAG = '" + group + "' WHERE NICK = '" + nick + "';");
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void setCoins(String coins, UUID uuid) {
+    public static void setCoins(String coins, String nick) {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " +
-                    "SET COINS = '" + coins + "' WHERE UUID = '" + uuid + "';");
+                    "SET COINS = '" + coins + "' WHERE NICK = '" + nick + "';");
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -127,6 +127,38 @@ public class CustomPlayer {
         return group;
     }
 
+    public static String getRank(String nick) {
+        try {
+            PreparedStatement statement =
+                        Rankup.getInstance().getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`players` " +
+                    "WHERE " +
+                            "NICK = '" + nick + "';");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                rank = resultSet.getString("RANK");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rank;
+    }
+
+    public static int getCoins(String nick) {
+        try {
+            PreparedStatement statement =
+                    Rankup.getInstance().getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`players` " +
+                            "WHERE " +
+                            "NICK = '" + nick + "';");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                coins = resultSet.getInt("COINS");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return coins;
+    }
+
     public static String getNametag(Player player) {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT * FROM " +
@@ -153,5 +185,17 @@ public class CustomPlayer {
             e.printStackTrace();
         }
         return coins;
+    }
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }

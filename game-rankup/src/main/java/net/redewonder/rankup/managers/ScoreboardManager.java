@@ -1,5 +1,6 @@
-package net.redewonder.rankup.listeners;
+package net.redewonder.rankup.managers;
 
+import net.redewonder.rankup.sql.CustomPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
@@ -16,12 +17,14 @@ public class ScoreboardManager {
         obj.setDisplayName("§e§lATLANTIC RANKUP");
 
         Score space = obj.getScore("§a");
-        space.setScore(7);
+        space.setScore(8);
+
+        Score rankName = obj.getScore(" §fRank:");
+        rankName.setScore(7);
 
         Team rank = score.registerNewTeam("rank");
         rank.addEntry("§f");
-        rank.setPrefix(" §fRank: ");
-        rank.setSuffix("§e[...]");
+        rank.setPrefix("  " + CustomPlayer.getRank(player.getName()));
         obj.getScore("§f").setScore(6);
 
         Team cla = score.registerNewTeam("cla");
@@ -36,7 +39,7 @@ public class ScoreboardManager {
         Team money = score.registerNewTeam("money");
         money.addEntry("§3");
         money.setPrefix(" §fDinheiro: ");
-        money.setSuffix("§a$...");
+        money.setSuffix("§a$"+ CustomPlayer.getCoins(player.getName()));
         obj.getScore("§3").setScore(3);
 
         Score space3 = obj.getScore("§c");

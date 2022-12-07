@@ -3,6 +3,7 @@ package net.redewonder.rankup.commands;
 import me.imfighting.bukkit.managers.CommandManager;
 import net.redewonder.rankup.sql.CustomPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
@@ -32,6 +33,12 @@ public class TpCommand extends CommandManager {
                     } else {
                         player.teleport(target.getLocation());
                         player.sendMessage("§aVocê foi teleportado para §e" + target.getName() + "§a.");
+                    }
+                } else if (args.length > 1) {
+                    if (CustomPlayer.isNumeric(args[0]) && CustomPlayer.isNumeric(args[1]) && CustomPlayer.isNumeric(args[2])) {
+                        player.teleport(new Location(player.getWorld(), Double.parseDouble(args[0]),
+                                Double.parseDouble(args[1]), Double.parseDouble(args[2])));
+                        player.sendMessage("§cVocê foi teleportado para a localização fornecida.");
                     }
                 }
             }

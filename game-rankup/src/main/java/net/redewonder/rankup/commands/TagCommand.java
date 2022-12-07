@@ -184,7 +184,7 @@ public class TagCommand extends CommandManager {
                             for (Player online : Bukkit.getOnlinePlayers()) {
                                 online.getScoreboard().getTeam(Groups.MASTER.getOrderSymbol() + Groups.MASTER.name()).addEntry(player.getName());
                             }
-                            CustomPlayer.setNametag("§6MASTER", player.getUniqueId());
+                            CustomPlayer.setNametag("§6MASTER", player.getName());
                             player.sendMessage("§aVocê alterou sua tag para §6§lMASTER§a.");
                         } else {
                             player.sendMessage("§cVocê já está usando esta tag.");
@@ -198,7 +198,7 @@ public class TagCommand extends CommandManager {
                             for (Player online : Bukkit.getOnlinePlayers()) {
                                 online.getScoreboard().getTeam(Groups.GERENTE.getOrderSymbol() + Groups.GERENTE.name()).addEntry(player.getName());
                             }
-                            CustomPlayer.setNametag("§3GERENTE", player.getUniqueId());
+                            CustomPlayer.setNametag("§3GERENTE", player.getName());
                             player.sendMessage("§aVocê alterou sua tag para §3§lGERENTE§a.");
                         } else {
                             player.sendMessage("§cVocê já está usando esta tag.");
@@ -212,7 +212,7 @@ public class TagCommand extends CommandManager {
                             for (Player online : Bukkit.getOnlinePlayers()) {
                                 online.getScoreboard().getTeam(Groups.ADMIN.getOrderSymbol() + Groups.ADMIN.name()).addEntry(player.getName());
                             }
-                            CustomPlayer.setNametag("§cADMIN", player.getUniqueId());
+                            CustomPlayer.setNametag("§cADMIN", player.getName());
                             player.sendMessage("§aVocê alterou sua tag para §c§lADMIN§a.");
                         } else {
                             player.sendMessage("§cVocê já está usando esta tag.");
@@ -226,7 +226,7 @@ public class TagCommand extends CommandManager {
                             for (Player online : Bukkit.getOnlinePlayers()) {
                                 online.getScoreboard().getTeam(Groups.MODERADOR.getOrderSymbol() + Groups.MODERADOR.name()).addEntry(player.getName());
                             }
-                            CustomPlayer.setNametag("§2MODERADOR", player.getUniqueId());
+                            CustomPlayer.setNametag("§2MODERADOR", player.getName());
                             player.sendMessage("§aVocê alterou sua tag para §2§lMODERADOR§a.");
                         } else {
                             player.sendMessage("§cVocê já está usando esta tag.");
@@ -240,7 +240,7 @@ public class TagCommand extends CommandManager {
                             for (Player online : Bukkit.getOnlinePlayers()) {
                                 online.getScoreboard().getTeam(Groups.AJUDANTE.getOrderSymbol() + Groups.AJUDANTE.name()).addEntry(player.getName());
                             }
-                            CustomPlayer.setNametag("§eAJUDANTE", player.getUniqueId());
+                            CustomPlayer.setNametag("§eAJUDANTE", player.getName());
                             player.sendMessage("§aVocê alterou sua tag para §e§lAJUDANTE§a.");
                         } else {
                             player.sendMessage("§cVocê já está usando esta tag.");
@@ -254,7 +254,7 @@ public class TagCommand extends CommandManager {
                             for (Player online : Bukkit.getOnlinePlayers()) {
                                 online.getScoreboard().getTeam(Groups.WATER.getOrderSymbol() + Groups.WATER.name()).addEntry(player.getName());
                             }
-                            CustomPlayer.setNametag("§5WATER", player.getUniqueId());
+                            CustomPlayer.setNametag("§5WATER", player.getName());
                             player.sendMessage("§aVocê alterou sua tag para §5§lWATER§a.");
                         } else {
                             player.sendMessage("§cVocê já está usando esta tag.");
@@ -268,7 +268,7 @@ public class TagCommand extends CommandManager {
                             for (Player online : Bukkit.getOnlinePlayers()) {
                                 online.getScoreboard().getTeam(Groups.RAIN.getOrderSymbol() + Groups.RAIN.name()).addEntry(player.getName());
                             }
-                            CustomPlayer.setNametag("§2RAIN", player.getUniqueId());
+                            CustomPlayer.setNametag("§2RAIN", player.getName());
                             player.sendMessage("§aVocê alterou sua tag para §2§lRAIN§a.");
                         } else {
                             player.sendMessage("§cVocê já está usando esta tag.");
@@ -282,7 +282,7 @@ public class TagCommand extends CommandManager {
                             for (Player online : Bukkit.getOnlinePlayers()) {
                                 online.getScoreboard().getTeam(Groups.CLOUD.getOrderSymbol() + Groups.CLOUD.name()).addEntry(player.getName());
                             }
-                            CustomPlayer.setNametag("§bCLOUD", player.getUniqueId());
+                            CustomPlayer.setNametag("§bCLOUD", player.getName());
                             player.sendMessage("§aVocê alterou sua tag para §b§lCLOUD§a.");
                         } else {
                             player.sendMessage("§cVocê já está usando esta tag.");
@@ -296,7 +296,7 @@ public class TagCommand extends CommandManager {
                             for (Player online : Bukkit.getOnlinePlayers()) {
                                 online.getScoreboard().getTeam(Groups.MEMBRO.getOrderSymbol() + Groups.MEMBRO.name()).addEntry(player.getName());
                             }
-                            CustomPlayer.setNametag("§7MEMBRO", player.getUniqueId());
+                            CustomPlayer.setNametag("§7MEMBRO", player.getName());
                             player.sendMessage("§aVocê alterou sua tag para §7§lMEMBRO§a.");
                         } else {
                             player.sendMessage("§cVocê já está usando esta tag.");
