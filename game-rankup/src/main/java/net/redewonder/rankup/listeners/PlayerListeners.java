@@ -12,6 +12,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -80,23 +81,24 @@ public class PlayerListeners implements Listener {
     public void onPlayerChatEvent(AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();
         if (CustomPlayer.getNametag(player).equalsIgnoreCase("§6MASTER")) {
-            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MASTER.getDisplay()) + player.getName() + ": §f" + e.getMessage());
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MASTER.getDisplay()) + "§e[" + CustomPlayer.getRank(player.getName()) + "] " + player.getName() + "§7: §f" + e.getMessage().replace('&', '§'));
         } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§3GERENTE")) {
-            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.GERENTE.getDisplay()) + player.getName() + ": §f" + e.getMessage());
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.GERENTE.getDisplay()) + "§e[" + CustomPlayer.getRank(player.getName()) + "] " + player.getName() + "§7: §f" + e.getMessage().replace('&', '§'));
         } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§cADMIN")) {
-            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.ADMIN.getDisplay()) + player.getName() + ":" + " §f" + e.getMessage());
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.ADMIN.getDisplay()) + "§e[" + CustomPlayer.getRank(player.getName()) + "] " + player.getName() +
+                    "§7:" + " §f" + e.getMessage().replace('&', '§'));
         } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§2MODERADOR")) {
-            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MODERADOR.getDisplay()) + player.getName() + ": " + "§f" + e.getMessage());
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MODERADOR.getDisplay()) + "§e[" + CustomPlayer.getRank(player.getName()) + "] " + player.getName() + "§7: " + "§f" + e.getMessage().replace('&', '§'));
         } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§eAJUDANTE")) {
-            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.AJUDANTE.getDisplay() + player.getName() + ": §f" + e.getMessage()));
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.AJUDANTE.getDisplay() + "§e[" + CustomPlayer.getRank(player.getName()) + "] " + player.getName() + "§7: §f" + e.getMessage().replace('&', '§')));
         } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§5WATER")) {
-            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.WATER.getDisplay() + player.getName() + ":" + " §f" + e.getMessage()));
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.WATER.getDisplay() + "§e[" + CustomPlayer.getRank(player.getName()) + "] " + player.getName() + "§7:" + " §f" + e.getMessage().replace('&', '§')));
         } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§2RAIN")) {
-            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.RAIN.getDisplay() + player.getName() + ": " + "§f" + e.getMessage()));
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.RAIN.getDisplay() + "§e[" + CustomPlayer.getRank(player.getName()) + "] " + player.getName() + "§7: " + "§f" + e.getMessage().replace('&', '§')));
         } else if (CustomPlayer.getNametag(player).equalsIgnoreCase("§bCLOUD")) {
-            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.CLOUD.getDisplay() + player.getName() + ":" + " §f" + e.getMessage()));
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.CLOUD.getDisplay() + "§e[" + CustomPlayer.getRank(player.getName()) + "] " + player.getName() + "§7:" + " §f" + e.getMessage().replace('&', '§')));
         } else {
-            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MEMBRO.getDisplay() + player.getName() + ": " + "§7" + e.getMessage()));
+            e.setFormat(ChatColor.translateAlternateColorCodes('&', Groups.MEMBRO.getDisplay() + "§e[" + CustomPlayer.getRank(player.getName()) + "] " + player.getName() + "§7: " + "§7" + e.getMessage().replace('&', '§')));
         }
     }
 
@@ -113,5 +115,33 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
         e.setDeathMessage(null);
+    }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageEvent e) {
+        if (e.getEntity() instanceof Player) {
+            Player player = (Player) e.getEntity();
+            if (e.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
+                if (player.getWorld().getName().equalsIgnoreCase("world")) {
+                    Bukkit.getScheduler().runTaskLater(Rankup.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            player.setHealth(20);
+                        }
+                    }, 1L);
+                    player.teleport(LocationsManager.getLocation(player, "Spawn"));
+                } else if (player.getWorld().getName().equalsIgnoreCase("Minas")) {
+                    Bukkit.getScheduler().runTaskLater(Rankup.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            player.setHealth(20);
+                        }
+                    }, 1L);
+                    player.teleport(LocationsManager.getLocation(player, "Mina"));
+                }
+            } else if (e.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
+                e.setCancelled(true);
+            }
+        }
     }
 }

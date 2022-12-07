@@ -30,6 +30,17 @@ public class PlayerManager {
         player.setFoodLevel(20);
         player.setHealth(20);
 
+        for (int i = 0; i <= 50; i++) {
+            player.sendMessage("");
+        }
+
+        player.sendMessage("§8➔ §6§lSEJA BEM-VINDO AO RANKUP ATLÂNTICO");
+        player.sendMessage("");
+        player.sendMessage(" §e➥ Discord: discord.gg/8ZCPPguw5S");
+        player.sendMessage(" §e➥ Loja: loja.redewonder.net");
+        player.sendMessage(" §e➥ Site: redewonder.net");
+        player.sendMessage("");
+
         player.teleport(LocationsManager.getLocation(player, "Spawn"));
     }
 }

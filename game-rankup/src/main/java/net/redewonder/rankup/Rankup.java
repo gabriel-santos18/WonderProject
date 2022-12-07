@@ -51,14 +51,12 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
                         new Location(Bukkit.getWorld("Minas"), -37, 74, 71),
                         new Location(Bukkit.getWorld("Minas"), -66, 59, 35));
                 for (Block block : cuboid.getBlocks()) {
-                    if (cuboid.getBlocks().size() < 17760) {
-                        block.setType(Material.LAPIS_ORE);
-                        for (Player online : Bukkit.getOnlinePlayers()) {
-                            online.sendMessage("§a✓ §eMinas Lápis §7➸ §eResetada com sucesso.");
-                            if (cuboid.contains(online.getLocation())) {
-                                online.teleport(LocationsManager.getLocation(online, "Mina"));
-                            }
-                        }
+                    block.setType(Material.LAPIS_ORE);
+                }
+                for (Player online : Bukkit.getOnlinePlayers()) {
+                    online.sendMessage("§a✓ §eMinas Lápis §7➸ §eResetada com sucesso.");
+                    if (cuboid.contains(online.getLocation())) {
+                        online.teleport(LocationsManager.getLocation(online, "Mina"));
                     }
                 }
             }
@@ -88,6 +86,8 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
         new LobbyCommand();
         new TpCommand();
         new WorldCreateCommand();
+        new KitCommand();
+        new WarpCommand();
 
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
