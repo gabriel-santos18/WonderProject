@@ -13,6 +13,7 @@ import net.redewonder.proxy.Proxy;
 import net.redewonder.proxy.commands.TempbanCommand;
 import net.redewonder.proxy.commands.TempmuteCommand;
 import net.redewonder.proxy.sql.CustomPlayer;
+import net.redewonder.proxy.sql.SQLConnection;
 
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,10 @@ public class Listeners implements Listener {
     @EventHandler
     public void onJoin(PostLoginEvent e) {
         ProxiedPlayer player = e.getPlayer();
+
+        if (!SQLConnection.isConnected()) {
+            player.disconnect("§c§lREDE WONDER \n\n §cErro no banco de dados!");
+        }
 
         ProxyServer.getInstance().getScheduler().schedule(Proxy.getInstance(), () -> {
 

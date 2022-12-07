@@ -15,7 +15,7 @@ public class SQLConnection {
     private final String USERNAME = Lobby.getInstance().getConfig().getString("username");
     private final String PASSWORD = Lobby.getInstance().getConfig().getString("password");
 
-    private Connection connection;
+    private static Connection connection;
 
     public void connect() throws SQLException {
         connection = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?useSSL" +
@@ -28,7 +28,7 @@ public class SQLConnection {
         statement.execute(sql);
     }
 
-    public boolean isConnected() {
+    public static boolean isConnected() {
         return connection != null;
     }
 

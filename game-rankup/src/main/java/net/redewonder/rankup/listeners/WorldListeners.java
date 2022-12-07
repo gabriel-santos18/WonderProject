@@ -1,5 +1,6 @@
 package net.redewonder.rankup.listeners;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -11,16 +12,21 @@ public class WorldListeners implements Listener {
 
     @EventHandler
     public void onWorldBlockPlace(BlockPlaceEvent e) {
-        if (!e.getPlayer().isOp()) {
+        Player player = e.getPlayer();
+
+        if (player.getWorld().getName().equalsIgnoreCase("world")) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onWorldBlockBreak(BlockBreakEvent e) {
-        if (!e.getPlayer().isOp()) {
+        Player player = e.getPlayer();
+
+        if (player.getWorld().getName().equalsIgnoreCase("world")) {
             e.setCancelled(true);
-        }    }
+        }
+    }
 
     @EventHandler
     public void onWorldWeatherChange (WeatherChangeEvent e) {

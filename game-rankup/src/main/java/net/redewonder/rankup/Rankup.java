@@ -1,5 +1,7 @@
 package net.redewonder.rankup;
 
+import net.minecraft.server.v1_8_R3.Entity;
+import net.redewonder.rankup.commands.SetCommand;
 import net.redewonder.rankup.commands.SetSpawnCommand;
 import net.redewonder.rankup.commands.TpWorldCommand;
 import net.redewonder.rankup.listeners.PlayerListeners;
@@ -10,12 +12,16 @@ import net.redewonder.rankup.sql.SQLConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public final class Rankup extends JavaPlugin {
 
@@ -41,11 +47,24 @@ public final class Rankup extends JavaPlugin {
             wc.createWorld();
         }
 
+        Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+            @Override
+            public void run() {
+                for (LivingEntity entities : Bukkit.getWorld("world").getLivingEntities()) {
+                    if (!(entities instanceof Player)) {
+                        if (!(entities instanceof ItemFrame)) {
+                            entities.remove();
+                        }
+                    }
+                }
+            }
+        }, 0, 1L);
 
-
+        playerManager = new PlayerManager();
 
         new SetSpawnCommand();
         new TpWorldCommand();
+        new SetCommand();
 
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();

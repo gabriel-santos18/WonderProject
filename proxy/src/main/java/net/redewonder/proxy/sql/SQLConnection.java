@@ -15,7 +15,7 @@ public class SQLConnection {
     private final String USERNAME = Proxy.getInstance().configuration.getString("username");
     private final String PASSWORD = Proxy.getInstance().configuration.getString("password");
 
-    private Connection connection;
+    private static Connection connection;
 
     public void connect() throws SQLException {
         connection = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?useSSL" +
@@ -34,7 +34,7 @@ public class SQLConnection {
         statement2.execute(sqlMute);
     }
 
-    public boolean isConnected() {
+    public static boolean isConnected() {
         return connection != null;
     }
 

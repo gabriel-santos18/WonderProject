@@ -35,13 +35,11 @@ public class CustomPlayer {
             group = resultSet.getString("GRUPO");
             rank = resultSet.getString("RANK");
             nametag = resultSet.getString("NAMETAG");
-            player.getScoreboard().getTeam("group").setSuffix(group);
         } else {
             cash = 0;
             group = "§7MEMBRO";
             rank = "Anfitrite III";
             nametag = "§7MEMBRO";
-            player.getScoreboard().getTeam("group").setSuffix(group);
             PreparedStatement statement1 = lobby.getSqlConnection().getConnection().prepareStatement("INSERT INTO" +
                     " players (UUID, NICK, CASH, GRUPO, RANK, NAMETAG) VALUES (" +
                     "'"+ uuid.toString() + "'," +
