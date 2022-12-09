@@ -15,6 +15,7 @@ public class CustomPlayer {
     private static UUID uuid;
     private static Lobby lobby;
     private static int cash;
+    private static int coins;
     private static String firstLogin;
     private static String lastLogin;
     private static String group;
@@ -40,6 +41,7 @@ public class CustomPlayer {
         if (resultSet.next()) {
             cash = resultSet.getInt("CASH");
             firstLogin = resultSet.getString("FIRST_LOGIN");
+            coins = resultSet.getInt("COINS");
             lastLogin = resultSet.getString("LAST_LOGIN");
             group = resultSet.getString("GRUPO");
             rank = resultSet.getString("RANK");
@@ -47,6 +49,7 @@ public class CustomPlayer {
             player.getScoreboard().getTeam("group").setSuffix(group);
         } else {
             cash = 0;
+            coins = 0;
             firstLogin = formatter.format(date);
             lastLogin = formatter.format(date);
             group = "§7MEMBRO";
@@ -54,10 +57,11 @@ public class CustomPlayer {
             nametag = "§7MEMBRO";
             player.getScoreboard().getTeam("group").setSuffix(group);
             PreparedStatement statement1 = lobby.getSqlConnection().getConnection().prepareStatement("INSERT INTO" +
-                    " players (UUID, NICK, CASH, FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK, NAMETAG) VALUES (" +
+                    " players (UUID, NICK, CASH, COINS, FIRST_LOGIN, LAST_LOGIN, GRUPO, RANK, NAMETAG) VALUES (" +
                     "'"+ uuid.toString() + "'," +
                     "'" + player.getName() + "'," +
                     cash + "," +
+                    coins + "," +
                     "'" + firstLogin + "'," +
                     "'" + lastLogin + "'," +
                     "'" + group + "'," +

@@ -13,6 +13,8 @@ import net.redewonder.lobby.managers.ScoreboardManager;
 import net.redewonder.lobby.server.ServerOnlineCount;
 import net.redewonder.lobby.sql.SQLConnection;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -84,6 +86,19 @@ public final class Lobby extends JavaPlugin implements PluginMessageListener {
                 }
             }
         }, 40L, 40L);
+
+        Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+            @Override
+            public void run() {
+                for (LivingEntity entities : Bukkit.getWorld("world").getLivingEntities()) {
+                    if (!(entities instanceof Player)) {
+                        if (!(entities instanceof ItemFrame)) {
+                            entities.remove();
+                        }
+                    }
+                }
+            }
+        }, 0, 1L);
 
 
 
