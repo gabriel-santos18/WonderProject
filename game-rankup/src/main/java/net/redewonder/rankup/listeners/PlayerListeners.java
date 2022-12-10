@@ -6,6 +6,7 @@ import me.imfighting.bukkit.api.TablistAPI;
 import me.imfighting.bukkit.inventory.InventoryBuilder;
 import me.imfighting.bukkit.inventory.ItemBuilder;
 import net.redewonder.rankup.Rankup;
+import net.redewonder.rankup.api.ShopAPI;
 import net.redewonder.rankup.group.Groups;
 import net.redewonder.rankup.managers.LocationsManager;
 import net.redewonder.rankup.managers.PlayerManager;
@@ -140,7 +141,7 @@ public class PlayerListeners implements Listener {
         Player player = e.getPlayer();
 
         for (ItemStack itemStack : player.getInventory().getContents()) {
-            if (itemStack.getType().equals(Material.DIAMOND_PICKAXE)) {
+            if (itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("§bPicareta de diamante §c§l(MINA)")) {
                 player.getInventory().remove(Material.DIAMOND_PICKAXE);
             }
         }
@@ -436,7 +437,11 @@ public class PlayerListeners implements Listener {
                     }
                 }
             }
-        } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Membro (Semanal)") || (e.getInventory().getTitle().equalsIgnoreCase("§8Cloud (Semanal)")) || (e.getInventory().getTitle().equalsIgnoreCase("§8Rain (Semanal)")) || (e.getInventory().getTitle().equalsIgnoreCase("§8Water (Semanal)")) || (e.getInventory().getTitle().equalsIgnoreCase("§8Warps do servidor"))) {
+        } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Membro (Semanal)") ||
+                (e.getInventory().getTitle().equalsIgnoreCase("§8Cloud (Semanal)")) ||
+                (e.getInventory().getTitle().equalsIgnoreCase("§8Rain (Semanal)")) ||
+                (e.getInventory().getTitle().equalsIgnoreCase("§8Water (Semanal)")) ||
+                (e.getInventory().getTitle().equalsIgnoreCase("§8Warps do servidor"))) {
             e.setCancelled(true);
         }
 
@@ -447,7 +452,7 @@ public class PlayerListeners implements Listener {
                 player.sendMessage("§aVocê foi teleportado para o spawn com sucesso.");
 
                 for (ItemStack itemStack : player.getInventory().getContents()) {
-                    if (itemStack.getType().equals(Material.DIAMOND_PICKAXE)) {
+                    if (itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("§bPicareta de diamante §c§l(MINA)")) {
                         player.getInventory().remove(Material.DIAMOND_PICKAXE);
                     }
                 }
@@ -461,12 +466,7 @@ public class PlayerListeners implements Listener {
             if (!player.getWorld().getName().equalsIgnoreCase("Minas")) {
                 if (CustomPlayer.isInventoryEmpty(player)) {
                     player.teleport(LocationsManager.getLocation(player, "Mina"));
-                    player.getInventory().setItem(0,
-                            new ItemBuilder(Material.DIAMOND_PICKAXE)
-                                    .addEnchantmant(Enchantment.DURABILITY, 3)
-                                    .addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2)
-                                    .addEnchantmant(Enchantment.DIG_SPEED, 5)
-                                    .toItemStack());
+                    player.getInventory().setItem(0, new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DURABILITY, 3).addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2).addEnchantmant(Enchantment.DIG_SPEED, 5).setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack());
                     player.sendMessage("§aVocê foi teleportado para a mineração com sucesso.");
                 } else {
                     player.closeInventory();
@@ -476,6 +476,96 @@ public class PlayerListeners implements Listener {
                 player.closeInventory();
                 player.sendMessage("§cVocê já está na área de mineração.");
             }
+        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Terrenos")) {
+
+        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Loja")) {
+
+            Inventory inventory = new InventoryBuilder(3, "§8Loja (Categorias)").toInventory();
+
+            inventory.setItem(11, new ItemBuilder(Material.SKULL_ITEM)
+                    .setDurability(Material.SKULL_ITEM, 3)
+                    .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzIyODM5ZDVjN2ZjMDY3ODA2MmYxYzZjOGYyN2IzMzIwOTQzODRlM2JiNWM0YjVlYmQxNjc2YjI3OWIwNmJmIn19fQ==")
+                    .setDisplayName("§c§l✦ §a§lBLOCOS")
+                    .toItemStack());
+            inventory.setItem(12, new ItemBuilder(Material.SKULL_ITEM)
+                    .setDurability(Material.SKULL_ITEM, 3)
+                    .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2YwZTRhNjI5MmJjNWVlNzY0MmNhZTczNzZlZWRhNDQ2YzA0NzcxZTM5MDZmOGMwYjU4NjQxY2IzMWNmNjM3MyJ9fX0=")
+                    .setDisplayName("§c§l✦ §5§lCORANTES")
+                    .toItemStack());
+            inventory.setItem(13, new ItemBuilder(Material.SKULL_ITEM)
+                    .setDurability(Material.SKULL_ITEM, 3)
+                    .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWU1NDE0ZDUxMDY2OWUyMjUyNmQ0MGM1NmM4MzQ5YTQ5M2NhNzQxOTMyYWNhMjZkYWVjZmFmYTZiOWY0OTA4NyJ9fX0=")
+                    .setDisplayName("§c§l✦ §e§lFARM")
+                    .toItemStack());
+            inventory.setItem(14, new ItemBuilder(Material.SKULL_ITEM)
+                    .setDurability(Material.SKULL_ITEM, 3)
+                    .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTY0NWE0NGE5YTI4ZGRjNDdkZjZlODQ5ODExMWI2MjdkMGZiZGU5ODUyYjhjN2ZlODQ3MzRmMWQ2ZWVmYzlmYSJ9fX0=")
+                    .setDisplayName("§c§l✦ §b§lDECORAÇÕES")
+                    .toItemStack());
+            inventory.setItem(15, new ItemBuilder(Material.SKULL_ITEM)
+                    .setDurability(Material.SKULL_ITEM, 3)
+                    .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdhODExYWUyMDhjZTE0ODg4ZWVkNzQ2N2I3ODBhNzJlOTQwOGI2ZGNmMDY2MWM4Nzg2NWNjODY4NTUxZTljIn19fQ==")
+                    .setDisplayName("§c§l✦ §4§lCOMBATE")
+                    .toItemStack());
+
+            player.openInventory(inventory);
+
+        }
+
+        if (e.getInventory().getTitle().equalsIgnoreCase("§8Loja (Categorias)")) {
+            e.setCancelled(true);
+            if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l✦ §a§lBLOCOS")) {
+                /*Inventory inventory = new InventoryBuilder(5, "§8Loja - Blocos (1)").toInventory();
+                inventory.setItem(2, new ItemBuilder(Material.STONE).setDisplayName("§e❯ Pedra ❮")
+                        .setLore("",
+                                "§fCusto §e(1x)§f: §a50",
+                                "§fCusto §e(64x)§f: §a3.200",
+                                "",
+                                "§fClique §7direito " +
+                                "§fpara comprar 1x",
+                                "§fClique §7esquerdo §fpara comprar 64x",
+                                "")
+                        .toItemStack());*/
+                new ShopAPI(player, "Blocos", 5, 1)
+                        .addShopItem("blocos", Material.STONE,"Pedra", 2)
+                        .addShopItem("blocos", Material.STONE,  "Granito", 3, 1)
+                        .addShopItem("blocos", Material.STONE,  "Diorito", 4, 3)
+                        .addShopItem("blocos", Material.ICE, "Bloco de Gelo", 5)
+                        .addShopItem("blocos", Material.DIRT, "Terra", 6)
+
+                        .addShopItem("blocos", Material.GRASS, "Grama", 11)
+                        .addShopItem("blocos", Material.DIRT, "Terra Grossa", 12, 1)
+                        .addShopItem("blocos", Material.DIRT, "Podzol", 13, 2)
+                        .addShopItem("blocos", Material.MYCEL, "Micélio", 14)
+                        .addShopItem("blocos", Material.COBBLESTONE, "Pedregulho", 15)
+
+                        .addBackProx("voltar", 18)
+
+                        .addShopItem("blocos", Material.SAND, "Areia", 20)
+                        .addShopItem("blocos", Material.SAND, "Areia Vermelha", 21, 1)
+                        .addShopItem("blocos", Material.GLASS, "Vidro", 22)
+                        .addShopItem("blocos", Material.WOOL, "Lã", 23)
+                        .addShopItem("blocos", Material.BRICK, "Tijolos", 24)
+
+                        .addBackProx("prox", 26)
+
+                        .addShopItem("blocos", Material.BOOKSHELF, "Estante", 29)
+                        .addShopItem("blocos", Material.MOSSY_COBBLESTONE, "Pedra com Musgo", 30)
+                        .addShopItem("blocos", Material.OBSIDIAN, "Obsidiana", 31)
+                        .addShopItem("blocos", Material.SNOW_BLOCK, "Neve", 32)
+                        .addShopItem("blocos", Material.CLAY, "Argila", 33)
+
+                        .addShopItem("blocos", Material.NETHERRACK, "Rocha do Nether", 38)
+                        .addShopItem("blocos", Material.GLOWSTONE, "Pedra Iluminosa", 39)
+                        .addShopItem("blocos", Material.NETHER_BRICK, "Tijolos do Nether", 40)
+                        .addShopItem("blocos", Material.ENDER_STONE, "Pedra do Fim", 41)
+                        .addShopItem("blocos", Material.QUARTZ_BLOCK, "Bloco de Quartzo", 42);
+
+            }
+        }
+
+        if (e.getInventory().getTitle().equalsIgnoreCase("§8Loja - Blocos (1)")) {
+            e.setCancelled(true);
         }
     }
 
