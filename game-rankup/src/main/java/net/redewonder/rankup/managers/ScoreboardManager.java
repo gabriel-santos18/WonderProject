@@ -14,7 +14,7 @@ public class ScoreboardManager {
         score = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective obj = score.registerNewObjective("Test", "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        obj.setDisplayName("§e§lATLANTIC RANKUP");
+        obj.setDisplayName("§e§lATLÂNTICO");
 
         Score space = obj.getScore("§a");
         space.setScore(8);

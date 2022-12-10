@@ -13,6 +13,7 @@ import net.redewonder.rankup.managers.ScoreboardManager;
 import net.redewonder.rankup.sql.CustomPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -23,14 +24,14 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Team;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -135,6 +136,14 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         e.setQuitMessage(null);
+
+        Player player = e.getPlayer();
+
+        for (ItemStack itemStack : player.getInventory().getContents()) {
+            if (itemStack.getType().equals(Material.DIAMOND_PICKAXE)) {
+                player.getInventory().remove(Material.DIAMOND_PICKAXE);
+            }
+        }
     }
 
     @EventHandler
@@ -210,84 +219,47 @@ public class PlayerListeners implements Listener {
                                     cooldownSeconds.put(player.getUniqueId(), System.currentTimeMillis() + 60000);
                                 } else {
                                     long distanceDays = cooldownDays.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceHours =
-                                            cooldownHours.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceMinutes =
-                                            cooldownMinutes.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceSeconds =
-                                            cooldownSeconds.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                            TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                            TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                            TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                            TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                                    long distanceHours = cooldownHours.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    long distanceMinutes = cooldownMinutes.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    long distanceSeconds = cooldownSeconds.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                                 }
                             } else {
                                 long distanceDays = cooldownDays.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceHours =
-                                        cooldownHours.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceMinutes =
-                                        cooldownMinutes.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceSeconds =
-                                        cooldownSeconds.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                        TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                        TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                        TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                        TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                                long distanceHours = cooldownHours.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                long distanceMinutes = cooldownMinutes.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                long distanceSeconds = cooldownSeconds.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                             }
                         } else {
                             long distanceDays = cooldownDays.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceHours =
-                                    cooldownHours.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceMinutes =
-                                    cooldownMinutes.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceSeconds =
-                                    cooldownSeconds.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                    TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                    TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                    TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                    TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                            long distanceHours = cooldownHours.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            long distanceMinutes = cooldownMinutes.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            long distanceSeconds = cooldownSeconds.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                         }
                     } else {
                         long distanceDays = cooldownDays.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                        long distanceHours =
-                                cooldownHours.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                        long distanceMinutes =
-                                cooldownMinutes.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                        long distanceSeconds =
-                                cooldownSeconds.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                        player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                        long distanceHours = cooldownHours.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                        long distanceMinutes = cooldownMinutes.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                        long distanceSeconds = cooldownSeconds.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                        player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                     }
                 }
             } else if (e.getCurrentItem().getType().equals(Material.STONE_SWORD)) {
                 if (e.getClick().isRightClick()) {
                     Inventory inventory = new InventoryBuilder(6, "§8Cloud (Semanal)").toInventory();
-                    inventory.setItem(10,
-                            new ItemBuilder(Material.DIAMOND_HELMET).addEnchantmant(Enchantment.DAMAGE_ALL, 3).toItemStack());
+                    inventory.setItem(10, new ItemBuilder(Material.DIAMOND_HELMET).addEnchantmant(Enchantment.DAMAGE_ALL, 3).toItemStack());
                     inventory.setItem(11, new ItemBuilder(Material.DIAMOND_CHESTPLATE).addEnchantmant(Enchantment.DAMAGE_ALL, 3).toItemStack());
                     inventory.setItem(12, new ItemBuilder(Material.DIAMOND_LEGGINGS).addEnchantmant(Enchantment.DAMAGE_ALL, 3).toItemStack());
                     inventory.setItem(13, new ItemBuilder(Material.DIAMOND_BOOTS).addEnchantmant(Enchantment.DAMAGE_ALL, 3).toItemStack());
                     inventory.setItem(14, new ItemBuilder(Material.DIAMOND_SWORD).addEnchantmant(Enchantment.DAMAGE_ALL, 3).toItemStack());
-                    inventory.setItem(15,
-                            new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DIG_SPEED, 3).toItemStack());
+                    inventory.setItem(15, new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DIG_SPEED, 3).toItemStack());
                     inventory.setItem(16, new ItemBuilder(Material.GOLDEN_APPLE, 10).toItemStack());
 
                     player.openInventory(inventory);
                 } else if (e.getClick().isLeftClick()) {
-                    if ((CustomPlayer.getGroup(player).equalsIgnoreCase("§bCLOUD")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER"))) {
+                    if ((CustomPlayer.getGroup(player).equalsIgnoreCase("§bCLOUD")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER"))) {
                         if (!cooldownDaysCloud.asMap().containsKey(player.getUniqueId())) {
                             if (!cooldownHoursCloud.asMap().containsKey(player.getUniqueId())) {
                                 if (!cooldownMinutesCloud.asMap().containsKey(player.getUniqueId())) {
@@ -307,59 +279,31 @@ public class PlayerListeners implements Listener {
                                         cooldownSecondsCloud.put(player.getUniqueId(), System.currentTimeMillis() + 60000);
                                     } else {
                                         long distanceDays = cooldownDaysCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        long distanceHours =
-                                                cooldownHoursCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        long distanceMinutes =
-                                                cooldownMinutesCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        long distanceSeconds =
-                                                cooldownSecondsCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                                TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                                TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                                TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                                TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                                        long distanceHours = cooldownHoursCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                        long distanceMinutes = cooldownMinutesCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                        long distanceSeconds = cooldownSecondsCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                        player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                                     }
                                 } else {
                                     long distanceDays = cooldownDaysCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceHours =
-                                            cooldownHoursCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceMinutes =
-                                            cooldownMinutesCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceSeconds =
-                                            cooldownSecondsCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                            TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                            TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                            TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                            TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                                    long distanceHours = cooldownHoursCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    long distanceMinutes = cooldownMinutesCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    long distanceSeconds = cooldownSecondsCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                                 }
                             } else {
                                 long distanceDays = cooldownDaysCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceHours =
-                                        cooldownHoursCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceMinutes =
-                                        cooldownMinutesCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceSeconds =
-                                        cooldownSecondsCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                        TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                        TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                        TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                        TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                                long distanceHours = cooldownHoursCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                long distanceMinutes = cooldownMinutesCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                long distanceSeconds = cooldownSecondsCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                             }
                         } else {
                             long distanceDays = cooldownDaysCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceHours =
-                                    cooldownHoursCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceMinutes =
-                                    cooldownMinutesCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceSeconds =
-                                    cooldownSecondsCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                    TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                    TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                    TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                    TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                            long distanceHours = cooldownHoursCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            long distanceMinutes = cooldownMinutesCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            long distanceSeconds = cooldownSecondsCloud.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                         }
                     } else {
                         player.sendMessage("§cVocê não tem permissão para este kit.");
@@ -368,29 +312,17 @@ public class PlayerListeners implements Listener {
             } else if (e.getCurrentItem().getType().equals(Material.IRON_SWORD)) {
                 if (e.getClick().isRightClick()) {
                     Inventory inventory = new InventoryBuilder(6, "§8Rain (Semanal)").toInventory();
-                    inventory.setItem(10,
-                            new ItemBuilder(Material.DIAMOND_HELMET).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).toItemStack());
-                    inventory.setItem(11,
-                            new ItemBuilder(Material.DIAMOND_CHESTPLATE).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).toItemStack());
-                    inventory.setItem(12,
-                            new ItemBuilder(Material.DIAMOND_LEGGINGS).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).toItemStack());
-                    inventory.setItem(13,
-                            new ItemBuilder(Material.DIAMOND_BOOTS).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).toItemStack());
-                    inventory.setItem(14,
-                            new ItemBuilder(Material.DIAMOND_SWORD).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).toItemStack());
-                    inventory.setItem(15,
-                            new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DIG_SPEED, 5).addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 1).toItemStack());
+                    inventory.setItem(10, new ItemBuilder(Material.DIAMOND_HELMET).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).toItemStack());
+                    inventory.setItem(11, new ItemBuilder(Material.DIAMOND_CHESTPLATE).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).toItemStack());
+                    inventory.setItem(12, new ItemBuilder(Material.DIAMOND_LEGGINGS).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).toItemStack());
+                    inventory.setItem(13, new ItemBuilder(Material.DIAMOND_BOOTS).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).toItemStack());
+                    inventory.setItem(14, new ItemBuilder(Material.DIAMOND_SWORD).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).toItemStack());
+                    inventory.setItem(15, new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DIG_SPEED, 5).addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 1).toItemStack());
                     inventory.setItem(16, new ItemBuilder(Material.GOLDEN_APPLE, 50).toItemStack());
 
                     player.openInventory(inventory);
                 } else if (e.getClick().isLeftClick()) {
-                    if ((CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER"))) {
+                    if ((CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER"))) {
                         if (!cooldownDaysRain.asMap().containsKey(player.getUniqueId())) {
                             if (!cooldownHoursRain.asMap().containsKey(player.getUniqueId())) {
                                 if (!cooldownMinutesRain.asMap().containsKey(player.getUniqueId())) {
@@ -410,59 +342,31 @@ public class PlayerListeners implements Listener {
                                         cooldownSecondsRain.put(player.getUniqueId(), System.currentTimeMillis() + 60000);
                                     } else {
                                         long distanceDays = cooldownDaysRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        long distanceHours =
-                                                cooldownHoursRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        long distanceMinutes =
-                                                cooldownMinutesRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        long distanceSeconds =
-                                                cooldownSecondsRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                                TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                                TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                                TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                                TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                                        long distanceHours = cooldownHoursRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                        long distanceMinutes = cooldownMinutesRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                        long distanceSeconds = cooldownSecondsRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                        player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                                     }
                                 } else {
                                     long distanceDays = cooldownDaysRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceHours =
-                                            cooldownHoursRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceMinutes =
-                                            cooldownMinutesRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceSeconds =
-                                            cooldownSecondsRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                            TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                            TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                            TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                            TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                                    long distanceHours = cooldownHoursRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    long distanceMinutes = cooldownMinutesRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    long distanceSeconds = cooldownSecondsRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                                 }
                             } else {
                                 long distanceDays = cooldownDaysRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceHours =
-                                        cooldownHoursRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceMinutes =
-                                        cooldownMinutesRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceSeconds =
-                                        cooldownSecondsRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                        TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                        TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                        TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                        TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                                long distanceHours = cooldownHoursRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                long distanceMinutes = cooldownMinutesRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                long distanceSeconds = cooldownSecondsRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                             }
                         } else {
                             long distanceDays = cooldownDaysRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceHours =
-                                    cooldownHoursRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceMinutes =
-                                    cooldownMinutesRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceSeconds =
-                                    cooldownSecondsRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                    TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                    TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                    TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                    TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                            long distanceHours = cooldownHoursRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            long distanceMinutes = cooldownMinutesRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            long distanceSeconds = cooldownSecondsRain.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                         }
                     } else {
                         player.sendMessage("§cVocê não tem permissão para este kit.");
@@ -471,28 +375,17 @@ public class PlayerListeners implements Listener {
             } else if (e.getCurrentItem().getType().equals(Material.DIAMOND_SWORD)) {
                 if (e.getClick().isRightClick()) {
                     Inventory inventory = new InventoryBuilder(6, "§8Water (Semanal)").toInventory();
-                    inventory.setItem(10,
-                            new ItemBuilder(Material.DIAMOND_HELMET).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).addEnchantmant(Enchantment.PROTECTION_PROJECTILE, 5).toItemStack());
-                    inventory.setItem(11,
-                            new ItemBuilder(Material.DIAMOND_CHESTPLATE).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).addEnchantmant(Enchantment.PROTECTION_PROJECTILE, 5).toItemStack());
-                    inventory.setItem(12,
-                            new ItemBuilder(Material.DIAMOND_LEGGINGS).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).addEnchantmant(Enchantment.PROTECTION_PROJECTILE, 5).toItemStack());
-                    inventory.setItem(13,
-                            new ItemBuilder(Material.DIAMOND_BOOTS).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).addEnchantmant(Enchantment.PROTECTION_PROJECTILE, 5).toItemStack());
-                    inventory.setItem(14,
-                            new ItemBuilder(Material.DIAMOND_SWORD).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).addEnchantmant(Enchantment.PROTECTION_PROJECTILE, 5).toItemStack());
-                    inventory.setItem(15,
-                            new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DIG_SPEED, 5).addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2).toItemStack());
+                    inventory.setItem(10, new ItemBuilder(Material.DIAMOND_HELMET).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).addEnchantmant(Enchantment.PROTECTION_PROJECTILE, 5).toItemStack());
+                    inventory.setItem(11, new ItemBuilder(Material.DIAMOND_CHESTPLATE).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).addEnchantmant(Enchantment.PROTECTION_PROJECTILE, 5).toItemStack());
+                    inventory.setItem(12, new ItemBuilder(Material.DIAMOND_LEGGINGS).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).addEnchantmant(Enchantment.PROTECTION_PROJECTILE, 5).toItemStack());
+                    inventory.setItem(13, new ItemBuilder(Material.DIAMOND_BOOTS).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).addEnchantmant(Enchantment.PROTECTION_PROJECTILE, 5).toItemStack());
+                    inventory.setItem(14, new ItemBuilder(Material.DIAMOND_SWORD).addEnchantmant(Enchantment.DAMAGE_ALL, 5).addEnchantmant(Enchantment.PROTECTION_FIRE, 5).addEnchantmant(Enchantment.PROTECTION_PROJECTILE, 5).toItemStack());
+                    inventory.setItem(15, new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DIG_SPEED, 5).addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2).toItemStack());
                     inventory.setItem(16, new ItemBuilder(Material.GOLDEN_APPLE, 64).toItemStack());
 
                     player.openInventory(inventory);
                 } else if (e.getClick().isLeftClick()) {
-                    if ((CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE")) ||
-                            (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER"))) {
+                    if ((CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE")) || (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER"))) {
                         if (!cooldownDaysWater.asMap().containsKey(player.getUniqueId())) {
                             if (!cooldownHoursWater.asMap().containsKey(player.getUniqueId())) {
                                 if (!cooldownMinutesWater.asMap().containsKey(player.getUniqueId())) {
@@ -512,67 +405,84 @@ public class PlayerListeners implements Listener {
                                         cooldownSecondsWater.put(player.getUniqueId(), System.currentTimeMillis() + 60000);
                                     } else {
                                         long distanceDays = cooldownDaysWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        long distanceHours =
-                                                cooldownHoursWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        long distanceMinutes =
-                                                cooldownMinutesWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        long distanceSeconds =
-                                                cooldownSecondsWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                        player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                                TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                                TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                                TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                                TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                                        long distanceHours = cooldownHoursWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                        long distanceMinutes = cooldownMinutesWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                        long distanceSeconds = cooldownSecondsWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                        player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                                     }
                                 } else {
                                     long distanceDays = cooldownDaysWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceHours =
-                                            cooldownHoursWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceMinutes =
-                                            cooldownMinutesWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    long distanceSeconds =
-                                            cooldownSecondsWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                    player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                            TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                            TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                            TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                            TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                                    long distanceHours = cooldownHoursWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    long distanceMinutes = cooldownMinutesWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    long distanceSeconds = cooldownSecondsWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                    player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                                 }
                             } else {
                                 long distanceDays = cooldownDaysWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceHours =
-                                        cooldownHoursWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceMinutes =
-                                        cooldownMinutesWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                long distanceSeconds =
-                                        cooldownSecondsWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                                player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                        TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                        TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                        TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                        TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                                long distanceHours = cooldownHoursWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                long distanceMinutes = cooldownMinutesWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                long distanceSeconds = cooldownSecondsWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                                player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                             }
                         } else {
                             long distanceDays = cooldownDaysWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceHours =
-                                    cooldownHoursWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceMinutes =
-                                    cooldownMinutesWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            long distanceSeconds =
-                                    cooldownSecondsWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
-                            player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " +
-                                    TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " +
-                                    TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " +
-                                    TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " +
-                                    TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
+                            long distanceHours = cooldownHoursWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            long distanceMinutes = cooldownMinutesWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            long distanceSeconds = cooldownSecondsWater.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
+                            player.sendMessage("§cVocê está em delay para pegar este kit. Espere por mais " + TimeUnit.MILLISECONDS.toDays(distanceDays) + " dias, " + TimeUnit.MILLISECONDS.toHours(distanceHours) + " horas, " + TimeUnit.MILLISECONDS.toMinutes(distanceMinutes) + " minutos e " + TimeUnit.MILLISECONDS.toSeconds(distanceSeconds) + " segundos.");
                         }
                     } else {
                         player.sendMessage("§cVocê não tem permissão para este kit.");
                     }
                 }
             }
-        } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Membro (Semanal)") || (e.getInventory().getTitle().equalsIgnoreCase("§8Cloud (Semanal)"))) {
+        } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Membro (Semanal)") || (e.getInventory().getTitle().equalsIgnoreCase("§8Cloud (Semanal)")) || (e.getInventory().getTitle().equalsIgnoreCase("§8Rain (Semanal)")) || (e.getInventory().getTitle().equalsIgnoreCase("§8Water (Semanal)")) || (e.getInventory().getTitle().equalsIgnoreCase("§8Warps do servidor"))) {
             e.setCancelled(true);
         }
+
+        if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Spawn")) {
+            if (!player.getWorld().getName().equalsIgnoreCase("world")) {
+                player.teleport(LocationsManager.getLocation(player, "Spawn"));
+                player.closeInventory();
+                player.sendMessage("§aVocê foi teleportado para o spawn com sucesso.");
+
+                for (ItemStack itemStack : player.getInventory().getContents()) {
+                    if (itemStack.getType().equals(Material.DIAMOND_PICKAXE)) {
+                        player.getInventory().remove(Material.DIAMOND_PICKAXE);
+                    }
+                }
+
+            } else {
+                player.closeInventory();
+                player.sendMessage("§cVocê já está no spawn.");
+            }
+        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Mineração")) {
+
+            if (!player.getWorld().getName().equalsIgnoreCase("Minas")) {
+                if (CustomPlayer.isInventoryEmpty(player)) {
+                    player.teleport(LocationsManager.getLocation(player, "Mina"));
+                    player.getInventory().setItem(0,
+                            new ItemBuilder(Material.DIAMOND_PICKAXE)
+                                    .addEnchantmant(Enchantment.DURABILITY, 3)
+                                    .addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2)
+                                    .addEnchantmant(Enchantment.DIG_SPEED, 5)
+                                    .toItemStack());
+                    player.sendMessage("§aVocê foi teleportado para a mineração com sucesso.");
+                } else {
+                    player.closeInventory();
+                    player.sendMessage("§cLimpe seu inventário antes de entrar na mineração.");
+                }
+            } else {
+                player.closeInventory();
+                player.sendMessage("§cVocê já está na área de mineração.");
+            }
+        }
     }
+
+    @EventHandler
+    public void onPlayerDropItem(PlayerDropItemEvent e) {
+        e.setCancelled(true);
+        e.getPlayer().sendMessage("§cVocê não pode dropar itens aqui.");
+    }
+
 }

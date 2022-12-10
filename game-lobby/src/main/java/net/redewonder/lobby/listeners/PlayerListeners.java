@@ -15,6 +15,7 @@ import net.redewonder.lobby.sql.CustomPlayer;
 import net.redewonder.lobby.sql.SQLConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -52,6 +53,8 @@ public class PlayerListeners implements Listener {
         PlayerManager.updatePlayer(player);
         ScoreboardManager.updateScore(player);
         TablistAPI.sendTablist(player, "\n§e§lREDE WONDER\n§aloja.redewonder.net\n§fVocê está conectado em: §eLobby #1\n", "\n§eDiscord: §fdiscord.gg/8ZCPPguw5S\n§fAdquira §e§lVIP §fou §e§lCASH §facessando: §eloja.redewonder.net\n");
+
+
 
         for (Groups groups : Groups.values()) {
             Team team = ScoreboardManager.score.registerNewTeam(groups.getOrderSymbol() + groups.name());

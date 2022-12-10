@@ -1,6 +1,5 @@
 package net.redewonder.rankup;
 
-import net.minecraft.server.v1_8_R3.Entity;
 import net.redewonder.rankup.api.Cuboid;
 import net.redewonder.rankup.commands.*;
 import net.redewonder.rankup.listeners.PlayerListeners;
@@ -44,7 +43,8 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
 
-        Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+
+        Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
             @Override
             public void run() {
                 Cuboid cuboid = new Cuboid(
@@ -60,7 +60,7 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
                     }
                 }
             }
-        }, 20*180);
+        }, 0, 20*180);
 
         Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
             @Override
@@ -75,6 +75,14 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
             }
         }, 0, 1L);
 
+        WorldCreator wc = new WorldCreator("Minas");
+        wc.generator(new WorldManager());
+        wc.createWorld();
+
+        WorldCreator wc2 = new WorldCreator("Plotme");
+        wc2.generator(new WorldManager());
+        wc2.createWorld();
+
         playerManager = new PlayerManager();
 
         new SetSpawnCommand();
@@ -85,7 +93,6 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
         new GroupCommand(this);
         new LobbyCommand();
         new TpCommand();
-        new WorldCreateCommand();
         new KitCommand();
         new WarpCommand();
 

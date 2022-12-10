@@ -1,8 +1,7 @@
 package net.redewonder.rankup.listeners;
 
-import net.redewonder.rankup.api.Cuboid;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import me.imfighting.bukkit.api.ActionBarAPI;
+import net.redewonder.rankup.sql.CustomPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,11 +25,17 @@ public class WorldListeners implements Listener {
     @EventHandler
     public void onWorldBlockBreak(BlockBreakEvent e) {
         Player player = e.getPlayer();
-        e.setCancelled(true);
+        if (!player.isOp()) {
+            e.setCancelled(true);
+        }
 
         if (player.getWorld().getName().equalsIgnoreCase("Minas")) {
             if (e.getBlock().getType().equals(Material.LAPIS_ORE)) {
+                e.getBlock().setType(Material.AIR);
                 e.setCancelled(false);
+                new ActionBarAPI("§eMina ➼ §a150 §fcoins").sendToPlayer(player);
+                CustomPlayer.setCoins(CustomPlayer.getCoins(player) + 150, player.getName());
+                player.getScoreboard().getTeam("money").setSuffix("§a$" + CustomPlayer.getCoins(player.getName()));
             }
         }
     }
