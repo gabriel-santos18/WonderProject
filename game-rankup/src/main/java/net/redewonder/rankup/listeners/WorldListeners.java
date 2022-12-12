@@ -1,6 +1,7 @@
 package net.redewonder.rankup.listeners;
 
 import me.imfighting.bukkit.api.ActionBarAPI;
+import net.redewonder.rankup.Rankup;
 import net.redewonder.rankup.sql.CustomPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,7 +19,20 @@ public class WorldListeners implements Listener {
         Player player = e.getPlayer();
         if (!player.isOp()) {
             e.setCancelled(true);
+        }
 
+        if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1")) {
+            e.setCancelled(false);
+        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/2")) {
+            e.setCancelled(false);
+        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/3")) {
+            e.setCancelled(false);
+        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/4")) {
+            e.setCancelled(false);
+        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/5")) {
+            e.setCancelled(false);
+        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6")) {
+            e.setCancelled(false);
         }
     }
 
@@ -27,6 +41,20 @@ public class WorldListeners implements Listener {
         Player player = e.getPlayer();
         if (!player.isOp()) {
             e.setCancelled(true);
+        }
+
+        if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1")) {
+            e.setCancelled(false);
+        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/2")) {
+            e.setCancelled(false);
+        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/3")) {
+            e.setCancelled(false);
+        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/4")) {
+            e.setCancelled(false);
+        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/5")) {
+            e.setCancelled(false);
+        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6")) {
+            e.setCancelled(false);
         }
 
         if (player.getWorld().getName().equalsIgnoreCase("Minas")) {
@@ -62,6 +90,7 @@ public class WorldListeners implements Listener {
                                                                         "§a$" + CustomPlayer.getCoins(player.getName())));
             }
         }
+
     }
 
     public static int PegaPrimirosDigitos(int valor, int digitos) {

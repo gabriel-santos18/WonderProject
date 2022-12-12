@@ -25,6 +25,11 @@ public class SQLConnection {
         String sql = "CREATE TABLE IF NOT EXISTS players(UUID varchar(255), NICK varchar(30), CASH int, FIRST_LOGIN " +
                 "varchar(255), LAST_LOGIN varchar(255), GRUPO varchar(255), RANK varchar(255), NAMETAG varchar(255))";
         statement.execute(sql);
+
+        Statement statement2 = connection.createStatement();
+        String sql2 = "CREATE TABLE IF NOT EXISTS plotme(UUID varchar(255), NICK varchar(30), TERRENO1 boolean, " +
+                "TERRENO2 boolean, TERRENO3 boolean, TERRENO4 boolean, TERRENO5 boolean, TERRENO6 boolean)";
+        statement2.execute(sql2);
     }
 
     public boolean isConnected() {

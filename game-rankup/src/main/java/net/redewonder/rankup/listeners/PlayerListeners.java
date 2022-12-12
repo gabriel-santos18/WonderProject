@@ -6,16 +6,16 @@ import me.imfighting.bukkit.api.TablistAPI;
 import me.imfighting.bukkit.inventory.InventoryBuilder;
 import me.imfighting.bukkit.inventory.ItemBuilder;
 import net.redewonder.rankup.Rankup;
+import net.redewonder.rankup.api.SchematicAPI;
 import net.redewonder.rankup.api.ShopAPI;
+import net.redewonder.rankup.commands.WarpCommand;
 import net.redewonder.rankup.group.Groups;
 import net.redewonder.rankup.managers.LocationsManager;
 import net.redewonder.rankup.managers.PlayerManager;
 import net.redewonder.rankup.managers.ScoreboardManager;
+import net.redewonder.rankup.managers.WorldManager;
 import net.redewonder.rankup.sql.CustomPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -71,6 +71,9 @@ public class PlayerListeners implements Listener {
     Inventory decoracoes;
     Inventory combate;
 
+    Inventory terrenosVip;
+    Inventory terrenos;
+
 
 
     @EventHandler
@@ -87,6 +90,15 @@ public class PlayerListeners implements Listener {
         } catch (SQLException ex) {
             e.getPlayer().kickPlayer("Sua data não foi carregado.");
             ex.printStackTrace();
+        }
+
+        if (!CustomPlayer.plotmePlayer(player.getName(), "TERRENO1") &&
+                !CustomPlayer.plotmePlayer(player.getName(), "TERRENO2") &&
+                !CustomPlayer.plotmePlayer(player.getName(), "TERRENO3") &&
+                !CustomPlayer.plotmePlayer(player.getName(), "TERRENO4") &&
+                !CustomPlayer.plotmePlayer(player.getName(), "TERRENO5") &&
+                !CustomPlayer.plotmePlayer(player.getName(), "TERRENO6")) {
+            CustomPlayer.addPlotme(player);
         }
 
         for (Groups groups : Groups.values()) {
@@ -489,6 +501,111 @@ public class PlayerListeners implements Listener {
                 player.sendMessage("§cVocê já está na área de mineração.");
             }
         } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Terrenos")) {
+
+            if (CustomPlayer.getGroup(player).equalsIgnoreCase("§bCLOUD") ||
+            CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER")) {
+                terrenosVip = new InventoryBuilder(6, "§8Terrenos").toInventory();
+
+                if (!CustomPlayer.getPlotme1(player)) {
+                    terrenosVip.setItem(21, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 0)
+                            .setDisplayName("§cSlot #01")
+                            .setLore("", "§eClique aqui para comprar um terreno")
+                            .toItemStack());
+                } else {
+                    terrenosVip.setItem(21, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 5)
+                            .setDisplayName("§aTerreno 01")
+                            .setLore("", "§eClique aqui para teleportar para este terreno.")
+                            .toItemStack());
+                }
+
+
+                if (!CustomPlayer.getPlotme2(player)) {
+                    terrenosVip.setItem(22, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 0)
+                            .setDisplayName("§cSlot #02")
+                            .setLore("", "§eClique aqui para comprar um terreno")
+                            .toItemStack());
+                } else {
+                    terrenosVip.setItem(22, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 5)
+                            .setDisplayName("§aTerreno 02")
+                            .setLore("", "§eClique aqui para teleportar para este terreno.")
+                            .toItemStack());
+                }
+
+
+                if (!CustomPlayer.getPlotme3(player)) {
+                    terrenosVip.setItem(23, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 0)
+                            .setDisplayName("§cSlot #03")
+                            .setLore("", "§eClique aqui para comprar um terreno")
+                            .toItemStack());
+
+                } else {
+                    terrenosVip.setItem(23, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 5)
+                            .setDisplayName("§aTerreno 03")
+                            .setLore("", "§eClique aqui para teleportar para este terreno.")
+                            .toItemStack());
+                }
+
+                if (!CustomPlayer.getPlotme4(player)) {
+                    terrenosVip.setItem(30, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 0)
+                            .setDisplayName("§cSlot #04")
+                            .setLore("", "§eClique aqui para comprar um terreno")
+                            .toItemStack());
+                } else {
+                    terrenosVip.setItem(30, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 5)
+                            .setDisplayName("§aTerreno 04")
+                            .setLore("", "§eClique aqui para teleportar para este terreno.")
+                            .toItemStack());
+                }
+
+                if (!CustomPlayer.getPlotme5(player)) {
+                    terrenosVip.setItem(31, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 0)
+                            .setDisplayName("§cSlot #05")
+                            .setLore("", "§eClique aqui para comprar um terreno")
+                            .toItemStack());
+                } else {
+                    terrenosVip.setItem(31, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 5)
+                            .setDisplayName("§aTerreno 05")
+                            .setLore("", "§eClique aqui para teleportar para este terreno.")
+                            .toItemStack());
+                }
+
+                if (!CustomPlayer.getPlotme6(player)) {
+                    terrenosVip.setItem(32, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 0)
+                            .setDisplayName("§cSlot #06")
+                            .setLore("", "§eClique aqui para comprar um terreno")
+                            .toItemStack());
+                } else {
+                    terrenosVip.setItem(32, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 5)
+                            .setDisplayName("§aTerreno 06")
+                            .setLore("", "§eClique aqui para teleportar para este terreno.")
+                            .toItemStack());
+                }
+                player.openInventory(terrenosVip);
+            } else if (CustomPlayer.getGroup(player).equalsIgnoreCase("§7MEMBRO")) {
+
+                terrenos = new InventoryBuilder(6, "§8Terrenos").toInventory();
+
+                if (!CustomPlayer.getPlotme1(player)) {
+                    terrenos.setItem(21, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 0)
+                            .setDisplayName("§cSlot #01")
+                            .setLore("", "§eClique aqui para comprar um terreno")
+                            .toItemStack());
+                } else {
+                    terrenos.setItem(21, new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 5)
+                            .setDisplayName("§aTerreno 01")
+                            .setLore("", "§eClique aqui para teleportar para este terreno.")
+                            .toItemStack());
+                }
+
+                player.openInventory(terrenos);
+
+            }
 
         } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Loja")) {
 
@@ -2162,6 +2279,128 @@ public class PlayerListeners implements Listener {
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cVoltar")) {
                 player.openInventory(loja);
             }
+        } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Terrenos")) {
+            e.setCancelled(true);
+            if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cSlot #01")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+                player.closeInventory();
+                SchematicAPI.loadSchematic(player, "1");
+                player.sendMessage("§aVocê claimou este terreno com sucesso.");
+                CustomPlayer.setPlotme(player, "TERRENO1");
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aTerreno 01")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+
+                player.teleport(new Location(Bukkit.getWorld(Rankup.getInstance().getDataFolder() + "/Terrenos/" +
+                 player.getName() + "/1"), 156.746, 30, 149.879));
+                player.sendMessage("§aVocê teleportou para o Terreno #01 com sucesso.");
+            }
+
+            if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cSlot #02")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/2");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+                player.closeInventory();
+                SchematicAPI.loadSchematic(player, "2");
+                player.sendMessage("§aVocê claimou este terreno com sucesso.");
+                CustomPlayer.setPlotme(player, "TERRENO2");
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aTerreno 02")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/2");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+
+                player.teleport(new Location(Bukkit.getWorld(Rankup.getInstance().getDataFolder() + "/Terrenos/" +
+                        player.getName() + "/2"), 156.746, 30, 149.879));
+                player.sendMessage("§aVocê teleportou para o Terreno #02 com sucesso.");
+            }
+
+            if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cSlot #03")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/3");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+                player.closeInventory();
+                SchematicAPI.loadSchematic(player, "3");
+                player.sendMessage("§aVocê claimou este terreno com sucesso.");
+                CustomPlayer.setPlotme(player, "TERRENO3");
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aTerreno 03")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/3");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+
+                player.teleport(new Location(Bukkit.getWorld(Rankup.getInstance().getDataFolder() + "/Terrenos/" +
+                        player.getName() + "/3"), 156.746, 30, 149.879));
+                player.sendMessage("§aVocê teleportou para o Terreno #03 com sucesso.");
+            }
+
+            if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cSlot #04")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/4");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+                player.closeInventory();
+                SchematicAPI.loadSchematic(player, "4");
+                player.sendMessage("§aVocê claimou este terreno com sucesso.");
+                CustomPlayer.setPlotme(player, "TERRENO4");
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aTerreno 04")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/4");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+
+                player.teleport(new Location(Bukkit.getWorld(Rankup.getInstance().getDataFolder() + "/Terrenos/" +
+                        player.getName() + "/4"), 156.746, 30, 149.879));
+                player.sendMessage("§aVocê teleportou para o Terreno #04 com sucesso.");
+            }
+
+            if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cSlot #05")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/5");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+                player.closeInventory();
+                SchematicAPI.loadSchematic(player, "5");
+                player.sendMessage("§aVocê claimou este terreno com sucesso.");
+                CustomPlayer.setPlotme(player, "TERRENO5");
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aTerreno 05")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/5");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+
+                player.teleport(new Location(Bukkit.getWorld(Rankup.getInstance().getDataFolder() + "/Terrenos/" +
+                        player.getName() + "/5"), 156.746, 30, 149.879));
+                player.sendMessage("§aVocê teleportou para o Terreno #05 com sucesso.");
+            }
+
+            if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cSlot #06")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+                player.closeInventory();
+                SchematicAPI.loadSchematic(player, "6");
+                player.sendMessage("§aVocê claimou este terreno com sucesso.");
+                CustomPlayer.setPlotme(player, "TERRENO6");
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aTerreno 06")) {
+                WorldCreator wc =
+                        new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6");
+                wc.generator(new WorldManager());
+                wc.createWorld();
+
+                player.teleport(new Location(Bukkit.getWorld(Rankup.getInstance().getDataFolder() + "/Terrenos/" +
+                        player.getName() + "/6"), 156.746, 30, 149.879));
+                player.sendMessage("§aVocê teleportou para o Terreno #06 com sucesso.");
+            }
+
         }
     }
 

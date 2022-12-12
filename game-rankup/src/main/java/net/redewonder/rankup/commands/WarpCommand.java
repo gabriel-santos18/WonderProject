@@ -16,12 +16,14 @@ public class WarpCommand extends CommandManager {
         super("warp", new String[]{});
     }
 
+    public static Inventory inventory;
+
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            Inventory inventory = new InventoryBuilder(3, "§8Warps do servidor").toInventory();
+            inventory = new InventoryBuilder(3, "§8Warps do servidor").toInventory();
             inventory.setItem(10,
                     new ItemBuilder(Material.SKULL_ITEM)
                             .setDurability(Material.SKULL_ITEM, 3)
@@ -83,6 +85,10 @@ public class WarpCommand extends CommandManager {
         } else {
             commandSender.sendMessage("§cApenas jogadores!");
         }
+    }
+
+    public static Inventory getInventory() {
+        return inventory;
     }
 
     @Override

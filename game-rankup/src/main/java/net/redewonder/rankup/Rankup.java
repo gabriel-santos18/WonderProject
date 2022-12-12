@@ -79,14 +79,9 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
         wc.generator(new WorldManager());
         wc.createWorld();
 
-        WorldCreator wc2 = new WorldCreator("Plotme");
-        wc2.generator(new WorldManager());
-        wc2.createWorld();
-
         playerManager = new PlayerManager();
 
         new SetSpawnCommand();
-        new TpWorldCommand();
         new SetCommand();
         new TagCommand();
         new GamemodeCommand();
