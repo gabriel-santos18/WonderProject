@@ -35,9 +35,43 @@ public class WorldListeners implements Listener {
                 e.setCancelled(false);
                 new ActionBarAPI("§eMina ➼ §a150 §fcoins").sendToPlayer(player);
                 CustomPlayer.setCoins(CustomPlayer.getCoins(player) + 150, player.getName());
-                player.getScoreboard().getTeam("money").setSuffix("§a$" + CustomPlayer.getCoins(player.getName()));
+                player.getScoreboard().getTeam("money").setSuffix((CustomPlayer.getCoins(player.getName()) > 999 &&
+                        CustomPlayer.getCoins(player.getName()) <= 9999 ?
+                        "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()), 1) + "K" :
+                        CustomPlayer.getCoins(player.getName()) > 9999 &&
+                                CustomPlayer.getCoins(player.getName()) <= 99999 ?
+                                "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()), 2) + "K" :
+                                CustomPlayer.getCoins(player.getName()) > 99999 &&
+                                        CustomPlayer.getCoins(player.getName()) <= 999999 ?
+                                        "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()), 3) + "K" :
+                                        CustomPlayer.getCoins(player.getName()) > 999999 &&
+                                                CustomPlayer.getCoins(player.getName()) <= 9999999 ?
+                                                "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()), 1) + "M" :
+                                                CustomPlayer.getCoins(player.getName()) > 9999999 &&
+                                                        CustomPlayer.getCoins(player.getName()) <= 99999999 ?
+                                                        "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                                2) + "M" :
+                                                        CustomPlayer.getCoins(player.getName()) > 99999999 &&
+                                                                CustomPlayer.getCoins(player.getName()) <= 999999999 ?
+                                                                "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                                        3) + "M" :
+                                                                CustomPlayer.getCoins(player.getName()) > 999999999 &&
+                                                                        CustomPlayer.getCoins(player.getName()) <= 9999999999L ?
+                                                                        "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                                                1) + "B" :
+                                                                        "§a$" + CustomPlayer.getCoins(player.getName())));
             }
         }
+    }
+
+    public static int PegaPrimirosDigitos(int valor, int digitos) {
+        digitos = Math.max(1, digitos);
+        int positivo = Math.abs(valor);
+        String texto = String.valueOf(positivo);
+        if (digitos > texto.length()) {
+            return valor;
+        }
+        return Integer.parseInt(texto.substring(0, digitos)) * Integer.signum(valor);
     }
 
     @EventHandler
