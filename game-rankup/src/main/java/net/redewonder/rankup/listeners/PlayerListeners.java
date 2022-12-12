@@ -69,6 +69,7 @@ public class PlayerListeners implements Listener {
     Inventory corantes;
     Inventory farm;
     Inventory decoracoes;
+    Inventory combate;
 
 
 
@@ -622,6 +623,29 @@ public class PlayerListeners implements Listener {
                         .addShopItem("decoracoes", Material.SKULL_ITEM, "Cabeça de Creeper", 39, 4)
                         .addShopItem("decoracoes", Material.LAVA_BUCKET, "Balde de Lava", 40)
                         .addShopItem("decoracoes", Material.WATER_BUCKET, "Balde de Água", 41)
+
+                        .toInventory();
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l✦ §4§lCOMBATE")) {
+                combate = new ShopAPI(player, "Combate", 5, 1)
+                        .addShopItemCombate(Material.DIAMOND_HELMET, "Capacete", 2)
+                        .addShopItemCombate(Material.DIAMOND_CHESTPLATE, "Peitoral", 11)
+                        .addShopItemCombate(Material.DIAMOND_LEGGINGS, "Calça", 20)
+                        .addShopItemCombate(Material.DIAMOND_BOOTS, "Bota", 29)
+
+                        .addBackProx("voltar", 18)
+
+                        .addShopItemCombate(Material.DIAMOND_SWORD, "Espada", 4)
+                        .addShopItemCombate(Material.DIAMOND_SPADE, "Pá", 13)
+                        .addShopItemCombate(Material.GOLDEN_APPLE, "Maçã Dourada", 22)
+                        .addShopItemCombate(Material.GOLDEN_APPLE, "Maçã Dourada Encantada", 31)
+
+                        .addShopItemCombate(Material.DIAMOND_AXE, "Machado", 5)
+                        .addShopItemCombate(Material.DIAMOND_HOE, "Enxada", 14)
+
+                        .addShopItemCombate(Material.DIAMOND_PICKAXE, "Picareta", 6)
+                        .addShopItemCombate(Material.EXP_BOTTLE, "XP", 15)
+                        .addShopItemCombate(Material.POTION, "Poção de Velocidade", 24)
+                        .addShopItemCombate(Material.POTION, "Poção de Força", 33)
 
                         .toInventory();
             }
@@ -2061,6 +2085,79 @@ public class PlayerListeners implements Listener {
                     ShopAPI.buyDecoUm(player, Material.WATER_BUCKET, "Balde de Água", 0);
                 } else if (e.isRightClick()) {
                     ShopAPI.buyDecoDezesseis(player, Material.WATER_BUCKET,"Balde de Água", 0);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cVoltar")) {
+                player.openInventory(loja);
+            }
+        } else if (e.getInventory().getTitle().contains("Combate")) {
+            e.setCancelled(true);
+            if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Capacete ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.DIAMOND_CHESTPLATE, "Capacete", 0, 2500);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Peitoral ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.DIAMOND_CHESTPLATE, "Peitoral", 0, 2500);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Calça ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.DIAMOND_LEGGINGS, "Calça", 0, 2500);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Bota ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.DIAMOND_BOOTS, "Bota", 0, 2500);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Espada ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.DIAMOND_SWORD, "Espada", 0, 2500);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Pá ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.DIAMOND_SPADE, "Pá", 0, 2500);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Maçã Dourada ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.GOLDEN_APPLE, "Maçã Dourada", 0, 156);
+                } else if (e.isRightClick()) {
+                    ShopAPI.buyCombateDezesseis(player, Material.GOLDEN_APPLE, "Maçã Dourada", 0);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Maçã Dourada Encantada" +
+                    " " +
+                    "❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.GOLDEN_APPLE, "Maçã Dourada Encantada", 1, 156);
+                } else if (e.isRightClick()) {
+                    ShopAPI.buyCombateDezesseis(player, Material.GOLDEN_APPLE, "Maçã Dourada Encantada", 1);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Machado ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.DIAMOND_AXE, "Machado", 0, 2500);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Enxada ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.DIAMOND_HOE, "Enxada", 0, 2500);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Picareta ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.DIAMOND_PICKAXE, "Picareta", 0, 2500);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ XP ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.EXP_BOTTLE, "XP", 0, 156);
+                } else if (e.isRightClick()) {
+                    ShopAPI.buyCombateDezesseis(player, Material.EXP_BOTTLE, "XP", 0);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Poção de Velocidade ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.POTION, "Poção de Velocidade", 8226, 156);
+                } else if (e.isRightClick()) {
+                    ShopAPI.buyCombateDezesseis(player, Material.POTION, "Poção de Velocidade", 8226);
+                }
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§e❯ Poção de Força ❮")) {
+                if (e.isLeftClick()) {
+                    ShopAPI.buyCombateUm(player, Material.POTION, "Poção de Força", 8233, 156);
+                } else if (e.isRightClick()) {
+                    ShopAPI.buyCombateDezesseis(player, Material.POTION, "Poção de Força", 8233);
                 }
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cVoltar")) {
                 player.openInventory(loja);

@@ -72,6 +72,162 @@ public class ShopAPI {
         return this;
     }
 
+    public ShopAPI addShopItemCombate(Material item, String nameItem, int slot) {
+        if (nameItem == "Capacete") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7esquerdo §fpara comprar 1x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Peitoral") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7esquerdo §fpara comprar 1x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Calça") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7esquerdo §fpara comprar 1x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Bota") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7esquerdo §fpara comprar 1x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Espada") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7esquerdo §fpara comprar 1x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Pá") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7esquerdo §fpara comprar 1x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Maçã Dourada") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a156",
+                                    "§fCusto §e(16x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7direito §fpara comprar 1x",
+                                    "§fClique §7esquerdo §fpara comprar 16x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Maçã Dourada Encantada") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item, 1, 1)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a156",
+                                    "§fCusto §e(16x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7direito §fpara comprar 1x",
+                                    "§fClique §7esquerdo §fpara comprar 16x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Machado") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7esquerdo §fpara comprar 1x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Enxada") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7esquerdo §fpara comprar 1x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Picareta") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7esquerdo §fpara comprar 1x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "XP") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a156",
+                                    "§fCusto §e(64x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7direito §fpara comprar 1x",
+                                    "§fClique §7esquerdo §fpara comprar 64x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Poção de Velocidade") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item, 1, 8226)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a156",
+                                    "§fCusto §e(16x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7direito §fpara comprar 1x",
+                                    "§fClique §7esquerdo §fpara comprar 16x",
+                                    "")
+                            .toItemStack());
+        } else if (nameItem == "Poção de Força") {
+            inventory.setItem(slot,
+                    new ItemBuilder(item, 1, 8233)
+                            .setDisplayName("§e❯ " + nameItem + " ❮")
+                            .setLore("",
+                                    "§fCusto §e(1x)§f: §a156",
+                                    "§fCusto §e(16x)§f: §a2.500",
+                                    "",
+                                    "§fClique §7direito §fpara comprar 1x",
+                                    "§fClique §7esquerdo §fpara comprar 16x",
+                                    "")
+                            .toItemStack());
+        }
+
+        return this;
+    }
+
     public Inventory toInventory() {
         return inventory;
     }
@@ -82,7 +238,41 @@ public class ShopAPI {
         player.getInventory().addItem(new ItemBuilder(material, quantidade, durability).toItemStack());
         CustomPlayer.setCoins(CustomPlayer.getCoins(player.getName()) - money, player.getName());
         player.sendMessage("§aVocê comprou §e" + quantidade + "x §e" + materialName + " §apor $" + money + " §ecoins§a.");
-        player.getScoreboard().getTeam("money").setSuffix("§a$" + CustomPlayer.getCoins(player.getName()));
+        player.getScoreboard().getTeam("money").setSuffix((CustomPlayer.getCoins(player.getName()) > 999 &&
+                CustomPlayer.getCoins(player.getName()) <= 9999 ?
+                "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()), 1) + "K" :
+                CustomPlayer.getCoins(player.getName()) > 9999 &&
+                        CustomPlayer.getCoins(player.getName()) <= 99999 ?
+                        "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()), 2) + "K" :
+                        CustomPlayer.getCoins(player.getName()) > 99999 &&
+                                CustomPlayer.getCoins(player.getName()) <= 999999 ?
+                                "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()), 3) + "K" :
+                                CustomPlayer.getCoins(player.getName()) > 999999 &&
+                                        CustomPlayer.getCoins(player.getName()) <= 9999999 ?
+                                        "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()), 1) + "M" :
+                                        CustomPlayer.getCoins(player.getName()) > 9999999 &&
+                                                CustomPlayer.getCoins(player.getName()) <= 99999999 ?
+                                                "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                        2) + "M" :
+                                                CustomPlayer.getCoins(player.getName()) > 99999999 &&
+                                                        CustomPlayer.getCoins(player.getName()) <= 999999999 ?
+                                                        "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                                3) + "M" :
+                                                        CustomPlayer.getCoins(player.getName()) > 999999999 &&
+                                                                CustomPlayer.getCoins(player.getName()) <= 9999999999L ?
+                                                                "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                                        1) + "B" :
+                                                                "§a$" + CustomPlayer.getCoins(player.getName())));
+    }
+
+    public static int PegaPrimirosDigitos(int valor, int digitos) {
+        digitos = Math.max(1, digitos);
+        int positivo = Math.abs(valor);
+        String texto = String.valueOf(positivo);
+        if (digitos > texto.length()) {
+            return valor;
+        }
+        return Integer.parseInt(texto.substring(0, digitos)) * Integer.signum(valor);
     }
 
     public static void buyCorantesUm(Player player, String itemName, int durability) {
@@ -133,6 +323,25 @@ public class ShopAPI {
     }
 
     public static void buyDecoDezesseis(Player player, Material material, String itemName,
+                                        int durability) {
+        if (CustomPlayer.getCoins(player.getName()) >= 2500) {
+            ShopAPI.sellBlocks(player, material, itemName, 16, 2500, durability);
+        } else {
+            player.closeInventory();
+            player.sendMessage("§cVocê não tem coins o suficiente.");
+        }
+    }
+
+    public static void buyCombateUm(Player player, Material material, String itemName, int durability, int money) {
+        if (CustomPlayer.getCoins(player.getName()) >= money) {
+            ShopAPI.sellBlocks(player, material, itemName, 1, money, durability);
+        } else {
+            player.closeInventory();
+            player.sendMessage("§cVocê não tem coins o suficiente.");
+        }
+    }
+
+    public static void buyCombateDezesseis(Player player, Material material, String itemName,
                                         int durability) {
         if (CustomPlayer.getCoins(player.getName()) >= 2500) {
             ShopAPI.sellBlocks(player, material, itemName, 16, 2500, durability);
