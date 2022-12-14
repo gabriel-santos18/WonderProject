@@ -43,7 +43,10 @@ public class WarpCommand extends CommandManager {
                             .setDurability(Material.SKULL_ITEM, 3)
                             .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzBjN2VlYjU3MmUwYzEyMjcxYmUwMGRkMDc0MGQzMWVjMDViYWI2YWNjNDNhNTYwNDhmMTgyMmUxYzNhY2Y4NSJ9fX0=")
                             .setDisplayName("§c§l➦ Mineração")
-                            .setLore("§6§l「 §fÁrea de mineração do servidor, consiga dinheiro aqui §6§l」", "", "§e" +
+                            .setLore("§6§l「 §fÁrea de mineração do servidor,",
+                                    "§fconsiga dinheiro aqui §6§l」",
+                                    "",
+                                    "§e" +
                                     "❲Clique para se teleportar❳")
                             .toItemStack());
             inventory.setItem(13,

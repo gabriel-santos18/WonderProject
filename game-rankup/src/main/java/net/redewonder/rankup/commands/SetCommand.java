@@ -64,6 +64,14 @@ public class SetCommand extends CommandManager {
                                 player.sendMessage("§cJá existe esta localização, caso queira setar outra, remova do " +
                                         "locations.yml!");
                             }
+                        } else if (strings[1].equalsIgnoreCase("pesca")) {
+                            if (!modifyFile.contains("Pesca")) {
+                                LocationsManager.setLocation(player, "Pesca");
+                                player.sendMessage("§aPesca setada com sucesso.");
+                            } else {
+                                player.sendMessage("§cJá existe esta localização, caso queira setar outra, remova do " +
+                                        "locations.yml!");
+                            }
                         }
                     }
                 }

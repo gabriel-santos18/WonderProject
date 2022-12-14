@@ -53,7 +53,8 @@ public class TempbanCommand extends Command implements TabExecutor {
                                     formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
                                     if (args[2].equalsIgnoreCase("segundos")) {
-                                        cooldown = CacheBuilder.newBuilder().expireAfterWrite(Long.parseLong(args[1]), TimeUnit.SECONDS).build();
+                                        cooldown = CacheBuilder.newBuilder().expireAfterWrite(Long.parseLong(args[1]),
+                                                TimeUnit.SECONDS).build();
 
                                         CustomPlayer.setBan(args[0], player.getName(), String.valueOf(builder), Integer.parseInt(args[1]),
                                                 "SEGUNDOS");

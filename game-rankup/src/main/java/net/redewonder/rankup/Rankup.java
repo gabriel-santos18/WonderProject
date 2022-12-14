@@ -7,6 +7,8 @@ import net.redewonder.rankup.listeners.WorldListeners;
 import net.redewonder.rankup.managers.LocationsManager;
 import net.redewonder.rankup.managers.PlayerManager;
 import net.redewonder.rankup.managers.WorldManager;
+import net.redewonder.rankup.menus.loja.*;
+import net.redewonder.rankup.menus.terrenos.TerrenosMenu;
 import net.redewonder.rankup.sql.SQLConnection;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -42,6 +44,8 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
+
+        registerMenus();
 
 
         Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
@@ -79,6 +83,10 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
         wc.generator(new WorldManager());
         wc.createWorld();
 
+        WorldCreator wc2 = new WorldCreator("Pesca");
+        wc2.generator(new WorldManager());
+        wc2.createWorld();
+
         playerManager = new PlayerManager();
 
         new SetSpawnCommand();
@@ -90,6 +98,8 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
         new TpCommand();
         new KitCommand();
         new WarpCommand();
+        new EnderchestCommand();
+        new TpWorld();
 
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
@@ -111,8 +121,17 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    public void registerMenus() {
+        Bukkit.getPluginManager().registerEvents(new LojaBlocosMenu(), this);
+        Bukkit.getPluginManager().registerEvents(new LojaCombateMenu(), this);
+        Bukkit.getPluginManager().registerEvents(new LojaCorantesMenu(), this);
+        Bukkit.getPluginManager().registerEvents(new LojaDecoraçõesMenu(), this);
+        Bukkit.getPluginManager().registerEvents(new LojaFarmMenu(), this);
+        Bukkit.getPluginManager().registerEvents(new LojaMenu(), this);
 
+        Bukkit.getPluginManager().registerEvents(new TerrenosMenu(), this);
     }
 
     @Override
