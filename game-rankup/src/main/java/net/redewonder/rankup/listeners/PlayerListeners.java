@@ -6,6 +6,7 @@ import me.imfighting.bukkit.api.TablistAPI;
 import me.imfighting.bukkit.inventory.InventoryBuilder;
 import me.imfighting.bukkit.inventory.ItemBuilder;
 import net.redewonder.rankup.Rankup;
+import net.redewonder.rankup.api.Cuboid;
 import net.redewonder.rankup.api.SchematicAPI;
 import net.redewonder.rankup.api.ShopAPI;
 import net.redewonder.rankup.commands.WarpCommand;
@@ -150,10 +151,14 @@ public class PlayerListeners implements Listener {
 
         Player player = e.getPlayer();
 
-        for (ItemStack itemStack : player.getInventory().getContents()) {
-            if (itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("§bPicareta de diamante §c§l(MINA)")) {
-                player.getInventory().remove(Material.DIAMOND_PICKAXE);
-            }
+        if (player.getInventory().contains(Material.FISHING_ROD)) {
+            player.getInventory().remove(Material.FISHING_ROD);
+        } else if (player.getInventory().contains(new ItemBuilder(Material.DIAMOND_PICKAXE)
+                .addEnchantmant(Enchantment.DURABILITY, 3)
+                .addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2)
+                .addEnchantmant(Enchantment.DIG_SPEED, 5)
+                .setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack())) {
+            player.getInventory().remove(Material.DIAMOND_PICKAXE);
         }
     }
 
@@ -171,6 +176,7 @@ public class PlayerListeners implements Listener {
     public void onPlayerDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             Player player = (Player) e.getEntity();
+            e.setCancelled(true);
             if (e.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
                 if (player.getWorld().getName().equalsIgnoreCase("world")) {
                     Bukkit.getScheduler().runTaskLater(Rankup.getInstance(), new Runnable() {
@@ -192,6 +198,15 @@ public class PlayerListeners implements Listener {
             } else if (e.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
                 e.setCancelled(true);
             }
+
+            Cuboid cuboid = new Cuboid(
+                    new Location(Bukkit.getWorld("Minas"), 966, 106, 207),
+                    new Location(Bukkit.getWorld("Minas"), 930, 90, 245));
+
+            if (cuboid.contains(player.getLocation())) {
+                e.setCancelled(false);
+            }
+
         }
     }
 
@@ -456,11 +471,14 @@ public class PlayerListeners implements Listener {
                 player.teleport(LocationsManager.getLocation(player, "Spawn"));
                 player.closeInventory();
                 player.sendMessage("§aVocê foi teleportado para o spawn com sucesso.");
-
-                for (ItemStack itemStack : player.getInventory().getContents()) {
-                    if (itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("§bPicareta de diamante §c§l(MINA)")) {
-                        player.getInventory().remove(Material.DIAMOND_PICKAXE);
-                    }
+                if (player.getInventory().contains(Material.FISHING_ROD)) {
+                    player.getInventory().remove(Material.FISHING_ROD);
+                } else if (player.getInventory().contains(new ItemBuilder(Material.DIAMOND_PICKAXE)
+                        .addEnchantmant(Enchantment.DURABILITY, 3)
+                        .addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2)
+                        .addEnchantmant(Enchantment.DIG_SPEED, 5)
+                        .setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack())) {
+                    player.getInventory().remove(Material.DIAMOND_PICKAXE);
                 }
 
             } else {
@@ -472,7 +490,11 @@ public class PlayerListeners implements Listener {
             if (!player.getWorld().getName().equalsIgnoreCase("Minas")) {
                 if (CustomPlayer.isInventoryEmpty(player)) {
                     player.teleport(LocationsManager.getLocation(player, "Mina"));
-                    player.getInventory().setItem(0, new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DURABILITY, 3).addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2).addEnchantmant(Enchantment.DIG_SPEED, 5).setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack());
+                    player.getInventory().setItem(0, new ItemBuilder(Material.DIAMOND_PICKAXE)
+                            .addEnchantmant(Enchantment.DURABILITY, 3)
+                            .addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2)
+                            .addEnchantmant(Enchantment.DIG_SPEED, 5)
+                            .setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack());
                     player.sendMessage("§aVocê foi teleportado para a mineração com sucesso.");
                 } else {
                     player.closeInventory();
@@ -497,8 +519,60 @@ public class PlayerListeners implements Listener {
             player.openInventory(loja);
 
         } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Pesca")) {
+            if (CustomPlayer.isInventoryEmpty(player)) {
+                player.teleport(LocationsManager.getLocation(player, "Pesca"));
+                player.getInventory().setItem(0, new ItemBuilder(Material.FISHING_ROD)
+                        .addEnchantmant(Enchantment.LURE, 3)
+                        .addEnchantmant(Enchantment.DURABILITY, 2)
+                        .addEnchantmant(Enchantment.LUCK, 3)
+                        .setDisplayName("§bVara de Pesca §c§l(PESCA)")
+                        .toItemStack());
+                player.sendMessage("§aVocê teleportou para a pesca com sucesso.");
+            } else {
+                player.closeInventory();
+                player.sendMessage("§cLimpe seu inventário antes de entrar na pesca.");
+            }
+        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Mina Vip")) {
+            if (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN") ||
+                    CustomPlayer.getGroup(player).equalsIgnoreCase("§3CLOUD")) {
+                if (!player.getWorld().getName().equalsIgnoreCase("Minas")) {
+                    if (CustomPlayer.isInventoryEmpty(player)) {
+                        player.teleport(LocationsManager.getLocation(player, "MinaVip"));
+                        player.getInventory().setItem(0, new ItemBuilder(Material.DIAMOND_PICKAXE)
+                                .addEnchantmant(Enchantment.DURABILITY, 3)
+                                .addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2)
+                                .addEnchantmant(Enchantment.DIG_SPEED, 5)
+                                .setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack());
+                        player.sendMessage("§aVocê foi teleportado para a mineração VIP com sucesso.");
+                    } else {
+                        player.closeInventory();
+                        player.sendMessage("§cLimpe seu inventário antes de entrar na mineração.");
+                    }
+                } else {
+                    player.closeInventory();
+                    player.sendMessage("§cVocê já está na área de mineração vip.");
+                }
+            } else {
+                player.closeInventory();
+                player.sendMessage("§cVocê não tem permissão para entrar nesta warp.");
+            }
+        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Mina PvP")) {
+            if (!player.getWorld().getName().equalsIgnoreCase("Minas")) {
+                    player.teleport(LocationsManager.getLocation(player, "MinaPvP"));
+                    player.sendMessage("§aVocê foi teleportado para a mineração PvP com sucesso.");
+                } else {
+                player.closeInventory();
+                player.sendMessage("§cVocê já está na área de mineração PvP.");
+            }
+        }
 
-        } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Terrenos")) {
+        if (e.getInventory().getTitle().equalsIgnoreCase("§8Terrenos")) {
             e.setCancelled(true);
             if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§cSlot #01")) {
                 WorldCreator wc = new WorldCreator(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1");
@@ -601,7 +675,6 @@ public class PlayerListeners implements Listener {
                 player.teleport(new Location(Bukkit.getWorld(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6"), 156.746, 30, 149.879));
                 player.sendMessage("§aVocê teleportou para o Terreno #06 com sucesso.");
             }
-
         }
     }
 

@@ -1,35 +1,32 @@
-package net.redewonder.rankup.menus.terrenos;
+package net.redewonder.rankup.commands;
 
 import me.imfighting.bukkit.inventory.InventoryBuilder;
 import me.imfighting.bukkit.inventory.ItemBuilder;
+import me.imfighting.bukkit.managers.CommandManager;
+import net.redewonder.rankup.menus.terrenos.TerrenosMenu;
 import net.redewonder.rankup.sql.CustomPlayer;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
-public class TerrenosMenu implements Listener {
+import java.util.List;
+
+public class TerrenosCommand extends CommandManager {
 
     Inventory terrenosVip;
     private static Inventory terrenos;
 
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent e) {
 
-        Player player = (Player) e.getWhoClicked();
+    public TerrenosCommand() {
+        super("terrenos", new String[]{});
+    }
 
-        if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Terrenos")) {
-
-            if (CustomPlayer.getGroup(player).equalsIgnoreCase("§bCLOUD") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER")) {
+    @Override
+    public void execute(CommandSender commandSender, String[] strings) {
+        if (commandSender instanceof Player) {
+            Player player = (Player) commandSender;
+            if (CustomPlayer.getGroup(player).equalsIgnoreCase("§bCLOUD") || CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN") || CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER") || CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE") || CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR") || CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN") || CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE") || CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER")) {
                 terrenosVip = new InventoryBuilder(6, "§8Terrenos").toInventory();
 
                 if (!CustomPlayer.getPlotme1(player)) {
@@ -82,10 +79,13 @@ public class TerrenosMenu implements Listener {
                 }
                 player.openInventory(terrenos);
             }
+        } else {
+            commandSender.sendMessage("§cApenas jogadores.");
         }
     }
 
-    public static Inventory getTerrenos() {
-        return terrenos;
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, String[] strings) {
+        return null;
     }
 }

@@ -54,14 +54,43 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
                 Cuboid cuboid = new Cuboid(
                         new Location(Bukkit.getWorld("Minas"), -37, 74, 71),
                         new Location(Bukkit.getWorld("Minas"), -66, 59, 35));
+
+                Cuboid cuboid2 = new Cuboid(
+                        new Location(Bukkit.getWorld("Minas"), 7, 67, 982),
+                        new Location(Bukkit.getWorld("Minas"), -22, 82, 946));
+
+                Cuboid cuboid3 = new Cuboid(
+                        new Location(Bukkit.getWorld("Minas"), 963, 104, 241),
+                        new Location(Bukkit.getWorld("Minas"), 933, 90, 211));
+
                 for (Block block : cuboid.getBlocks()) {
                     block.setType(Material.LAPIS_ORE);
                 }
+
+                for (Block block : cuboid2.getBlocks()) {
+                    block.setType(Material.LAPIS_ORE);
+                }
+
+                for (Block block : cuboid3.getBlocks()) {
+                    block.setType(Material.LAPIS_ORE);
+                }
+
                 for (Player online : Bukkit.getOnlinePlayers()) {
-                    online.sendMessage("§a✓ §eMinas Lápis §7➸ §eResetada com sucesso.");
+                    online.sendMessage("§a✓ §eMina Lápis §7➸ §eResetada com sucesso.");
+                    online.sendMessage("§a✓ §eMina VIP §7➸ §eResetada com sucesso.");
+                    online.sendMessage("§a✓ §eMina PvP §7➸ §eResetada com sucesso.");
                     if (cuboid.contains(online.getLocation())) {
                         online.teleport(LocationsManager.getLocation(online, "Mina"));
                     }
+
+                    if (cuboid2.contains(online.getLocation())) {
+                        online.teleport(LocationsManager.getLocation(online, "MinaVip"));
+                    }
+
+                    if (cuboid3.contains(online.getLocation())) {
+                        online.teleport(LocationsManager.getLocation(online, "MinaPvP"));
+                    }
+
                 }
             }
         }, 0, 20*180);
@@ -100,6 +129,14 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
         new WarpCommand();
         new EnderchestCommand();
         new TpWorld();
+
+        new SpawnCommand();
+        new MinaCommand();
+        new PescaCommand();
+        new TerrenosCommand();
+        new LojaCommand();
+        new MinaVipCommand();
+        new MinaPvPCommand();
 
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
