@@ -8,6 +8,8 @@ import net.redewonder.rankup.managers.LocationsManager;
 import net.redewonder.rankup.managers.PlayerManager;
 import net.redewonder.rankup.managers.WorldManager;
 import net.redewonder.rankup.menus.loja.*;
+import net.redewonder.rankup.menus.maquinas.CombustivelMenu;
+import net.redewonder.rankup.menus.maquinas.MaquinasMenu;
 import net.redewonder.rankup.menus.terrenos.TerrenosMenu;
 import net.redewonder.rankup.sql.SQLConnection;
 import org.bukkit.*;
@@ -128,7 +130,8 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
         new KitCommand();
         new WarpCommand();
         new EnderchestCommand();
-        new TpWorld();
+        new RankupCommand();
+        new MaquinasCommand();
 
         new SpawnCommand();
         new MinaCommand();
@@ -169,6 +172,9 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
         Bukkit.getPluginManager().registerEvents(new LojaMenu(), this);
 
         Bukkit.getPluginManager().registerEvents(new TerrenosMenu(), this);
+
+        Bukkit.getPluginManager().registerEvents(new MaquinasMenu(), this);
+        Bukkit.getPluginManager().registerEvents(new CombustivelMenu(), this);
     }
 
     @Override

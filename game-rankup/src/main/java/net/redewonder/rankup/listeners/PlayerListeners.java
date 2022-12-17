@@ -32,9 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Team;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerListeners implements Listener {
@@ -75,6 +73,7 @@ public class PlayerListeners implements Listener {
         Player player = e.getPlayer();
         ScoreboardManager.updateScore(player);
         TablistAPI.sendTablist(e.getPlayer(), "\n§e§lREDE WONDER\n§aloja.redewonder.net\n§fVocê está conectado em: " + "§eRankup\n", "\n§eDiscord: §fdiscord.gg/8ZCPPguw5S\n§fAdquira §e§lVIP §fou §e§lCASH §facessando: " + "§eloja.redewonder.net\n");
+
 
         try {
             CustomPlayer playerData = new CustomPlayer(Rankup.getInstance(), e.getPlayer().getUniqueId(), e.getPlayer());
@@ -683,6 +682,7 @@ public class PlayerListeners implements Listener {
         e.setCancelled(true);
         e.getPlayer().sendMessage("§cVocê não pode dropar itens aqui.");
     }
+
 
     public static Inventory getLoja() {
         return loja;

@@ -24,7 +24,15 @@ public class ScoreboardManager {
 
         Team rank = score.registerNewTeam("rank");
         rank.addEntry("§f");
-        rank.setPrefix("  " + CustomPlayer.getRank(player.getName()));
+
+        if (CustomPlayer.getRank(player.getName()).equalsIgnoreCase("Anfitrite III") ||
+                CustomPlayer.getRank(player.getName()).equalsIgnoreCase("Anfitrite II") ||
+                CustomPlayer.getRank(player.getName()).equalsIgnoreCase("Anfitrite I")) {
+            rank.setPrefix("§e" + CustomPlayer.getRank(player.getName()));
+        } else {
+            rank.setPrefix("  §e" + CustomPlayer.getRank(player.getName()));
+        }
+
         obj.getScore("§f").setScore(6);
 
         Team cla = score.registerNewTeam("cla");
@@ -63,6 +71,32 @@ public class ScoreboardManager {
                                                                 CustomPlayer.getCoins(player.getName()) <= 9999999999L ?
                                                                 "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
                                                                         1) + "B" :
+                                                                CustomPlayer.getCoins(player.getName()) > 9999999999L &&
+                                                                        CustomPlayer.getCoins(player.getName()) <= 99999999999L ?
+                                                                        "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                                                2) + "B" :
+                                                                        CustomPlayer.getCoins(player.getName()) > 99999999999L &&
+                                                                                CustomPlayer.getCoins(player.getName()) <= 999999999999L ?
+                                                                                "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                                                        3) + "B" :
+                                                                                CustomPlayer.getCoins(player.getName()) > 99999999999L &&
+                                                                                        CustomPlayer.getCoins(player.getName()) <= 999999999999L ?
+                                                                                        "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                                                                3) + "B" :
+                                                                                        CustomPlayer.getCoins(player.getName()) > 999999999999L &&
+                                                                                                CustomPlayer.getCoins(player.getName()) <= 9999999999999L ?
+                                                                                                "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                                                                        1) + "T" :
+                                                                                                CustomPlayer.getCoins(player.getName()) > 9999999999999L &&
+                                                                                                        CustomPlayer.getCoins(player.getName()) <= 99999999999999L ?
+                                                                                                        "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                                                                                2) +
+                                                                                                                "T" :
+                                                                                                        CustomPlayer.getCoins(player.getName()) > 99999999999999L &&
+                                                                                                                CustomPlayer.getCoins(player.getName()) <= 999999999999999L ?
+                                                                                                                "§a$" + PegaPrimirosDigitos(CustomPlayer.getCoins(player.getName()),
+                                                                                                                        3) +
+                                                                                                                        "T" :
                                                                 "§a$" + CustomPlayer.getCoins(player.getName())));
         //money.setSuffix("§a$"+ CustomPlayer.getCoins(player.getName()));
         obj.getScore("§3").setScore(3);
@@ -98,14 +132,14 @@ public class ScoreboardManager {
 
     }
 
-    public static int PegaPrimirosDigitos(int valor, int digitos) {
+    public static long PegaPrimirosDigitos(long valor, long digitos) {
         digitos = Math.max(1, digitos);
-        int positivo = Math.abs(valor);
+        long positivo = Math.abs(valor);
         String texto = String.valueOf(positivo);
         if (digitos > texto.length()) {
             return valor;
         }
-        return Integer.parseInt(texto.substring(0, digitos)) * Integer.signum(valor);
+        return Long.parseLong(texto.substring(0, Math.toIntExact(digitos))) * Long.signum(valor);
     }
 
     public static Scoreboard getScore() {

@@ -93,14 +93,14 @@ public class WorldListeners implements Listener {
 
     }
 
-    public static int PegaPrimirosDigitos(int valor, int digitos) {
+    public static long PegaPrimirosDigitos(long valor, long digitos) {
         digitos = Math.max(1, digitos);
-        int positivo = Math.abs(valor);
+        long positivo = Math.abs(valor);
         String texto = String.valueOf(positivo);
         if (digitos > texto.length()) {
             return valor;
         }
-        return Integer.parseInt(texto.substring(0, digitos)) * Integer.signum(valor);
+        return Long.parseLong(texto.substring(0, Math.toIntExact(digitos))) * Long.signum(valor);
     }
 
     @EventHandler

@@ -15,7 +15,7 @@ public class CustomPlayer {
     private static UUID uuid;
     private static Rankup lobby;
     private static int cash;
-    private static int coins;
+    private static long coins;
     private static String group;
 
     private static String nametag;
@@ -69,6 +69,16 @@ public class CustomPlayer {
         }
     }
 
+    public static void setRank(String rank, String nick) {
+        try {
+            PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement(
+                    "UPDATE players " + "SET RANK = '" + rank + "' WHERE NICK = '" + nick + "';");
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void setNametag(String group, String nick) {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " + "SET NAMETAG = '" + group + "' WHERE NICK = '" + nick + "';");
@@ -78,7 +88,7 @@ public class CustomPlayer {
         }
     }
 
-    public static void setCoins(int coins, String nick) {
+    public static void setCoins(long coins, String nick) {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("UPDATE players " + "SET COINS = '" + coins + "' WHERE NICK = '" + nick + "';");
             statement.executeUpdate();
@@ -126,12 +136,12 @@ public class CustomPlayer {
         return rank;
     }
 
-    public static int getCoins(String nick) {
+    public static long getCoins(String nick) {
         try {
             PreparedStatement statement = Rankup.getInstance().getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`players` " + "WHERE " + "NICK = '" + nick + "';");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                coins = resultSet.getInt("COINS");
+                coins = resultSet.getLong("COINS");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,12 +162,12 @@ public class CustomPlayer {
         return nametag;
     }
 
-    public static int getCoins(Player player) {
+    public static long getCoins(Player player) {
         try {
             PreparedStatement statement = lobby.getSqlConnection().getConnection().prepareStatement("SELECT * FROM " + "`players` WHERE NICK = '" + player.getName() + "';");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                coins = resultSet.getInt("COINS");
+                coins = resultSet.getLong("COINS");
             }
         } catch (SQLException e) {
             e.printStackTrace();
