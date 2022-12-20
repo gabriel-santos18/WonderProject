@@ -66,6 +66,10 @@ public class PlayerListeners implements Listener {
     Inventory terrenos;
 
 
+    int itensCogumelo = 0;
+    int combustivelCogumelo = 0;
+
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         e.setJoinMessage(null);
@@ -463,6 +467,8 @@ public class PlayerListeners implements Listener {
             }
         } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Membro (Semanal)") || (e.getInventory().getTitle().equalsIgnoreCase("§8Cloud (Semanal)")) || (e.getInventory().getTitle().equalsIgnoreCase("§8Rain (Semanal)")) || (e.getInventory().getTitle().equalsIgnoreCase("§8Water (Semanal)")) || (e.getInventory().getTitle().equalsIgnoreCase("§8Warps do servidor"))) {
             e.setCancelled(true);
+        } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Máquina de Cogumelo")) {
+            e.setCancelled(true);
         }
 
         if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Spawn")) {
@@ -681,6 +687,44 @@ public class PlayerListeners implements Listener {
     public void onPlayerDropItem(PlayerDropItemEvent e) {
         e.setCancelled(true);
         e.getPlayer().sendMessage("§cVocê não pode dropar itens aqui.");
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        Player player = e.getPlayer();
+
+        if (e.getClickedBlock().getType().equals(Material.HUGE_MUSHROOM_2) && e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/2") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/3") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/4") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/5") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6")) {
+                Inventory inventory = new InventoryBuilder(3, "§8Máquina de Cogumelo").toInventory();
+
+                itensCogumelo = 0;
+                combustivelCogumelo = 0;
+
+                inventory.setItem(12, new ItemBuilder(Material.HUGE_MUSHROOM_2)
+                        .setDisplayName("§aRecolher")
+                        .setLore(
+                                "",
+                                " §7Clique aqui para recolher os blocos de cogumelo.",
+                                " §7Itens para recolher: " + itensCogumelo)
+                        .toItemStack());
+
+                inventory.setItem(14, new ItemBuilder(Material.COAL)
+                        .setDisplayName("§aCombustível")
+                        .setLore(
+                                "",
+                                " §7Clique aqui para adicionar combustível na máquina.",
+                                " §7Combustíveis: " + combustivelCogumelo)
+                        .toItemStack());
+
+                player.openInventory(inventory);
+
+            }
+        }
     }
 
 

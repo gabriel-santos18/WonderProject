@@ -14,6 +14,7 @@ import net.redewonder.rankup.menus.terrenos.TerrenosMenu;
 import net.redewonder.rankup.sql.SQLConnection;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -103,10 +104,13 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
                 for (LivingEntity entities : Bukkit.getWorld("world").getLivingEntities()) {
                     if (!(entities instanceof Player)) {
                         if (!(entities instanceof ItemFrame)) {
-                            entities.remove();
+                            if (!(entities instanceof ArmorStand)) {
+                                entities.remove();
+                            }
                         }
                     }
                 }
+
             }
         }, 0, 1L);
 

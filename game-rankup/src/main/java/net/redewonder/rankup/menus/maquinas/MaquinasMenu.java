@@ -42,6 +42,7 @@ public class MaquinasMenu implements Listener {
                             .toItemStack());
                     CustomPlayer.setCoins(CustomPlayer.getCoins(player.getName()) - 5000000000L,
                             player.getName());
+                    player.closeInventory();
                     player.sendMessage("§aVocê comprou §eMáquina de Abóbora§a.");
                 } else {
                     player.closeInventory();
@@ -64,6 +65,7 @@ public class MaquinasMenu implements Listener {
                                 .toItemStack());
                         CustomPlayer.setCoins(CustomPlayer.getCoins(player.getName()) - 20000000000L,
                                 player.getName());
+                        player.closeInventory();
                         player.sendMessage("§aVocê comprou §eMáquina de Prismarinho§a.");
                     } else {
                         player.closeInventory();
@@ -90,6 +92,7 @@ public class MaquinasMenu implements Listener {
                                 .toItemStack());
                         CustomPlayer.setCoins(CustomPlayer.getCoins(player.getName()) - 25000000000L,
                                 player.getName());
+                        player.closeInventory();
                         player.sendMessage("§aVocê comprou §eMáquina de Obsidian§a.");
                     } else {
                         player.closeInventory();
@@ -110,6 +113,7 @@ public class MaquinasMenu implements Listener {
                                 .toItemStack());
                         CustomPlayer.setCoins(CustomPlayer.getCoins(player.getName()) - 50000000000L,
                                 player.getName());
+                        player.closeInventory();
                         player.sendMessage("§aVocê comprou §eMáquina de Ouro§a.");
                     } else {
                         player.closeInventory();

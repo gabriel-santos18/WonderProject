@@ -30,6 +30,11 @@ public class SQLConnection {
         String sql2 = "CREATE TABLE IF NOT EXISTS plotme(UUID varchar(255), NICK varchar(30), TERRENO1 boolean, " +
                 "TERRENO2 boolean, TERRENO3 boolean, TERRENO4 boolean, TERRENO5 boolean, TERRENO6 boolean)";
         statement2.execute(sql2);
+
+        Statement statement3 = connection.createStatement();
+        String sql3 = "CREATE TABLE IF NOT EXISTS maquinas(UUID varchar(255), NICK varchar(30), maquinaCogumeloItens " +
+                "int,maquinaCogumeloCombustivel int);";
+        statement3.execute(sql3);
     }
 
     public boolean isConnected() {
