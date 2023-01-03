@@ -66,10 +66,6 @@ public class PlayerListeners implements Listener {
     Inventory terrenos;
 
 
-    int itensCogumelo = 0;
-    int combustivelCogumelo = 0;
-
-
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         e.setJoinMessage(null);
@@ -156,11 +152,7 @@ public class PlayerListeners implements Listener {
 
         if (player.getInventory().contains(Material.FISHING_ROD)) {
             player.getInventory().remove(Material.FISHING_ROD);
-        } else if (player.getInventory().contains(new ItemBuilder(Material.DIAMOND_PICKAXE)
-                .addEnchantmant(Enchantment.DURABILITY, 3)
-                .addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2)
-                .addEnchantmant(Enchantment.DIG_SPEED, 5)
-                .setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack())) {
+        } else if (player.getInventory().contains(new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DURABILITY, 3).addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2).addEnchantmant(Enchantment.DIG_SPEED, 5).setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack())) {
             player.getInventory().remove(Material.DIAMOND_PICKAXE);
         }
     }
@@ -202,9 +194,7 @@ public class PlayerListeners implements Listener {
                 e.setCancelled(true);
             }
 
-            Cuboid cuboid = new Cuboid(
-                    new Location(Bukkit.getWorld("Minas"), 966, 106, 207),
-                    new Location(Bukkit.getWorld("Minas"), 930, 90, 245));
+            Cuboid cuboid = new Cuboid(new Location(Bukkit.getWorld("Minas"), 966, 106, 207), new Location(Bukkit.getWorld("Minas"), 930, 90, 245));
 
             if (cuboid.contains(player.getLocation())) {
                 e.setCancelled(false);
@@ -469,6 +459,179 @@ public class PlayerListeners implements Listener {
             e.setCancelled(true);
         } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Máquina de Cogumelo")) {
             e.setCancelled(true);
+
+            if (e.getCurrentItem().getType().equals(Material.COAL)) {
+                if (player.getInventory().contains(Material.COAL)) {
+                    player.closeInventory();
+                    player.sendMessage("§aVocê adicionou combustível na máquina.");
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaCogumelo.Combustiveis",
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaCogumelo" +
+                                    ".Combustiveis") + 1);
+                    Rankup.getInstance().saveConfig();
+
+                    for (ItemStack item : player.getInventory()) {
+                        if (item.getType() == Material.COAL) {
+                            if (item.getAmount() > 1) {
+                                item.setAmount(item.getAmount() - 1);
+                            } else if (item.getAmount() == 1) {
+                                player.getInventory().remove(Material.COAL);
+                            }
+                        }
+                    }
+
+                }
+            } else if (e.getCurrentItem().getType().equals(Material.HUGE_MUSHROOM_2)) {
+                if (Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaCogumelo.Recolher") > 0) {
+                    player.closeInventory();
+                    player.getInventory().addItem(new ItemStack(Material.HUGE_MUSHROOM_2,
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaCogumelo.Recolher")));
+                    player.sendMessage("§aVocê recolheu todos os blocos de cogumelo.");
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaCogumelo.Recolher",
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaCogumelo.Recolher") -
+                                    Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaCogumelo.Recolher"));
+                    Rankup.getInstance().saveConfig();
+                }
+            }
+        } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Máquina de Abóbora")) {
+            e.setCancelled(true);
+
+            if (e.getCurrentItem().getType().equals(Material.COAL)) {
+                if (player.getInventory().contains(Material.COAL)) {
+                    player.closeInventory();
+                    player.sendMessage("§aVocê adicionou combustível na máquina.");
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaAbobora.Combustiveis",
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaAbobora" +
+                                    ".Combustiveis") + 1);
+                    Rankup.getInstance().saveConfig();
+
+                    for (ItemStack item : player.getInventory()) {
+                        if (item.getType() == Material.COAL) {
+                            if (item.getAmount() > 1) {
+                                item.setAmount(item.getAmount() - 1);
+                            } else if (item.getAmount() == 1) {
+                                player.getInventory().remove(Material.COAL);
+                            }
+                        }
+                    }
+
+                }
+            } else if (e.getCurrentItem().getType().equals(Material.PUMPKIN)) {
+                if (Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaAbobora.Recolher") > 0) {
+                    player.closeInventory();
+                    player.getInventory().addItem(new ItemStack(Material.HUGE_MUSHROOM_2,
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaAbobora.Recolher")));
+                    player.sendMessage("§aVocê recolheu todos os blocos de abóbora.");
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaAbobora.Recolher",
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaAbobora.Recolher") -
+                                    Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaAbobora.Recolher"));
+                    Rankup.getInstance().saveConfig();
+                }
+            }
+        } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Máquina de Prismarinho")) {
+            e.setCancelled(true);
+
+            if (e.getCurrentItem().getType().equals(Material.COAL)) {
+                if (player.getInventory().contains(Material.COAL)) {
+                    player.closeInventory();
+                    player.sendMessage("§aVocê adicionou combustível na máquina.");
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaPrismarinho.Combustiveis",
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaPrismarinho" +
+                                    ".Combustiveis") + 1);
+                    Rankup.getInstance().saveConfig();
+
+                    for (ItemStack item : player.getInventory()) {
+                        if (item.getType() == Material.COAL) {
+                            if (item.getAmount() > 1) {
+                                item.setAmount(item.getAmount() - 1);
+                            } else if (item.getAmount() == 1) {
+                                player.getInventory().remove(Material.COAL);
+                            }
+                        }
+                    }
+
+                }
+            } else if (e.getCurrentItem().getType().equals(Material.PRISMARINE)) {
+                if (Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaPrismarinho.Recolher") > 0) {
+                    player.closeInventory();
+                    player.getInventory().addItem(new ItemStack(Material.PRISMARINE,
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaPrismarinho.Recolher")));
+                    player.sendMessage("§aVocê recolheu todos os blocos de prismarinho.");
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaPrismarinho.Recolher",
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaPrismarinho.Recolher") -
+                                    Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaPrismarinho.Recolher"));
+                    Rankup.getInstance().saveConfig();
+                }
+            }
+        } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Máquina de Obsidian")) {
+            e.setCancelled(true);
+
+            if (e.getCurrentItem().getType().equals(Material.COAL)) {
+                if (player.getInventory().contains(Material.COAL)) {
+                    player.closeInventory();
+                    player.sendMessage("§aVocê adicionou combustível na máquina.");
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaObsidian.Combustiveis",
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaObsidian" +
+                                    ".Combustiveis") + 1);
+                    Rankup.getInstance().saveConfig();
+
+                    for (ItemStack item : player.getInventory()) {
+                        if (item.getType() == Material.COAL) {
+                            if (item.getAmount() > 1) {
+                                item.setAmount(item.getAmount() - 1);
+                            } else if (item.getAmount() == 1) {
+                                player.getInventory().remove(Material.COAL);
+                            }
+                        }
+                    }
+
+                }
+            } else if (e.getCurrentItem().getType().equals(Material.OBSIDIAN)) {
+                if (Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaObsidian.Recolher") > 0) {
+                    player.closeInventory();
+                    player.getInventory().addItem(new ItemStack(Material.OBSIDIAN,
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaObsidian.Recolher")));
+                    player.sendMessage("§aVocê recolheu todos os blocos de obsidian.");
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaObsidian.Recolher",
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaObsidian.Recolher") -
+                                    Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaObsidian.Recolher"));
+                    Rankup.getInstance().saveConfig();
+                }
+            }
+        } else if (e.getInventory().getTitle().equalsIgnoreCase("§8Máquina de Ouro")) {
+            e.setCancelled(true);
+
+            if (e.getCurrentItem().getType().equals(Material.COAL)) {
+                if (player.getInventory().contains(Material.COAL)) {
+                    player.closeInventory();
+                    player.sendMessage("§aVocê adicionou combustível na máquina.");
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaOuro.Combustiveis",
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaOuro" +
+                                    ".Combustiveis") + 1);
+                    Rankup.getInstance().saveConfig();
+
+                    for (ItemStack item : player.getInventory()) {
+                        if (item.getType() == Material.COAL) {
+                            if (item.getAmount() > 1) {
+                                item.setAmount(item.getAmount() - 1);
+                            } else if (item.getAmount() == 1) {
+                                player.getInventory().remove(Material.COAL);
+                            }
+                        }
+                    }
+
+                }
+            } else if (e.getCurrentItem().getType().equals(Material.GOLD_BLOCK)) {
+                if (Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaOuro.Recolher") > 0) {
+                    player.closeInventory();
+                    player.getInventory().addItem(new ItemStack(Material.GOLD_BLOCK,
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaOuro.Recolher")));
+                    player.sendMessage("§aVocê recolheu todos os blocos de ouro.");
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaOuro.Recolher",
+                            Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaOuro.Recolher") -
+                                    Rankup.getInstance().getConfig().getInt(player.getName() + ".MaquinaOuro.Recolher"));
+                    Rankup.getInstance().saveConfig();
+                }
+            }
         }
 
         if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Spawn")) {
@@ -478,11 +641,7 @@ public class PlayerListeners implements Listener {
                 player.sendMessage("§aVocê foi teleportado para o spawn com sucesso.");
                 if (player.getInventory().contains(Material.FISHING_ROD)) {
                     player.getInventory().remove(Material.FISHING_ROD);
-                } else if (player.getInventory().contains(new ItemBuilder(Material.DIAMOND_PICKAXE)
-                        .addEnchantmant(Enchantment.DURABILITY, 3)
-                        .addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2)
-                        .addEnchantmant(Enchantment.DIG_SPEED, 5)
-                        .setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack())) {
+                } else if (player.getInventory().contains(new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DURABILITY, 3).addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2).addEnchantmant(Enchantment.DIG_SPEED, 5).setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack())) {
                     player.getInventory().remove(Material.DIAMOND_PICKAXE);
                 }
 
@@ -495,11 +654,7 @@ public class PlayerListeners implements Listener {
             if (!player.getWorld().getName().equalsIgnoreCase("Minas")) {
                 if (CustomPlayer.isInventoryEmpty(player)) {
                     player.teleport(LocationsManager.getLocation(player, "Mina"));
-                    player.getInventory().setItem(0, new ItemBuilder(Material.DIAMOND_PICKAXE)
-                            .addEnchantmant(Enchantment.DURABILITY, 3)
-                            .addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2)
-                            .addEnchantmant(Enchantment.DIG_SPEED, 5)
-                            .setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack());
+                    player.getInventory().setItem(0, new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DURABILITY, 3).addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2).addEnchantmant(Enchantment.DIG_SPEED, 5).setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack());
                     player.sendMessage("§aVocê foi teleportado para a mineração com sucesso.");
                 } else {
                     player.closeInventory();
@@ -526,34 +681,18 @@ public class PlayerListeners implements Listener {
         } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Pesca")) {
             if (CustomPlayer.isInventoryEmpty(player)) {
                 player.teleport(LocationsManager.getLocation(player, "Pesca"));
-                player.getInventory().setItem(0, new ItemBuilder(Material.FISHING_ROD)
-                        .addEnchantmant(Enchantment.LURE, 3)
-                        .addEnchantmant(Enchantment.DURABILITY, 2)
-                        .addEnchantmant(Enchantment.LUCK, 3)
-                        .setDisplayName("§bVara de Pesca §c§l(PESCA)")
-                        .toItemStack());
+                player.getInventory().setItem(0, new ItemBuilder(Material.FISHING_ROD).addEnchantmant(Enchantment.LURE, 3).addEnchantmant(Enchantment.DURABILITY, 2).addEnchantmant(Enchantment.LUCK, 3).setDisplayName("§bVara de Pesca §c§l(PESCA)").toItemStack());
                 player.sendMessage("§aVocê teleportou para a pesca com sucesso.");
             } else {
                 player.closeInventory();
                 player.sendMessage("§cLimpe seu inventário antes de entrar na pesca.");
             }
         } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Mina Vip")) {
-            if (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN") ||
-                    CustomPlayer.getGroup(player).equalsIgnoreCase("§3CLOUD")) {
+            if (CustomPlayer.getGroup(player).equalsIgnoreCase("§6MASTER") || CustomPlayer.getGroup(player).equalsIgnoreCase("§3GERENTE") || CustomPlayer.getGroup(player).equalsIgnoreCase("§cADMIN") || CustomPlayer.getGroup(player).equalsIgnoreCase("§2MODERADOR") || CustomPlayer.getGroup(player).equalsIgnoreCase("§eAJUDANTE") || CustomPlayer.getGroup(player).equalsIgnoreCase("§5WATER") || CustomPlayer.getGroup(player).equalsIgnoreCase("§2RAIN") || CustomPlayer.getGroup(player).equalsIgnoreCase("§3CLOUD")) {
                 if (!player.getWorld().getName().equalsIgnoreCase("Minas")) {
                     if (CustomPlayer.isInventoryEmpty(player)) {
                         player.teleport(LocationsManager.getLocation(player, "MinaVip"));
-                        player.getInventory().setItem(0, new ItemBuilder(Material.DIAMOND_PICKAXE)
-                                .addEnchantmant(Enchantment.DURABILITY, 3)
-                                .addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2)
-                                .addEnchantmant(Enchantment.DIG_SPEED, 5)
-                                .setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack());
+                        player.getInventory().setItem(0, new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchantmant(Enchantment.DURABILITY, 3).addEnchantmant(Enchantment.LOOT_BONUS_BLOCKS, 2).addEnchantmant(Enchantment.DIG_SPEED, 5).setDisplayName("§bPicareta de diamante §c§l(MINA)").toItemStack());
                         player.sendMessage("§aVocê foi teleportado para a mineração VIP com sucesso.");
                     } else {
                         player.closeInventory();
@@ -569,9 +708,9 @@ public class PlayerListeners implements Listener {
             }
         } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§c§l➦ Mina PvP")) {
             if (!player.getWorld().getName().equalsIgnoreCase("Minas")) {
-                    player.teleport(LocationsManager.getLocation(player, "MinaPvP"));
-                    player.sendMessage("§aVocê foi teleportado para a mineração PvP com sucesso.");
-                } else {
+                player.teleport(LocationsManager.getLocation(player, "MinaPvP"));
+                player.sendMessage("§aVocê foi teleportado para a mineração PvP com sucesso.");
+            } else {
                 player.closeInventory();
                 player.sendMessage("§cVocê já está na área de mineração PvP.");
             }
@@ -702,27 +841,102 @@ public class PlayerListeners implements Listener {
                     player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6")) {
                 Inventory inventory = new InventoryBuilder(3, "§8Máquina de Cogumelo").toInventory();
 
-                itensCogumelo = 0;
-                combustivelCogumelo = 0;
+                inventory.setItem(12, new ItemBuilder(Material.HUGE_MUSHROOM_2).setDisplayName("§aRecolher").setLore("", " §7Clique aqui para recolher os blocos de cogumelo.", " §7Itens para recolher: " + Rankup.getInstance().getConfig().getString(player.getName() + ".MaquinaCogumelo.Recolher")).toItemStack());
 
-                inventory.setItem(12, new ItemBuilder(Material.HUGE_MUSHROOM_2)
-                        .setDisplayName("§aRecolher")
-                        .setLore(
-                                "",
-                                " §7Clique aqui para recolher os blocos de cogumelo.",
-                                " §7Itens para recolher: " + itensCogumelo)
-                        .toItemStack());
-
-                inventory.setItem(14, new ItemBuilder(Material.COAL)
-                        .setDisplayName("§aCombustível")
-                        .setLore(
-                                "",
-                                " §7Clique aqui para adicionar combustível na máquina.",
-                                " §7Combustíveis: " + combustivelCogumelo)
-                        .toItemStack());
+                inventory.setItem(14, new ItemBuilder(Material.COAL).setDisplayName("§aCombustível").setLore("", " §7Clique aqui para adicionar combustível na máquina.", " §7Combustíveis: " + Rankup.getInstance().getConfig().getString(player.getName() + ".MaquinaCogumelo.Combustiveis")).toItemStack());
 
                 player.openInventory(inventory);
 
+            }
+        } else if (e.getClickedBlock().getType().equals(Material.PUMPKIN) && e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/2") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/3") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/4") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/5") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6")) {
+                Inventory inventory = new InventoryBuilder(3, "§8Máquina de Abóbora").toInventory();
+
+                inventory.setItem(12, new ItemBuilder(Material.PUMPKIN).setDisplayName("§aRecolher").setLore("", " " +
+                        "§7Clique aqui para recolher os blocos de abóbora.",
+                        " §7Itens para recolher: " + Rankup.getInstance().getConfig().getString(player.getName() +
+                                ".MaquinaAbobora.Recolher")).toItemStack());
+
+                inventory.setItem(14, new ItemBuilder(Material.COAL).setDisplayName("§aCombustível").setLore("", " " +
+                        "§7Clique aqui para adicionar combustível na máquina.",
+                        " §7Combustíveis: " + Rankup.getInstance().getConfig().getString(player.getName() +
+                                ".MaquinaAbobora" +
+                                ".Combustiveis")).toItemStack());
+
+                player.openInventory(inventory);
+
+            }
+        } else if (e.getClickedBlock().getType().equals(Material.PRISMARINE) && e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/2") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/3") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/4") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/5") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6")) {
+                Inventory inventory = new InventoryBuilder(3, "§8Máquina de Prismarinho").toInventory();
+
+                inventory.setItem(12, new ItemBuilder(Material.PRISMARINE).setDisplayName("§aRecolher").setLore("", " " +
+                                "§7Clique aqui para recolher os blocos de prismarinho.",
+                        " §7Itens para recolher: " + Rankup.getInstance().getConfig().getString(player.getName() +
+                                ".MaquinaPrismarinho.Recolher")).toItemStack());
+
+                inventory.setItem(14, new ItemBuilder(Material.COAL).setDisplayName("§aCombustível").setLore("", " " +
+                                "§7Clique aqui para adicionar combustível na máquina.",
+                        " §7Combustíveis: " + Rankup.getInstance().getConfig().getString(player.getName() +
+                                ".MaquinaPrismarinho" +
+                                ".Combustiveis")).toItemStack());
+
+                player.openInventory(inventory);
+
+            }
+        } else if (e.getClickedBlock().getType().equals(Material.OBSIDIAN) && e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/2") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/3") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/4") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/5") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6")) {
+                Inventory inventory = new InventoryBuilder(3, "§8Máquina de Obsidian").toInventory();
+
+                inventory.setItem(12, new ItemBuilder(Material.OBSIDIAN).setDisplayName("§aRecolher").setLore("", " " +
+                                "§7Clique aqui para recolher os blocos de obsidian.",
+                        " §7Itens para recolher: " + Rankup.getInstance().getConfig().getString(player.getName() +
+                                ".MaquinaObsidian.Recolher")).toItemStack());
+
+                inventory.setItem(14, new ItemBuilder(Material.COAL).setDisplayName("§aCombustível").setLore("", " " +
+                                "§7Clique aqui para adicionar combustível na máquina.",
+                        " §7Combustíveis: " + Rankup.getInstance().getConfig().getString(player.getName() +
+                                ".MaquinaObsidian" +
+                                ".Combustiveis")).toItemStack());
+
+                player.openInventory(inventory);
+            }
+        } else if (e.getClickedBlock().getType().equals(Material.GOLD_BLOCK) && e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/2") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/3") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/4") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/5") ||
+                    player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6")) {
+                Inventory inventory = new InventoryBuilder(3, "§8Máquina de Ouro").toInventory();
+
+                inventory.setItem(12, new ItemBuilder(Material.GOLD_BLOCK).setDisplayName("§aRecolher").setLore("", " " +
+                                "§7Clique aqui para recolher os blocos de ouro.",
+                        " §7Itens para recolher: " + Rankup.getInstance().getConfig().getString(player.getName() +
+                                ".MaquinaOuro.Recolher")).toItemStack());
+
+                inventory.setItem(14, new ItemBuilder(Material.COAL).setDisplayName("§aCombustível").setLore("", " " +
+                                "§7Clique aqui para adicionar combustível na máquina.",
+                        " §7Combustíveis: " + Rankup.getInstance().getConfig().getString(player.getName() +
+                                ".MaquinaOuro" +
+                                ".Combustiveis")).toItemStack());
+
+                player.openInventory(inventory);
             }
         }
     }

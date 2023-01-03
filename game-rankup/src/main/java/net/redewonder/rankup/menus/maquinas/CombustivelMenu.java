@@ -25,7 +25,6 @@ public class CombustivelMenu implements Listener {
                                     "",
                                     "§eUtilize este combustível para ativar a máquina.")
                             .toItemStack());
-                    player.closeInventory();
                     player.sendMessage("§aVocê comprou §eCombustível§a.");
                 }
             }

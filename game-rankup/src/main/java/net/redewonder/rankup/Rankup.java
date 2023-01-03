@@ -50,6 +50,63 @@ public final class Rankup extends JavaPlugin implements PluginMessageListener {
 
         registerMenus();
 
+        Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (getConfig().contains(player.getName() + ".MaquinaCogumelo")) {
+                        if (getConfig().getInt(player.getName() + ".MaquinaCogumelo.Combustiveis") > 0) {
+                            getConfig().set(player.getName() + ".MaquinaCogumelo.Combustiveis",
+                                    getConfig().getInt(player.getName() + ".MaquinaCogumelo.Combustiveis") - 1);
+                            getConfig().set(player.getName() + ".MaquinaCogumelo.Recolher",
+                                    getConfig().getInt(player.getName() + ".MaquinaCogumelo.Recolher") + 1);
+                            saveConfig();
+                        }
+                    }
+
+                    if (getConfig().contains(player.getName() + ".MaquinaAbobora")) {
+                        if (getConfig().getInt(player.getName() + ".MaquinaAbobora.Combustiveis") > 0) {
+                            getConfig().set(player.getName() + ".MaquinaAbobora.Combustiveis",
+                                    getConfig().getInt(player.getName() + ".MaquinaAbobora.Combustiveis") - 1);
+                            getConfig().set(player.getName() + ".MaquinaAbobora.Recolher",
+                                    getConfig().getInt(player.getName() + ".MaquinaAbobora.Recolher") + 1);
+                            saveConfig();
+                        }
+                    }
+
+                    if (getConfig().contains(player.getName() + ".MaquinaPrismarinho")) {
+                        if (getConfig().getInt(player.getName() + ".MaquinaPrismarinho.Combustiveis") > 0) {
+                            getConfig().set(player.getName() + ".MaquinaPrismarinho.Combustiveis",
+                                    getConfig().getInt(player.getName() + ".MaquinaPrismarinho.Combustiveis") - 1);
+                            getConfig().set(player.getName() + ".MaquinaPrismarinho.Recolher",
+                                    getConfig().getInt(player.getName() + ".MaquinaPrismarinho.Recolher") + 1);
+                            saveConfig();
+                        }
+                    }
+
+                    if (getConfig().contains(player.getName() + ".MaquinaObsidian")) {
+                        if (getConfig().getInt(player.getName() + ".MaquinaObsidian.Combustiveis") > 0) {
+                            getConfig().set(player.getName() + ".MaquinaObsidian.Combustiveis",
+                                    getConfig().getInt(player.getName() + ".MaquinaObsidian.Combustiveis") - 1);
+                            getConfig().set(player.getName() + ".MaquinaObsidian.Recolher",
+                                    getConfig().getInt(player.getName() + ".MaquinaObsidian.Recolher") + 1);
+                            saveConfig();
+                        }
+                    }
+
+                    if (getConfig().contains(player.getName() + ".MaquinaOuro")) {
+                        if (getConfig().getInt(player.getName() + ".MaquinaOuro.Combustiveis") > 0) {
+                            getConfig().set(player.getName() + ".MaquinaOuro.Combustiveis",
+                                    getConfig().getInt(player.getName() + ".MaquinaOuro.Combustiveis") - 1);
+                            getConfig().set(player.getName() + ".MaquinaOuro.Recolher",
+                                    getConfig().getInt(player.getName() + ".MaquinaOuro.Recolher") + 1);
+                            saveConfig();
+                        }
+                    }
+                }
+            }
+        }, 0L, 20*60);
+
 
         Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
             @Override

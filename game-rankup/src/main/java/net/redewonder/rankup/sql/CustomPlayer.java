@@ -240,23 +240,6 @@ public class CustomPlayer {
         }
     }
 
-    public static void setMaquina(Player player, String maquina) {
-        try {
-                if (maquina == "Cogumelo") {
-                    PreparedStatement statement = Rankup.getInstance().getSqlConnection().getConnection().prepareStatement(
-                            "UPDATE " + "maquinas " + "SET maquinaCogumeloItens = 0 WHERE NICK = '" + player.getName() +
-                                    "';");
-                    statement.executeUpdate();
-                    PreparedStatement statement2 =
-                            Rankup.getInstance().getSqlConnection().getConnection().prepareStatement(
-                            "UPDATE " + "maquinas " + "SET maquinaCogumeloCombustivel = 0 WHERE NICK = '" + player.getName() +
-                                    "';");
-                    statement2.executeUpdate();
-                }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static boolean getPlotme1(Player player) {
         try {

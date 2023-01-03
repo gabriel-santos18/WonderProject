@@ -7,6 +7,7 @@ import net.redewonder.rankup.sql.CustomPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.EulerAngle;
 
 public class WorldListeners implements Listener {
 
@@ -31,7 +33,12 @@ public class WorldListeners implements Listener {
             e.setCancelled(true);
         }
 
-        if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1")) {
+        if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/1") ||
+                player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/2") ||
+                player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/3") ||
+                player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/4") ||
+                player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/5") ||
+                player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6")) {
             e.setCancelled(false);
             ItemStack is = player.getInventory().getItemInHand();
             if (is.getItemMeta().getDisplayName().equalsIgnoreCase("§bMáquina de Cogumelo")) {
@@ -44,12 +51,18 @@ public class WorldListeners implements Listener {
                             EntityType.ARMOR_STAND);
                     standCogumelo.setVisible(false);
                     standCogumelo.setGravity(false);
+                    standCogumelo.setBodyPose(new EulerAngle(-15f ,0f , 122.15f));
 
                     standCogumelo.setCustomNameVisible(true);
                     standCogumelo.setCustomName(line);
                 }
 
-                CustomPlayer.setMaquina(player, "Cogumelo");
+                if (!Rankup.getInstance().getConfig().contains(player.getName() + ".MaquinaCogumelo")) {
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaCogumelo.Enable", true);
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaCogumelo.Combustiveis", 0);
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaCogumelo.Recolher", 0);
+                    Rankup.getInstance().saveConfig();
+                }
 
                 player.sendMessage("§aVocê colocou a §bMáquina de Cogumelo §acom sucesso.");
             } else if (is.getItemMeta().getDisplayName().equalsIgnoreCase("§bMáquina de Abóbora")) {
@@ -62,9 +75,17 @@ public class WorldListeners implements Listener {
                             EntityType.ARMOR_STAND);
                     standAbobora.setVisible(false);
                     standAbobora.setGravity(false);
+                    standAbobora.setBodyPose(new EulerAngle(-15f ,0f , 122.15f));
 
                     standAbobora.setCustomNameVisible(true);
                     standAbobora.setCustomName(line);
+                }
+
+                if (!Rankup.getInstance().getConfig().contains(player.getName() + ".MaquinaAbobora")) {
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaAbobora.Enable", true);
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaAbobora.Combustiveis", 0);
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaAbobora.Recolher", 0);
+                    Rankup.getInstance().saveConfig();
                 }
 
                 player.sendMessage("§aVocê colocou a §bMáquina de Abóbora §acom sucesso.");
@@ -74,13 +95,20 @@ public class WorldListeners implements Listener {
                 };
                 Location location = e.getBlock().getLocation();
                 for (String line : lines) {
-                    standPrismarinho = (ArmorStand) player.getWorld().spawnEntity(location.subtract(-0.3, 0.70, -0.2),
+                    standPrismarinho = (ArmorStand) player.getWorld().spawnEntity(location.subtract(-0.3, 0, -0.2),
                             EntityType.ARMOR_STAND);
                     standPrismarinho.setVisible(false);
                     standPrismarinho.setGravity(false);
 
                     standPrismarinho.setCustomNameVisible(true);
                     standPrismarinho.setCustomName(line);
+                }
+
+                if (!Rankup.getInstance().getConfig().contains(player.getName() + ".MaquinaPrismarinho")) {
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaPrismarinho.Enable", true);
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaPrismarinho.Combustiveis", 0);
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaPrismarinho.Recolher", 0);
+                    Rankup.getInstance().saveConfig();
                 }
 
                 player.sendMessage("§aVocê colocou a §bMáquina de Prismarinho §acom sucesso.");
@@ -94,9 +122,17 @@ public class WorldListeners implements Listener {
                             EntityType.ARMOR_STAND);
                     standObsidian.setVisible(false);
                     standObsidian.setGravity(false);
+                    standObsidian.setBodyPose(new EulerAngle(-15f ,0f , 122.15f));
 
                     standObsidian.setCustomNameVisible(true);
                     standObsidian.setCustomName(line);
+                }
+
+                if (!Rankup.getInstance().getConfig().contains(player.getName() + ".MaquinaObsidian")) {
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaObsidian.Enable", true);
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaObsidian.Combustiveis", 0);
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaObsidian.Recolher", 0);
+                    Rankup.getInstance().saveConfig();
                 }
 
                 player.sendMessage("§aVocê colocou a §bMáquina de Obsidian §acom sucesso.");
@@ -110,23 +146,21 @@ public class WorldListeners implements Listener {
                             EntityType.ARMOR_STAND);
                     standOuro.setVisible(false);
                     standOuro.setGravity(false);
+                    standOuro.setBodyPose(new EulerAngle(-15f ,0f , 122.15f));
 
                     standOuro.setCustomNameVisible(true);
                     standOuro.setCustomName(line);
                 }
 
+                if (!Rankup.getInstance().getConfig().contains(player.getName() + ".MaquinaOuro")) {
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaOuro.Enable", true);
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaOuro.Combustiveis", 0);
+                    Rankup.getInstance().getConfig().set(player.getName() + ".MaquinaOuro.Recolher", 0);
+                    Rankup.getInstance().saveConfig();
+                }
+
                 player.sendMessage("§aVocê colocou a §bMáquina de Ouro §acom sucesso.");
             }
-        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/2")) {
-            e.setCancelled(false);
-        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/3")) {
-            e.setCancelled(false);
-        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/4")) {
-            e.setCancelled(false);
-        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/5")) {
-            e.setCancelled(false);
-        } else if (player.getWorld().getName().equalsIgnoreCase(Rankup.getInstance().getDataFolder() + "/Terrenos/" + player.getName() + "/6")) {
-            e.setCancelled(false);
         }
     }
 
